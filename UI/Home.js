@@ -50,6 +50,24 @@ function Home({ data }) {
          versatility: 5,
          style: 5,
       },
+      {
+         name: "Another Card",
+         cardDescription: "\n",
+         rarity: 2,
+         spreadability: 5,
+         tastiness: 3,
+         versatility: 5,
+         style: 6,
+      },
+      {
+         name: "Extra Card",
+         cardDescription: "\n",
+         rarity: 1,
+         spreadability: 6,
+         tastiness: 5,
+         versatility: 3,
+         style: 1,
+      },
    ]
 
    const [turnCount, setTurnCount] = useState(0)
@@ -91,7 +109,15 @@ function Home({ data }) {
       }
 
       drawCard()
+      if(!isUsersTurn){
+         computersTurn()
+      }
+
    }, [turnCount])
+
+   const computersTurn = () => {
+      computersCards
+   }
 
    const slamJams = attribute => {
       const hasUserWon = usersTurnCard[attribute] > computersTurnCard[attribute]
@@ -102,17 +128,20 @@ function Home({ data }) {
          console.log(`Draw: Users= ${attribute} - ${usersTurnCard[attribute]} \n Computers= ${attribute} - ${computersTurnCard[attribute]}`)
          setUsersCards([...usersCards, usersTurnCard])
          setComputersCards([...computersCards, computersTurnCard])
+         setIsUsersTurn(!isUsersTurn)
          return;
       }
 
       if (hasUserWon) {
          console.log(`User Won: Users= ${attribute} - ${usersTurnCard[attribute]} \n Computers= ${attribute} - ${computersTurnCard[attribute]}`)
          setUsersCards([...usersCards, usersTurnCard, computersTurnCard])
+         setIsUsersTurn(true)
          return;
 
       }
       console.log(`Computer Won: Users= ${attribute} - ${usersTurnCard[attribute]} \n Computers= ${attribute} - ${computersTurnCard[attribute]}`)
       setComputersCards([...computersCards, computersTurnCard, usersTurnCard])
+      setIsUsersTurn(false)
       return;
    }
 
@@ -130,6 +159,11 @@ function Home({ data }) {
             {computersCards.map(card => (
                <li>{card.name}</li>
             ))}
+         </ul>
+
+         <p>Computers Turn Card: </p>
+         <ul>
+            <li>{computersTurnCard.name}</li>
          </ul>
 
          {isGameStarted && isUsersTurn && (
