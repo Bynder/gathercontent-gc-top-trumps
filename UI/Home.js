@@ -15,8 +15,12 @@ function Home() {
     { name: "Jam 10" },
   ]
 
+  const [isUsersTurn, setIsUsersTurn] = useState(true)
+  const [isGameStarted, setIsGameStarted] = useState(false)
   const [computersCards, setComputersCards] = useState([])
   const [usersCards, setUsersCards] = useState([])
+  const [usersTurnCard, setUsersTurnCard] = useState([])
+  const [computersTurnCard, setComputersTurnCard] = useState([])
 
   const startGame = () => {
     const shuffledCards = shuffle(cards)
@@ -24,17 +28,20 @@ function Home() {
 
     setComputersCards(splitCards[0])
     setUsersCards(splitCards[1])
+
+    setIsGameStarted(true)
+  }
+
+  const drawCard = () => {
+    setComputersTurnCard(computersCards[0])
+    setUsersTurnCard(usersCards[0])
   }
 
   return (
     <>
-      {computersCards.map(({ name }) => (
-        <p>{name}</p>
-      ))}
-      {usersCards.map(({ name }) => (
-        <p>{name}</p>
-      ))}
-      <button onClick={startGame}>Play!</button>
+      <p>{usersTurnCard.name}</p>
+      { !isGameStarted && <button onClick={startGame}>Play!</button> }
+      { isGameStarted &&  <button onClick={drawCard}>Draw card!</button> }
     </>
   )
 }
