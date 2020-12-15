@@ -2,16 +2,55 @@ import React, { useState, useEffect } from "react"
 import { shuffle, chunk } from "lodash"
 
 function Home({ data }) {
-   const [cards] = useState(
-      data.cards.edges.map(card => ({
-         ...card.node,
-         rarity: parseInt(card.node.rarity[0]?.label),
-         spreadability: parseInt(card.node.spreadability[0]?.label),
-         versatility: parseInt(card.node.versatility[0]?.label),
-         style: parseInt(card.node.style[0]?.label),
-         tastiness: parseInt(card.node.tastiness[0]?.label),
-      }))
-   )
+   // const [cards] = useState(
+   //    data.cards.edges.map(card => ({
+   //       ...card.node,
+   //       rarity: parseInt(card.node.rarity[0]?.label),
+   //       spreadability: parseInt(card.node.spreadability[0]?.label),
+   //       versatility: parseInt(card.node.versatility[0]?.label),
+   //       style: parseInt(card.node.style[0]?.label),
+   //       tastiness: parseInt(card.node.tastiness[0]?.label),
+   //    }))
+   // )
+   const cards = [
+      {
+         name: "Ume Plum Jam\n",
+         cardDescription:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris in faucibus dolor, ac viverra libero. Fusce bibendum diam felis, ut condimentum nulla rutrum vitae. \n\n\n",
+         rarity: 5,
+         spreadability: 7,
+         tastiness: 1,
+         versatility: 6,
+         style: 4,
+      },
+      {
+         name: "Crap Card",
+         cardDescription: "\n",
+         rarity: 1,
+         spreadability: 1,
+         tastiness: 1,
+         versatility: 1,
+         style: 1,
+      },
+      {
+         name: "God CARD",
+         cardDescription: "\n",
+         rarity: 10,
+         spreadability: 10,
+         tastiness: 10,
+         versatility: 10,
+         style: 10,
+      },
+      {
+         name: "Mediocre Card",
+         cardDescription: "\n",
+         rarity: 5,
+         spreadability: 5,
+         tastiness: 5,
+         versatility: 5,
+         style: 5,
+      },
+   ]
 
    const [turnCount, setTurnCount] = useState(0)
 
@@ -54,10 +93,47 @@ function Home({ data }) {
       drawCard()
    }, [turnCount])
 
+   const slamJams = attribute => {
+      const hasUserWon = usersTurnCard[attribute] > computersTurnCard[attribute]
+      const isDraw = usersTurnCard[attribute] === computersTurnCard[attribute]
+
+      if (isDraw) {
+         setUsersCards([...usersCards, usersTurnCard])
+         setComputersCards([...computersCards, computersTurnCard])
+      }
+
+      if (hasUserWon) {
+         setUsersCards([...usersCards, usersTurnCard, computersTurnCard])
+      } else {
+         setComputersCards([...computersCards, computersTurnCard, usersTurnCard])
+      }
+   }
+
    return (
       <>
+         <p>Users Cards: </p>
+         <ul>
+            {usersCards.map(card => (
+               <li>{card.name}</li>
+            ))}
+         </ul>
+
+         <p>Computers Cards: </p>
+         <ul>
+            {computersCards.map(card => (
+               <li>{card.name}</li>
+            ))}
+         </ul>
+
          {isGameStarted && isUsersTurn && (
-            <div style={{ display: "flex", flexDirection: "column", width: 200, border: '1px solid red' }}>
+            <div
+               style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  width: 200,
+                  border: "1px solid red",
+               }}
+            >
                <h1>Card</h1>
                <p>{usersTurnCard.name}</p>
                <p>{usersTurnCard.description}</p>
