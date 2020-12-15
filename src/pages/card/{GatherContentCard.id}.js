@@ -3,12 +3,13 @@ import { graphql, Link } from "gatsby"
 
 export default function CardPage({ data }) {
   console.log(data);
-  const { id, name, cardDescription, rarity, spreadability, tastiness, versatility, style } = data.gatherContentCard;
+  const { id, name, cardDescription, rarity, spreadability, tastiness, versatility, style, mugshot, mugshotAltText } = data.gatherContentCard;
 
    return (
       <div>
          <Link to="/">Go home</Link>
          <ul>
+            <li><img width="200" src={mugshot[0].optimised_image_url} alt={mugshotAltText} /></li>
            <li>{id}</li>
            <li>{name}</li>
            <li>{cardDescription}</li>
@@ -28,6 +29,10 @@ export const query = graphql`
         id
         name
         cardDescription
+        mugshot {
+         optimised_image_url
+        }
+        mugshotAltText
         rarity {
           label
         }
