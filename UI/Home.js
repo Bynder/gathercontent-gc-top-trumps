@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { shuffle, chunk } from "lodash"
 
 function Home({ data }) {
@@ -13,12 +13,18 @@ function Home({ data }) {
       }))
    )
 
+   const [turnCount, setTurnCount] = useState(0)
+
    const [isUsersTurn, setIsUsersTurn] = useState(true)
    const [isGameStarted, setIsGameStarted] = useState(false)
+
    const [computersCards, setComputersCards] = useState([])
    const [usersCards, setUsersCards] = useState([])
+
    const [usersTurnCard, setUsersTurnCard] = useState([])
    const [computersTurnCard, setComputersTurnCard] = useState([])
+
+   const incrementTurnCount = () => setTurnCount(turnCount + 1)
 
    const startGame = () => {
       // const shuffledCards = shuffle(cards)
@@ -28,6 +34,8 @@ function Home({ data }) {
       setComputersCards(splitCards[1])
 
       setIsGameStarted(true)
+
+      incrementTurnCount()
    }
 
    const drawCard = () => {
@@ -38,11 +46,18 @@ function Home({ data }) {
       setComputersCards(computersCards.slice(1))
    }
 
+   useEffect(() => {
+      if (!turnCount) {
+         return
+      }
+
+      drawCard()
+   }, [turnCount])
+
    return (
       <>
          <p>{usersTurnCard.name}</p>
          {!isGameStarted && <button onClick={startGame}>Play!</button>}
-         {isGameStarted && <button onClick={drawCard}>Draw card!</button>}
       </>
    )
 }
