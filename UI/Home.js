@@ -1,19 +1,8 @@
 import React, { useState } from "react"
 import { shuffle, chunk } from "lodash"
 
-function Home() {
-  const cards = [
-    { name: "Jam 1" },
-    { name: "Jam 2" },
-    { name: "Jam 3" },
-    { name: "Jam 4" },
-    { name: "Jam 5" },
-    { name: "Jam 6" },
-    { name: "Jam 7" },
-    { name: "Jam 8" },
-    { name: "Jam 9" },
-    { name: "Jam 10" },
-  ]
+function Home({data}) {
+  const [cards] = useState(data.cards.edges.map((card) => card.node));
 
   const [isUsersTurn, setIsUsersTurn] = useState(true)
   const [isGameStarted, setIsGameStarted] = useState(false)
@@ -33,8 +22,12 @@ function Home() {
   }
 
   const drawCard = () => {
-    setComputersTurnCard(computersCards[0])
-    setUsersTurnCard(usersCards[0])
+     console.log(computersCards);
+    setComputersTurnCard(computersCards[0]);
+    setUsersTurnCard(usersCards[0]);
+    setUsersCards(usersCards.slice(1));
+    setComputersCards(computersCards.slice(1));
+
   }
 
   return (
@@ -42,6 +35,7 @@ function Home() {
       <p>{usersTurnCard.name}</p>
       { !isGameStarted && <button onClick={startGame}>Play!</button> }
       { isGameStarted &&  <button onClick={drawCard}>Draw card!</button> }
+       {computersCards.length}
     </>
   )
 }
