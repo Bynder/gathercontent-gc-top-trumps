@@ -1,7 +1,37 @@
 import React from 'react';
 import jamStatStyles from './jamstat.module.css';
 
-export function JamStat ({stat, value, icon, innerColour, outerColour, barColour}) {
+const statColours = [
+   {
+      innerColour: "#B81422",
+      outerColour: "#E51A2B",
+      barColour: "#F5A3AA"
+   },
+   {
+      innerColour: "#6E19E6",
+      outerColour: "#5814B8",
+      barColour: "#C5A3F5"
+   },
+   {
+      innerColour: "#39C639",
+      outerColour: "#2E9E2E",
+      barColour: "#B0E8B0"
+   },
+   {
+      innerColour: "#006EFF",
+      outerColour: "#0058CC",
+      barColour: "#99C5FF"
+   },
+   {
+      innerColour: "#F9D006",
+      outerColour: "#C7A705",
+      barColour: "#FCEC9C"
+   }
+]
+
+export function JamStat ({stat, value, icon, index}) {
+   const {outerColour, innerColour, barColour} = statColours[index];
+
    return (
       <div className={jamStatStyles.container}>
          <div style={{

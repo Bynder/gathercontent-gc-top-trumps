@@ -14,6 +14,7 @@ Things we need to do:
    <li>The colours and gradients are a mess</li>
    <li>The text border is also a mess</li>
    <li>Spacing is a bit funky</li>
+   <li>Should use a composite component</li>
 </ul>
 </div>;
 
