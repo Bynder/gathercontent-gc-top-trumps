@@ -16,6 +16,7 @@
     "build-storybook": "build-storybook"
   },
   "dependencies": {
+    "@svgr/webpack": "^5.5.0",
     "gatsby": "^2.26.1",
     "gatsby-plugin-react-svg": "^3.0.0",
     "markdown-to-jsx": "^7.1.0",
@@ -24,13 +25,13 @@
     "storybook-css-modules-preset": "^1.0.5"
   },
   "devDependencies": {
-    "prettier": "2.1.2",
-     "@babel/core": "^7.12.10",
-     "@storybook/addon-actions": "^6.1.11",
-     "@storybook/addon-essentials": "^6.1.11",
-     "@storybook/addon-links": "^6.1.11",
-     "@storybook/react": "^6.1.11",
-     "babel-loader": "^8.2.2"
+    "@babel/core": "^7.12.10",
+    "@storybook/addon-actions": "^6.1.11",
+    "@storybook/addon-essentials": "^6.1.11",
+    "@storybook/addon-links": "^6.1.11",
+    "@storybook/react": "^6.1.11",
+    "babel-loader": "^8.2.2",
+    "prettier": "2.1.2"
   },
   "repository": {
     "type": "git",
