@@ -22,6 +22,9 @@ Still to do:
       <li>
          Focus & hover states on input + button
       </li>
+      <li>
+         Clean up CSS, some of it was taken straight from Figma and probs isn't needed here.
+      </li>
    </ul>
 
 </div>;
