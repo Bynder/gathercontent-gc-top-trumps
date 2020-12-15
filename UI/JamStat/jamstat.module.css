@@ -6,9 +6,6 @@
 .icon {
    width: 48px;
    height: 48px;
-   border: 6px solid #E51A2B;
-   background: linear-gradient(180deg, #E51A2B 0%, #B81422 100%);
-   filter: drop-shadow(0px 3px 0px rgba(41, 51, 61, 0.2));
    border-radius: 100px;
    margin-right: 10px;
 }
@@ -19,10 +16,8 @@
 }
 
 .outerBar {
+   position: relative;
    width: 100%;
-   border: 6px solid #E51A2B;
-   background: linear-gradient(180deg, #E51A2B 0%, #B81422 100%);
-   filter: drop-shadow(0px 3px 0px rgba(41, 51, 61, 0.2));
    border-radius: 100px;
    height: 32px;
    align-self: center;
@@ -32,7 +27,6 @@
 .innerBar {
    position: absolute;
    height: 100%;
-   background: linear-gradient(180deg, #FFFFFF 0%, #F5A3AA 100%);
    border-radius: 100px;
    align-self: center;
    display: flex;
@@ -42,7 +36,6 @@
 .number {
    display: inline;
    color: #FFF;
-   text-shadow: 4px 0 0 #E51A2B, -4px 0 0 #E51A2B, 0 4px 0 #E51A2B, 0 -4px 0 #E51A2B, 2px 2px #E51A2B, -2px -2px 0 #E51A2B, 2px -2px 0 #E51A2B, -2px 2px 0 #E51A2B;
    font-weight: 800;
    font-size: 32px;
    line-height: 100%;

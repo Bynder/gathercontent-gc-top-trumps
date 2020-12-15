@@ -15,7 +15,7 @@ export function Card ({name, description, mugShotUrl, altText, attributes}) {
 
             <ul className={cardStyles.attributeList}>
                 {attributes.map((attr) => (
-                    <JamStat stat={attr.description} value={attr.score} />
+                    <JamStat innerColour={attr.innerColour} outerColour={attr.outerColour} stat={attr.description} value={attr.score} barColour={attr.barColour} />
                 ))}
             </ul>
         </div>
