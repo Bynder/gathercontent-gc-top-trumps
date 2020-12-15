@@ -1,0 +1,21 @@
+{
+  "name": "gatsby-source-gathercontent",
+  "version": "1.0.0",
+  "description": "Source plugin for GatherContent CMS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "echo \"No build script setup\""
+  },
+  "keywords": [
+    "gatsby",
+    "gatsby-plugin",
+    "gatsby-source-gathercontent"
+  ],
+  "author": "Gracjan Opiela <gracjan@bejamas.io>",
+  "license": "0BSD",
+  "dependencies": {
+    "axios": "^0.21.0",
+    "camelcase-keys": "^6.2.2"
+  }
+}
