@@ -45,7 +45,7 @@
 
 .logo {
    position: absolute;
-   background-image: url("/Logo.png");
+   background-image: url("/Logo.svg");
    width: 360px;
    height: 175px;
    top: -88px;
