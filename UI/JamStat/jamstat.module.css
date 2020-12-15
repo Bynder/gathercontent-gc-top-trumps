@@ -1,7 +1,10 @@
 .container {
    width: 100%;
    display: flex;
-   padding-bottom: 10px;
+   padding: 10px 0;
+   background-color: transparent;
+   border: none;
+   align-items: center;
 }
 .icon {
    width: 48px;
