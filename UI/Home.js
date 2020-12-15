@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react"
-import { shuffle, chunk, orderBy, map } from "lodash"
+import React, {useState, useEffect} from "react"
+import {shuffle, chunk, orderBy, map} from "lodash"
 
-function Home({ data }) {
+function Home({data}) {
    // const [cards] = useState(
    //    data.cards.edges.map(card => ({
    //       ...card.node,
@@ -70,6 +70,7 @@ function Home({ data }) {
       },
    ]
 
+   const [winner,  setWinner] = useState(null);
    const [turnCount, setTurnCount] = useState(0)
 
    const [isUsersTurn, setIsUsersTurn] = useState(true)
@@ -108,6 +109,11 @@ function Home({ data }) {
          return
       }
 
+      if (!usersCards.length || !computersCards.length) {
+         setWinner(usersCards.length ? 'USER' : 'COMPUTER')
+         return;
+      }
+
       drawCard()
       if (!isUsersTurn) {
          computersTurn()
@@ -115,12 +121,11 @@ function Home({ data }) {
    }, [turnCount])
 
    const computersTurn = () => {
-      const { name, cardDescription, ...attributes } = computersTurnCard
+      const {name, cardDescription, ...attributes} = computersTurnCard
 
-      const attributesArray = map(attributes, (value, key) => ({ key: key, value: value }))
+      const attributesArray = map(attributes, (value, key) => ({key: key, value: value}))
       const orderedAttributes = orderBy(attributesArray, ["value"], ["desc"])
-
-      console.log(orderedAttributes)
+      slamJams(orderedAttributes[0].key);
    }
 
    const slamJams = attribute => {
@@ -157,6 +162,19 @@ function Home({ data }) {
 
       incrementTurnCount()
       return
+   }
+
+   if(winner !== null){
+      return (
+         <>
+            <h1>{winner} wins!</h1>
+            <ul>
+               {computersCards.map(card => (
+                  <li>{card.name}</li>
+               ))}
+            </ul>
+         </>
+      )
    }
 
    return (
@@ -210,4 +228,4 @@ function Home({ data }) {
    )
 }
 
-export { Home }
+export {Home}
