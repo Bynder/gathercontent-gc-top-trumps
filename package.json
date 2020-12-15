@@ -1,0 +1,9 @@
+{
+  "name": "gc-top-trumps",
+  "version": "1.0.0",
+  "description": "Top Trumps!",
+  "main": "index.js",
+  "repository": "git@github.com:gathercontent/gc-top-trumps.git",
+  "author": "GatherContent",
+  "license": "MIT"
+}
