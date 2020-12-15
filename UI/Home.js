@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { shuffle, chunk } from "lodash"
+import { shuffle, chunk, orderBy, map } from "lodash"
 
 function Home({ data }) {
    // const [cards] = useState(
@@ -44,10 +44,10 @@ function Home({ data }) {
       {
          name: "Mediocre Card",
          cardDescription: "\n",
-         rarity: 5,
-         spreadability: 5,
-         tastiness: 5,
-         versatility: 5,
+         rarity: 1,
+         spreadability: 2,
+         tastiness: 3,
+         versatility: 4,
          style: 5,
       },
       {
@@ -109,40 +109,54 @@ function Home({ data }) {
       }
 
       drawCard()
-      if(!isUsersTurn){
+      if (!isUsersTurn) {
          computersTurn()
       }
-
    }, [turnCount])
 
    const computersTurn = () => {
-      computersCards
+      const { name, cardDescription, ...attributes } = computersTurnCard
+
+      const attributesArray = map(attributes, (value, key) => ({ key: key, value: value }))
+      const orderedAttributes = orderBy(attributesArray, ["value"], ["desc"])
+
+      console.log(orderedAttributes)
    }
 
    const slamJams = attribute => {
       const hasUserWon = usersTurnCard[attribute] > computersTurnCard[attribute]
       const isDraw = usersTurnCard[attribute] === computersTurnCard[attribute]
 
-
       if (isDraw) {
-         console.log(`Draw: Users= ${attribute} - ${usersTurnCard[attribute]} \n Computers= ${attribute} - ${computersTurnCard[attribute]}`)
+         console.log(
+            `Draw: Users= ${attribute} - ${usersTurnCard[attribute]} \n Computers= ${attribute} - ${computersTurnCard[attribute]}`
+         )
          setUsersCards([...usersCards, usersTurnCard])
          setComputersCards([...computersCards, computersTurnCard])
          setIsUsersTurn(!isUsersTurn)
-         return;
+
+         incrementTurnCount()
+         return
       }
 
       if (hasUserWon) {
-         console.log(`User Won: Users= ${attribute} - ${usersTurnCard[attribute]} \n Computers= ${attribute} - ${computersTurnCard[attribute]}`)
+         console.log(
+            `User Won: Users= ${attribute} - ${usersTurnCard[attribute]} \n Computers= ${attribute} - ${computersTurnCard[attribute]}`
+         )
          setUsersCards([...usersCards, usersTurnCard, computersTurnCard])
          setIsUsersTurn(true)
-         return;
 
+         incrementTurnCount()
+         return
       }
-      console.log(`Computer Won: Users= ${attribute} - ${usersTurnCard[attribute]} \n Computers= ${attribute} - ${computersTurnCard[attribute]}`)
+      console.log(
+         `Computer Won: Users= ${attribute} - ${usersTurnCard[attribute]} \n Computers= ${attribute} - ${computersTurnCard[attribute]}`
+      )
       setComputersCards([...computersCards, computersTurnCard, usersTurnCard])
       setIsUsersTurn(false)
-      return;
+
+      incrementTurnCount()
+      return
    }
 
    return (
@@ -178,11 +192,17 @@ function Home({ data }) {
                <h1>Card</h1>
                <p>{usersTurnCard.name}</p>
                <p>{usersTurnCard.description}</p>
-               <button onClick={() => slamJams('rarity')}>rarity: {usersTurnCard.rarity}</button>
-               <button onClick={() => slamJams('spreadability')}>spreadability: {usersTurnCard.spreadability}</button>
-               <button onClick={() => slamJams('versatility')}>versatility: {usersTurnCard.versatility}</button>
-               <button onClick={() => slamJams('style')}>style: {usersTurnCard.style}</button>
-               <button onClick={() => slamJams('tastiness')}>tastiness: {usersTurnCard.tastiness}</button>
+               <button onClick={() => slamJams("rarity")}>rarity: {usersTurnCard.rarity}</button>
+               <button onClick={() => slamJams("spreadability")}>
+                  spreadability: {usersTurnCard.spreadability}
+               </button>
+               <button onClick={() => slamJams("versatility")}>
+                  versatility: {usersTurnCard.versatility}
+               </button>
+               <button onClick={() => slamJams("style")}>style: {usersTurnCard.style}</button>
+               <button onClick={() => slamJams("tastiness")}>
+                  tastiness: {usersTurnCard.tastiness}
+               </button>
             </div>
          )}
          {!isGameStarted && <button onClick={startGame}>Play!</button>}
