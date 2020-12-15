@@ -56,7 +56,18 @@ function Home({ data }) {
 
    return (
       <>
-         <p>{usersTurnCard.name}</p>
+         {isGameStarted && isUsersTurn && (
+            <div style={{ display: "flex", flexDirection: "column", width: 200, border: '1px solid red' }}>
+               <h1>Card</h1>
+               <p>{usersTurnCard.name}</p>
+               <p>{usersTurnCard.description}</p>
+               <button>rarity: {usersTurnCard.rarity}</button>
+               <button>spreadability: {usersTurnCard.spreadability}</button>
+               <button>versatility: {usersTurnCard.versatility}</button>
+               <button>style: {usersTurnCard.style}</button>
+               <button>tastiness: {usersTurnCard.tastiness}</button>
+            </div>
+         )}
          {!isGameStarted && <button onClick={startGame}>Play!</button>}
       </>
    )
