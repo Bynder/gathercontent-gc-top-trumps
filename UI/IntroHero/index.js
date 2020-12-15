@@ -2,9 +2,9 @@ import React from "react"
 import { USER_TURN } from "../Home"
 import introStyles from "./introHero.module.css"
 
-export function IntroHero({ setName, name, setPage }) {
+export function IntroHero({ setName, name, setPage, startGame }) {
    return (
-      <form onSubmit={() => setPage(USER_TURN)} className={introStyles.intro}>
+      <form onSubmit={() => {setPage(USER_TURN); startGame();}} className={introStyles.intro}>
          <span className={introStyles.logo} />
          <p className={introStyles.text}>Welcome to Slam Jam!</p>
          <p className={introStyles.text}>All you need to do is enter a name. Easy!</p>

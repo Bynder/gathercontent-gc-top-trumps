@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react"
-import { shuffle, chunk, orderBy, map } from "lodash"
-import { IntroHero } from "./IntroHero"
+import React, {useState, useEffect} from "react"
+import {shuffle, chunk, orderBy, map} from "lodash"
+import {IntroHero} from "./IntroHero"
+import {UserTurn} from "./UserTurn"
 
 export const START_PAGE = "START_PAGE"
 export const USER_TURN = "USER_TURN"
@@ -8,7 +9,7 @@ export const COMPUTER_TURN = "COMPUTER_TURN"
 export const RESULT = "RESULT"
 export const WINNER_PAGE = "WINNER_PAGE"
 
-function Home({ data }) {
+function Home({data}) {
    // const [cards] = useState(
    //    data.cards.edges.map(card => ({
    //       ...card.node,
@@ -133,9 +134,9 @@ function Home({ data }) {
    }, [turnCount])
 
    const computersTurn = () => {
-      const { name, cardDescription, ...attributes } = computersTurnCard
+      const {name, cardDescription, ...attributes} = computersTurnCard
 
-      const attributesArray = map(attributes, (value, key) => ({ key: key, value: value }))
+      const attributesArray = map(attributes, (value, key) => ({key: key, value: value}))
       const orderedAttributes = orderBy(attributesArray, ["value"], ["desc"])
       slamJams(orderedAttributes[0].key)
    }
@@ -177,7 +178,11 @@ function Home({ data }) {
    }
 
    if (page === START_PAGE) {
-      return <IntroHero setPage={setPage} setName={setName} name={name}/>
+      return <IntroHero setPage={setPage} setName={setName} name={name} startGame={startGame}/>
+   }
+
+   if (page === USER_TURN) {
+      return <UserTurn usersTurnCard={usersTurnCard} />
    }
 
    if (winner !== null) {
@@ -244,4 +249,4 @@ function Home({ data }) {
    )
 }
 
-export { Home }
+export {Home}
