@@ -1,5 +1,6 @@
 import React from 'react';
 import introStyles from './introHero.module.css';
+import {Button} from "../Button";
 
 export function IntroHero () {
    return (
@@ -8,10 +9,7 @@ export function IntroHero () {
          <p className={introStyles.text}>Welcome to Slam Jam!</p>
          <p className={introStyles.text}>All you need to do is enter a name. Easy!</p>
          <input type="text" placeholder="ENTER A NAME" className={introStyles.nameInput} />
-         <button className={introStyles.button}>
-            <span className={introStyles.buttonBorder} />
-            GET JAMMIN'
-         </button>
+         <Button text="GET JAMMIN'" />
       </div>
    )
 }
