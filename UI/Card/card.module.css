@@ -4,6 +4,23 @@
     background-color: antiquewhite;
     border-radius: 5px;
     border: 4px solid bisque;
+    padding: 10px;
+}
+
+.mugShot {
+    object-fit: cover;
+    width: 100%;
+}
+
+.description {
+    background-color: sandybrown;
+    padding: 10px 0;
+}
+
+.attributeList {
+   display: flex;
+   flex-direction: column;
+   padding: 0;
 }
 
 .attribute {
