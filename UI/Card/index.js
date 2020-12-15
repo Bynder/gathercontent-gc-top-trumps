@@ -1,8 +1,9 @@
-import React from 'react'
+import React from 'react';
+import cardStyles from './card.module.css';
 
 export function Card () {
     return (
-        <div>
+        <div className={cardStyles.card}>
             <img></img>
             <p>Description</p>
             <ul>

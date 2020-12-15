@@ -21,7 +21,8 @@
   "dependencies": {
     "gatsby": "^2.26.1",
     "react": "^16.12.0",
-    "react-dom": "^16.12.0"
+    "react-dom": "^16.12.0",
+    "storybook-css-modules-preset": "^1.0.5"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
