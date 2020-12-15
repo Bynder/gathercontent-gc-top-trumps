@@ -1,11 +1,8 @@
 {
-  "name": "gc-top-trumps",
-  "version": "1.0.0",
-  "description": "Top Trumps!",
-  "main": "index.js",
-  "repository": "git@github.com:gathercontent/gc-top-trumps.git",
-  "author": "GatherContent",
+  "name": "gathercontent-top-jam-trumps",
   "private": true,
+  "description": "",
+  "version": "0.1.0",
   "license": "0BSD",
   "scripts": {
     "build": "gatsby build",
@@ -18,14 +15,20 @@
   },
   "dependencies": {
     "gatsby": "^2.26.1",
+    "markdown-to-jsx": "^7.1.0",
     "lodash": "^4.17.20",
     "react": "^16.12.0",
-    "react-dom": "^16.12.0"
+    "react-dom": "^16.12.0",
+    "storybook-css-modules-preset": "^1.0.5"
   },
   "devDependencies": {
     "prettier": "2.1.2"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gathercontent/gc-top-trumps"
+  },
   "bugs": {
-    "url": "https://github.com/gatsbyjs/gatsby/issues"
+    "url": "https://github.com/gathercontent/gc-top-trumps/issues"
   }
 }
