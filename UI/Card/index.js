@@ -1,20 +1,21 @@
 import React from 'react';
 import cardStyles from './card.module.css';
+import {JamStat} from "../JamStat";
 
 export function Card ({name, description, mugShotUrl, altText, attributes}) {
     return (
         <div className={cardStyles.card}>
-            <p>{name}</p>
-            <img alt={altText} src={mugShotUrl} className={cardStyles.mugShot} />
+           <div className={cardStyles.mugShotContainer}>
+               <img alt={altText} src={mugShotUrl} className={cardStyles.mugShot} />
+               <p className={cardStyles.name}>{name}</p>
+           </div>
             <div className={cardStyles.description}>
                 <p>{description}</p>
             </div>
 
             <ul className={cardStyles.attributeList}>
                 {attributes.map((attr) => (
-                    <button>
-                        {attr.description}: {attr.score}
-                    </button>
+                    <JamStat innerColour={attr.innerColour} outerColour={attr.outerColour} stat={attr.description} value={attr.score} barColour={attr.barColour} />
                 ))}
             </ul>
         </div>
