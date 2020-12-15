@@ -8,7 +8,22 @@ export const pageQuery = graphql`
          edges {
             node {
                name
-               id
+               cardDescription
+               rarity {
+                  label
+               }
+               spreadability {
+                  label
+               }
+               tastiness {
+                  label
+               }
+               versatility {
+                  label
+               }
+               style {
+                  label
+               } 
             }
          }
       }
