@@ -17,5 +17,13 @@ module.exports = {
             projectId: process.env.GATSBY_GC_PROJECT_ID,
          },
       },
+      {
+         resolve: "gatsby-plugin-react-svg",
+         options: {
+            rule: {
+               include: /static/ // See below to configure properly
+            }
+         }
+      }
    ],
 }
