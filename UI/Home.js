@@ -1,7 +1,14 @@
-import React, {useState, useEffect} from "react"
-import {shuffle, chunk, orderBy, map} from "lodash"
+import React, { useState, useEffect } from "react"
+import { shuffle, chunk, orderBy, map } from "lodash"
+import { IntroHero } from "./IntroHero"
 
-function Home({data}) {
+export const START_PAGE = "START_PAGE"
+export const USER_TURN = "USER_TURN"
+export const COMPUTER_TURN = "COMPUTER_TURN"
+export const RESULT = "RESULT"
+export const WINNER_PAGE = "WINNER_PAGE"
+
+function Home({ data }) {
    // const [cards] = useState(
    //    data.cards.edges.map(card => ({
    //       ...card.node,
@@ -70,7 +77,12 @@ function Home({data}) {
       },
    ]
 
-   const [winner,  setWinner] = useState(null);
+
+   const [page, setPage] = useState(START_PAGE)
+
+   const [name, setName] = useState(null)
+
+   const [winner, setWinner] = useState(null)
    const [turnCount, setTurnCount] = useState(0)
 
    const [isUsersTurn, setIsUsersTurn] = useState(true)
@@ -110,8 +122,8 @@ function Home({data}) {
       }
 
       if (!usersCards.length || !computersCards.length) {
-         setWinner(usersCards.length ? 'USER' : 'COMPUTER')
-         return;
+         setWinner(usersCards.length ? "USER" : "COMPUTER")
+         return
       }
 
       drawCard()
@@ -121,11 +133,11 @@ function Home({data}) {
    }, [turnCount])
 
    const computersTurn = () => {
-      const {name, cardDescription, ...attributes} = computersTurnCard
+      const { name, cardDescription, ...attributes } = computersTurnCard
 
-      const attributesArray = map(attributes, (value, key) => ({key: key, value: value}))
+      const attributesArray = map(attributes, (value, key) => ({ key: key, value: value }))
       const orderedAttributes = orderBy(attributesArray, ["value"], ["desc"])
-      slamJams(orderedAttributes[0].key);
+      slamJams(orderedAttributes[0].key)
    }
 
    const slamJams = attribute => {
@@ -164,7 +176,11 @@ function Home({data}) {
       return
    }
 
-   if(winner !== null){
+   if (page === START_PAGE) {
+      return <IntroHero setPage={setPage} setName={setName} name={name}/>
+   }
+
+   if (winner !== null) {
       return (
          <>
             <h1>{winner} wins!</h1>
@@ -228,4 +244,4 @@ function Home({data}) {
    )
 }
 
-export {Home}
+export { Home }
