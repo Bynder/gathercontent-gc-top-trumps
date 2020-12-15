@@ -3,6 +3,7 @@ import cardStyles from './card.module.css';
 import {JamStat} from "../JamStat";
 
 export function Card ({name, description, mugShotUrl, altText, attributes}) {
+   console.log(attributes)
     return (
         <div className={cardStyles.card}>
            <div className={cardStyles.mugShotContainer}>

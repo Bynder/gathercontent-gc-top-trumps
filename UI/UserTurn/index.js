@@ -1,18 +1,13 @@
 import React from "react"
+import { map } from "lodash"
+import { Card } from "../Card"
 
-export function UserTurn({ usersTurnCard }) {
-   console.log(usersTurnCard);
+export function UserTurn({ usersTurnCard: { name, cardDescription, ...attributes } }) {
+   const attributesArray = map(attributes, (value, key) => ({ description: key, score: value }))
+
    return (
       <div>
-         <h1>{usersTurnCard.name}</h1>
-         <p>{usersTurnCard.description}</p>
-         <ul>
-            <li>Rarity: {usersTurnCard.rarity}</li>
-            <li>Spreadability: {usersTurnCard.spreadability}</li>
-            <li>Versatility: {usersTurnCard.versatility}</li>
-            <li>Style: {usersTurnCard.style}</li>
-            <li>Tastiness: {usersTurnCard.tastiness}</li>
-         </ul>
+         <Card name={name} description={cardDescription} attributes={attributesArray} />
          <button>Slam It!</button>
       </div>
    )
