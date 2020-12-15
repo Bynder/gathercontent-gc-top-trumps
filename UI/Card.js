@@ -4,7 +4,7 @@ export function Card () {
     return (
         <div>
             <img></img>
-            <p></p>
+            <p>Description</p>
             <ul>
                 <button></button>
                 <button></button>
