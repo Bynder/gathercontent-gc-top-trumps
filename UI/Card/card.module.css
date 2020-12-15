@@ -31,11 +31,7 @@
    line-height: 100%;
    text-align: center;
    text-transform: uppercase;
-
-   /* Base / $primary-red */
-
    color: #E51A2B;
-   /* Neutral tints / White */
 
    text-shadow: 2px 0 0 #fff, -2px 0 0 #fff, 0 2px 0 #fff, 0 -2px 0 #fff, 1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;
 }
