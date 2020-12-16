@@ -1,6 +1,8 @@
 import React, { useState } from "react"
+import userTurnStyles from "./userTurn.module.css"
 import { map } from "lodash"
 import { Card } from "../Card"
+import { Button } from "../Button"
 
 export function UserTurn({ usersTurnCard: { name, cardDescription, ...attributes }, slamJams }) {
    const [selectedAttribute, setSelectedAttribute] = useState(null)
@@ -19,7 +21,11 @@ export function UserTurn({ usersTurnCard: { name, cardDescription, ...attributes
             />
          </Card>
 
-         { selectedAttribute && ( <button onClick={() => slamJams(selectedAttribute)}>Slam It!</button>) }
+         {selectedAttribute && (
+            <div className={userTurnStyles.button}>
+               <Button onClick={() => slamJams(selectedAttribute)}>Slam It!</Button>
+            </div>
+         )}
       </div>
    )
 }
