@@ -1,21 +1,21 @@
 import React, { useState } from "react"
 import userTurnStyles from "./userTurn.module.css"
-import { map } from "lodash"
+import {GetAttributesFromCard} from "../../src/utils/helpers"
+import {ChooseYourJamStat} from "../ChooseYourJamStat";
 import { Card } from "../Card"
 import { Button } from "../Button"
 
-export function UserTurn({ usersTurnCard: { name, cardDescription, ...attributes }, slamJams }) {
+export function UserTurn({card: {name, cardDescription}, card, slamJams}) {
    const [selectedAttribute, setSelectedAttribute] = useState(null)
-
-   const parsedAttributes = map(attributes, (value, key) => ({ description: key, score: value }))
 
    return (
       <div>
+         <ChooseYourJamStat />
          <Card>
-            <Card.Image name={name} />
-            <Card.Description description={cardDescription} />
+            <Card.Image name={name}/>
+            <Card.Description description={cardDescription}/>
             <Card.AttributeList
-               attributes={parsedAttributes}
+               attributes={GetAttributesFromCard(card)}
                selectedAttribute={selectedAttribute}
                onSelectAttribute={setSelectedAttribute}
             />

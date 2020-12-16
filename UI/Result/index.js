@@ -6,12 +6,14 @@ import { Card } from "../Card"
 import { Button } from "../Button"
 
 export function Result({
+   computerName,
    usersTurnCard,
    computersTurnCard,
    selectedAttribute,
    incrementTurnCount,
    winner,
 }) {
+
    const playerWon = winner === PLAYER_USER
 
    return (
@@ -31,7 +33,7 @@ export function Result({
             </div>
 
             <div className={resultStyles.result}>
-               <h1>Computer</h1>
+               <h1>{computerName}</h1>
 
                <Card hasPlayerWon={!playerWon}>
                   <Card.Image name={computersTurnCard.name} />
