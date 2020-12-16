@@ -5,7 +5,18 @@ import {AboutUs} from '../../UI/AboutUs'
 import { useStaticQuery, graphql } from "gatsby";
 
 export default function InfoIcon({children, ...rest}) {
-   const data = { 'header': 'Some Title', 'description': 'Some Description'}
+   // const data = { 'header': 'Some Title', 'description': 'Some Description'}
+
+   const data = useStaticQuery(graphql`
+query InfoQuery {
+  allGatherContentItemsByFolderWelcomeandintro {
+    nodes {
+      header
+      introAndExplainer
+    }
+  }
+}
+`).allGatherContentItemsByFolderWelcomeandintro.nodes[0];
 
    const [displayInfo, setDisplayInfo] = useState(false);
    const toggle = () => {
@@ -15,7 +26,7 @@ export default function InfoIcon({children, ...rest}) {
 
    return (
    displayInfo ?
-      <AboutUs introTitle={data.header} introContent={data.description}></AboutUs> :
+      <AboutUs introTitle={data.header} introContent={data.introAndExplainer}></AboutUs> :
       <>
       <Button onClick={toggle} style={{position: 'absolute', top: '20px', right: '20px'}}>
          <Info/>

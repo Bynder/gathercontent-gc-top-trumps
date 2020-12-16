@@ -142,30 +142,32 @@ export default function Game({data, location}) {
    console.log(usersTurnCard)
 
    return (
-      <Audio>
+      <InfoIcon>
+         <Audio>
 
-         <ScoreAside cardsLeft={usersCards.length} turnNumber={turnCount} wins={roundsWon} />
+            <ScoreAside cardsLeft={usersCards.length} turnNumber={turnCount} wins={roundsWon} />
 
-         {isUsersTurn && !roundWinner && (
-            <UserTurn card={usersTurnCard} slamJams={slamJams}></UserTurn>
-         )}
+            {isUsersTurn && !roundWinner && (
+               <UserTurn card={usersTurnCard} slamJams={slamJams}></UserTurn>
+            )}
 
-         {!isUsersTurn && !roundWinner && (
-            <ComputersTurn name={computerName} card={computersTurnCard}></ComputersTurn>
-         )}
+            {!isUsersTurn && !roundWinner && (
+               <ComputersTurn name={computerName} card={computersTurnCard}></ComputersTurn>
+            )}
 
-         {roundWinner && (
-            <Result
-               computerName={computerName}
-               usersTurnCard={usersTurnCard}
-               computersTurnCard={computersTurnCard}
-               winner={roundWinner}
-               selectedAttribute={selectedAttribute}
-               incrementTurnCount={incrementTurnCount}
-               slamJams={slamJams}
-            ></Result>
-         )}
-      </Audio>
+            {roundWinner && (
+               <Result
+                  computerName={computerName}
+                  usersTurnCard={usersTurnCard}
+                  computersTurnCard={computersTurnCard}
+                  winner={roundWinner}
+                  selectedAttribute={selectedAttribute}
+                  incrementTurnCount={incrementTurnCount}
+                  slamJams={slamJams}
+               ></Result>
+            )}
+         </Audio>
+      </InfoIcon>
    )
 }
 
