@@ -2,12 +2,17 @@ import React, {useState, useEffect} from "react"
 import {shuffle, chunk, orderBy, map} from "lodash"
 import {IntroHero} from "./IntroHero"
 import {UserTurn} from "./UserTurn"
+import {Result} from "./Result"
+import {GetAttributesFromCard} from "../src/utils/helpers"
 
 export const START_PAGE = "START_PAGE"
 export const USER_TURN = "USER_TURN"
 export const COMPUTER_TURN = "COMPUTER_TURN"
 export const RESULT = "RESULT"
 export const WINNER_PAGE = "WINNER_PAGE"
+
+export const PLAYER_USER = "PLAYER_USER"
+export const PLAYER_COMPUTER = "PLAYER_COMPUTER"
 
 function Home({data}) {
    // const [cards] = useState(
@@ -16,7 +21,7 @@ function Home({data}) {
    //       rarity: parseInt(card.node.rarity[0]?.label),
    //       spreadability: parseInt(card.node.spreadability[0]?.label),
    //       versatility: parseInt(card.node.versatility[0]?.label),
-   //       style: parseInt(card.node.style[0]?.label),
+   //       trendiness: parseInt(card.node.trendiness[0]?.label),
    //       tastiness: parseInt(card.node.tastiness[0]?.label),
    //    }))
    // )
@@ -78,13 +83,14 @@ function Home({data}) {
       },
    ]
 
-
    const [page, setPage] = useState(START_PAGE)
 
    const [name, setName] = useState(null)
 
-   const [winner, setWinner] = useState(null)
+   const [gameWinner, setGameWinner] = useState(null)
+   const [roundWinner, setRoundWinner] = useState(null)
    const [turnCount, setTurnCount] = useState(0)
+   const [selectedAttribute, setSelectedAttribute] = useState(0)
 
    const [isUsersTurn, setIsUsersTurn] = useState(true)
    const [isGameStarted, setIsGameStarted] = useState(false)
@@ -118,33 +124,43 @@ function Home({data}) {
    }
 
    useEffect(() => {
+      if (!roundWinner) {
+         return
+      }
+
+      setPage(RESULT)
+   }, [roundWinner])
+
+   useEffect(() => {
       if (!turnCount) {
          return
       }
 
       if (!usersCards.length || !computersCards.length) {
-         setWinner(usersCards.length ? "USER" : "COMPUTER")
+         setGameWinner(usersCards.length ? "USER" : "COMPUTER")
          return
       }
 
       drawCard()
+
       if (!isUsersTurn) {
-         computersTurn()
+         return computersTurn()
       }
+
+      setPage(USER_TURN)
+
    }, [turnCount])
 
    const computersTurn = () => {
-      const {name, cardDescription, ...attributes} = computersTurnCard
-
-      const attributesArray = map(attributes, (value, key) => ({key: key, value: value}))
-      const orderedAttributes = orderBy(attributesArray, ["value"], ["desc"])
-      slamJams(orderedAttributes[0].key)
+      setPage(COMPUTER_TURN)
+      const attributes = GetAttributesFromCard(computersTurnCard)
+      const orderedAttributes = orderBy(attributes, ["description"], ["desc"])
+      slamJams(orderedAttributes[0].description)
    }
 
    const slamJams = attribute => {
 
-      //Show spinner?
-      //Pause?
+      setSelectedAttribute(attribute)
 
       const hasUserWon = usersTurnCard[attribute] > computersTurnCard[attribute]
       const isDraw = usersTurnCard[attribute] === computersTurnCard[attribute]
@@ -156,8 +172,7 @@ function Home({data}) {
          setUsersCards([...usersCards, usersTurnCard])
          setComputersCards([...computersCards, computersTurnCard])
          setIsUsersTurn(!isUsersTurn)
-
-         incrementTurnCount()
+         setRoundWinner(false);
          return
       }
 
@@ -167,8 +182,7 @@ function Home({data}) {
          )
          setUsersCards([...usersCards, usersTurnCard, computersTurnCard])
          setIsUsersTurn(true)
-
-         incrementTurnCount()
+         setRoundWinner(PLAYER_USER);
          return
       }
       console.log(
@@ -176,8 +190,7 @@ function Home({data}) {
       )
       setComputersCards([...computersCards, computersTurnCard, usersTurnCard])
       setIsUsersTurn(false)
-
-      incrementTurnCount()
+      setRoundWinner(PLAYER_COMPUTER);
       return
    }
 
@@ -186,21 +199,15 @@ function Home({data}) {
    }
 
    if (page === USER_TURN) {
-      return <UserTurn usersTurnCard={usersTurnCard} slamJams={slamJams} />
+      return <UserTurn usersTurnCard={usersTurnCard} slamJams={slamJams}/>
    }
 
-   if (winner !== null) {
-      return (
-         <>
-            <h1>{winner} wins!</h1>
-            <ul>
-               {computersCards.map(card => (
-                  <li>{card.name}</li>
-               ))}
-            </ul>
-         </>
-      )
+   if (page === RESULT) {
+      return <Result usersTurnCard={usersTurnCard} computersTurnCard={computersTurnCard}
+                     slamJams={slamJams} incrementTurnCount={incrementTurnCount}
+                     winner={roundWinner} selectedAttribute={selectedAttribute}/>
    }
+
 
    return (
       <>
