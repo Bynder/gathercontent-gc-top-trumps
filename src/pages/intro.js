@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 import { IntroHero } from "../../UI/IntroHero"
 import introStyles from "../../UI/IntroHero/introHero.module.css"
 
