@@ -19,7 +19,11 @@ export function IntroHero({setPage, setName, name, startGame}) {
          <label>
             Enter your name:
             <input onChange={(event) => setName(event.target.value)} value={name} type="text"
-                        placeholder="ENTER A NAME" className={introStyles.nameInput}/>
+                   placeholder="ENTER A NAME" className={introStyles.nameInput}
+                   onKeyPress={(event) => { if (event.nativeEvent.key === "Enter") {
+                      setPage(USER_TURN);
+                      startGame();
+                   }}}/>
          </label>
          <Button disabled={!name} onClick={() => {
             setPage(USER_TURN);
