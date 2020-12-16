@@ -1,14 +1,13 @@
-import React, {useEffect, useState} from 'react';
-import {graphql} from "gatsby";
-import {chunk, map, orderBy, shuffle} from "lodash";
-import {UserTurn} from "../../UI/UserTurn";
-import {Result} from "../../UI/Result";
+import React, { useEffect, useState } from "react"
+import { graphql } from "gatsby"
+import { chunk, map, orderBy, shuffle } from "lodash"
+import { UserTurn } from "../../UI/UserTurn"
+import { Result } from "../../UI/Result"
 
 export const PLAYER_USER = "PLAYER_USER"
 export const PLAYER_COMPUTER = "PLAYER_COMPUTER"
 
-export default function Game({data, location}) {
-
+export default function Game({ data, location }) {
    // const [cards] = useState(
    //    data.cards.edges.map(card => ({
    //       ...card.node,
@@ -112,15 +111,14 @@ export default function Game({data, location}) {
    }
 
    const computersTurn = () => {
-      const {name, cardDescription, ...attributes} = computersTurnCard
+      const { name, cardDescription, ...attributes } = computersTurnCard
 
-      const attributesArray = map(attributes, (value, key) => ({key: key, value: value}))
+      const attributesArray = map(attributes, (value, key) => ({ key: key, value: value }))
       const orderedAttributes = orderBy(attributesArray, ["value"], ["desc"])
-      setTimeout(() => slamJams(orderedAttributes[0].key), 1500);
+      setTimeout(() => slamJams(orderedAttributes[0].key), 1500)
    }
 
    const slamJams = attribute => {
-
       setSelectedAttribute(attribute)
 
       const hasUserWon = usersTurnCard[attribute] > computersTurnCard[attribute]
@@ -133,7 +131,7 @@ export default function Game({data, location}) {
          setUsersCards([...usersCards, usersTurnCard])
          setComputersCards([...computersCards, computersTurnCard])
          setIsUsersTurn(!isUsersTurn)
-         setRoundWinner(false);
+         setRoundWinner(false)
          return
       }
 
@@ -143,7 +141,7 @@ export default function Game({data, location}) {
          )
          setUsersCards([...usersCards, usersTurnCard, computersTurnCard])
          setIsUsersTurn(true)
-         setRoundWinner(PLAYER_USER);
+         setRoundWinner(PLAYER_USER)
          return
       }
       console.log(
@@ -151,7 +149,7 @@ export default function Game({data, location}) {
       )
       setComputersCards([...computersCards, computersTurnCard, usersTurnCard])
       setIsUsersTurn(false)
-      setRoundWinner(PLAYER_COMPUTER);
+      setRoundWinner(PLAYER_COMPUTER)
 
       return
    }
@@ -166,7 +164,7 @@ export default function Game({data, location}) {
          return
       }
 
-      setRoundWinner(null);
+      setRoundWinner(null)
       drawCard()
       if (!isUsersTurn) {
          computersTurn()
@@ -179,57 +177,50 @@ export default function Game({data, location}) {
 
    return (
       <div>
-         <div>{location?.state?.name ?? 'no name'}</div>
+         <div>{location?.state?.name ?? "no name"}</div>
 
          {isUsersTurn && !roundWinner && (
             <UserTurn usersTurnCard={usersTurnCard} slamJams={slamJams}></UserTurn>
          )}
-         {!isUsersTurn && !roundWinner && (
-            'COMPUTERS TURN'
-         )}
+         {!isUsersTurn && !roundWinner && "COMPUTERS TURN"}
          {roundWinner && (
-            <Result usersTurnCard={usersTurnCard} computersTurnCard={computersTurnCard}
-                    winner={roundWinner} selectedAttribute={selectedAttribute}
-                    incrementTurnCount={incrementTurnCount}
-                    slamJams={slamJams}></Result>
+            <Result
+               usersTurnCard={usersTurnCard}
+               computersTurnCard={computersTurnCard}
+               winner={roundWinner}
+               selectedAttribute={selectedAttribute}
+               incrementTurnCount={incrementTurnCount}
+               slamJams={slamJams}
+            ></Result>
          )}
       </div>
    )
 }
 
 export const pageQuery = graphql`
-query pageQuery
-{
-   cards: allGatherContentCard
-   {
-      edges
-      {
-         node
-         {
-            name
-            cardDescription
-            rarity
-            {
-               label
-            }
-            spreadability
-            {
-               label
-            }
-            tastiness
-            {
-               label
-            }
-            versatility
-            {
-               label
-            }
-            trendiness
-            {
-               label
+   query pageQuery {
+      cards: allGatherContentCard {
+         edges {
+            node {
+               name
+               cardDescription
+               rarity {
+                  label
+               }
+               spreadability {
+                  label
+               }
+               tastiness {
+                  label
+               }
+               versatility {
+                  label
+               }
+               trendiness {
+                  label
+               }
             }
          }
       }
    }
-}
 `

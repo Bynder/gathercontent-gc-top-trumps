@@ -9,14 +9,6 @@ export function UserTurn({ usersTurnCard: { name, cardDescription, ...attributes
 
    return (
       <div>
-         <Card
-            name={name}
-            description={cardDescription}
-            attributes={parsedAttributes}
-            selectedAttribute={selectedAttribute}
-            onSelectAttribute={setSelectedAttribute}
-         />
-
          <Card>
             <Card.Image name={name} />
             <Card.Description description={cardDescription} />
