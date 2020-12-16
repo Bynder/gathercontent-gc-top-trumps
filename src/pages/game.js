@@ -5,7 +5,6 @@ import {UserTurn} from "../../UI/UserTurn"
 import {Result} from "../../UI/Result"
 import {ComputersTurn} from "../../UI/ComputersTurn";
 import { ScoreAside } from "../../UI/ScoreAside"
-import Audio from '../components/Audio'
 
 export const PLAYER_USER = "PLAYER_USER"
 export const PLAYER_COMPUTER = "PLAYER_COMPUTER"
@@ -141,8 +140,7 @@ export default function Game({data, location}) {
    console.log(usersTurnCard)
 
    return (
-      <Audio>
-
+      <>
          <ScoreAside cardsLeft={usersCards.length} turnNumber={turnCount} wins={roundsWon} />
 
          {isUsersTurn && !roundWinner && (
@@ -164,8 +162,8 @@ export default function Game({data, location}) {
                slamJams={slamJams}
             ></Result>
          )}
-      </Audio>
-   )
+      </>
+   );
 }
 
 
