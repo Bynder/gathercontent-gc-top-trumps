@@ -14,6 +14,7 @@ export default function Game({data, location}) {
    const [cards] = useState(
       data.cards.edges.map(card => ({
          ...card.node,
+         mugshot: card.node.mugshot[0]?.optimised_image_url,
          rarity: parseInt(card.node.rarity[0]?.label),
          spreadability: parseInt(card.node.spreadability[0]?.label),
          versatility: parseInt(card.node.versatility[0]?.label),
@@ -73,9 +74,10 @@ export default function Game({data, location}) {
    }
 
    const computersTurn = () => {
-      const {name, cardDescription, ...attributes} = computersTurnCard
+      const {name, cardDescription, mugshot, mugshotAltText, ...attributes} = computersTurnCard
 
       const attributesArray = map(attributes, (value, key) => ({key: key, value: value}))
+      console.log(attributesArray);
       const orderedAttributes = orderBy(attributesArray, ["value"], ["desc"])
       setTimeout(() => slamJams(orderedAttributes[0].key), 1500)
    }
@@ -175,6 +177,10 @@ export const pageQuery = graphql`
             node {
                name
                cardDescription
+               mugshot {
+                  optimised_image_url
+               }
+               mugshotAltText
                rarity {
                   label
                }
