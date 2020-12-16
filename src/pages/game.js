@@ -4,6 +4,7 @@ import { chunk, map, orderBy, shuffle } from "lodash"
 import { UserTurn } from "../../UI/UserTurn"
 import { Result } from "../../UI/Result"
 import Audio from '../components/Audio'
+import InfoIcon from '../components/InfoIcon'
 
 export const PLAYER_USER = "PLAYER_USER"
 export const PLAYER_COMPUTER = "PLAYER_COMPUTER"
@@ -179,24 +180,26 @@ export default function Game({ data, location }) {
    console.log(usersTurnCard);
 
    return (
-      <Audio>
-         <div>{location?.state?.name ?? "no name"}</div>
+      <InfoIcon>
+         <Audio>
+            <div>{location?.state?.name ?? "no name"}</div>
 
-         {isUsersTurn && !roundWinner && (
-            <UserTurn usersTurnCard={usersTurnCard} slamJams={slamJams}></UserTurn>
-         )}
-         {!isUsersTurn && !roundWinner && "COMPUTERS TURN"}
-         {roundWinner && (
-            <Result
-               usersTurnCard={usersTurnCard}
-               computersTurnCard={computersTurnCard}
-               winner={roundWinner}
-               selectedAttribute={selectedAttribute}
-               incrementTurnCount={incrementTurnCount}
-               slamJams={slamJams}
-            ></Result>
-         )}
-      </Audio>
+            {isUsersTurn && !roundWinner && (
+               <UserTurn usersTurnCard={usersTurnCard} slamJams={slamJams}></UserTurn>
+            )}
+            {!isUsersTurn && !roundWinner && "COMPUTERS TURN"}
+            {roundWinner && (
+               <Result
+                  usersTurnCard={usersTurnCard}
+                  computersTurnCard={computersTurnCard}
+                  winner={roundWinner}
+                  selectedAttribute={selectedAttribute}
+                  incrementTurnCount={incrementTurnCount}
+                  slamJams={slamJams}
+               ></Result>
+            )}
+         </Audio>
+      </InfoIcon>
    )
 }
 

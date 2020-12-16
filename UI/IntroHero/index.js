@@ -34,7 +34,7 @@ export function IntroHero() {
                name="name"
             />
          </label>
-         <button className={buttonStyles.button}>
+         <Button>
             GET JAMMIN!
          </Button>
       </form>

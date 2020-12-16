@@ -15,11 +15,11 @@ export default function Audio({ children, ...rest }) {
    return <>
       <audio ref={audio} src="/Casual Game Background.mp3" autoPlay loop {...rest}/>
       {isPlaying ? (
-         <Button onClick={pause} style={{ position: 'absolute', top: '20px', right: '20px'}}>
+         <Button onClick={pause} style={{ position: 'absolute', top: '20px', right: '150px'}}>
             <SoundOn/>
          </Button>
       ) : (
-         <Button onClick={play} style={{ position: 'absolute', top: '20px', right: '20px'}}>
+         <Button onClick={play} style={{ position: 'absolute', top: '20px', right: '150px'}}>
             <SoundOff/>
          </Button>
       )}
