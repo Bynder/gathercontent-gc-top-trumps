@@ -1,5 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200;300;400;500;600;700;800&display=swap');
 
+html, body {
+   height: 100%;
+}
 * {
    font-family: 'Dosis', sans-serif;
    box-sizing: border-box;
@@ -7,4 +10,7 @@
 
 body {
    background: linear-gradient(180deg, #E6F1FF 0%, #CCE2FF 100%);
+   display: flex;
+   justify-content: center;
+   align-items: center;
 }
