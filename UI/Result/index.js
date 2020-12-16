@@ -12,9 +12,8 @@ export function Result({
    incrementTurnCount,
    winner,
 }) {
-   const playerWon = () => {
-      return winner === PLAYER_USER
-   }
+
+   const playerWon = winner === PLAYER_USER
 
    return (
       <div>
@@ -54,7 +53,7 @@ export function Result({
                </Button>
          </div>
 
-         <div>Round {playerWon() ? "Won" : "Lost"}!</div>
+         <div>Round {playerWon ? "Won" : "Lost"}!</div>
       </div>
    )
 }
