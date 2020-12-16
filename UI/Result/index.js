@@ -44,13 +44,13 @@ export function Result({
                   />
                </Card>
             </div>
-               <Button
-                  text="Next Round"
-                  className={resultStyles.button}
-                  onClick={() => incrementTurnCount()}
-               >
-                  Next Round
-               </Button>
+            <Button
+               text="Next Round"
+               className={resultStyles.button}
+               onClick={() => incrementTurnCount()}
+            >
+               Next Round
+            </Button>
          </div>
 
          <div>Round {playerWon ? "Won" : "Lost"}!</div>
