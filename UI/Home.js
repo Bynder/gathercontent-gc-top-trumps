@@ -11,6 +11,9 @@ export const COMPUTER_TURN = "COMPUTER_TURN"
 export const RESULT = "RESULT"
 export const WINNER_PAGE = "WINNER_PAGE"
 
+export const PLAYER_USER = "PLAYER_USER"
+export const PLAYER_COMPUTER = "PLAYER_COMPUTER"
+
 function Home({data}) {
    // const [cards] = useState(
    //    data.cards.edges.map(card => ({
@@ -84,8 +87,10 @@ function Home({data}) {
 
    const [name, setName] = useState(null)
 
-   const [winner, setWinner] = useState(null)
+   const [gameWinner, setGameWinner] = useState(null)
+   const [roundWinner, setRoundWinner] = useState(null)
    const [turnCount, setTurnCount] = useState(0)
+   const [selectedAttribute, setSelectedAttribute] = useState(0)
 
    const [isUsersTurn, setIsUsersTurn] = useState(true)
    const [isGameStarted, setIsGameStarted] = useState(false)
@@ -119,12 +124,20 @@ function Home({data}) {
    }
 
    useEffect(() => {
+      if (!roundWinner) {
+         return
+      }
+
+      setPage(RESULT)
+   }, [roundWinner])
+
+   useEffect(() => {
       if (!turnCount) {
          return
       }
 
       if (!usersCards.length || !computersCards.length) {
-         setWinner(usersCards.length ? "USER" : "COMPUTER")
+         setGameWinner(usersCards.length ? "USER" : "COMPUTER")
          return
       }
 
@@ -147,6 +160,8 @@ function Home({data}) {
 
    const slamJams = attribute => {
 
+      setSelectedAttribute(attribute)
+
       const hasUserWon = usersTurnCard[attribute] > computersTurnCard[attribute]
       const isDraw = usersTurnCard[attribute] === computersTurnCard[attribute]
 
@@ -157,7 +172,7 @@ function Home({data}) {
          setUsersCards([...usersCards, usersTurnCard])
          setComputersCards([...computersCards, computersTurnCard])
          setIsUsersTurn(!isUsersTurn)
-         setPage(RESULT)
+         setRoundWinner(false);
          return
       }
 
@@ -167,9 +182,7 @@ function Home({data}) {
          )
          setUsersCards([...usersCards, usersTurnCard, computersTurnCard])
          setIsUsersTurn(true)
-
-
-         setPage(RESULT)
+         setRoundWinner(PLAYER_USER);
          return
       }
       console.log(
@@ -177,8 +190,7 @@ function Home({data}) {
       )
       setComputersCards([...computersCards, computersTurnCard, usersTurnCard])
       setIsUsersTurn(false)
-      setPage(RESULT)
-
+      setRoundWinner(PLAYER_COMPUTER);
       return
    }
 
@@ -191,21 +203,11 @@ function Home({data}) {
    }
 
    if (page === RESULT) {
-      return <Result usersTurnCard={usersTurnCard} computersTurnCard={computersTurnCard} slamJams={slamJams} incrementTurnCount={incrementTurnCount}/>
+      return <Result usersTurnCard={usersTurnCard} computersTurnCard={computersTurnCard}
+                     slamJams={slamJams} incrementTurnCount={incrementTurnCount}
+                     winner={roundWinner} selectedAttribute={selectedAttribute}/>
    }
 
-   if (winner !== null) {
-      return (
-         <>
-            <h1>{winner} wins!</h1>
-            <ul>
-               {computersCards.map(card => (
-                  <li>{card.name}</li>
-               ))}
-            </ul>
-         </>
-      )
-   }
 
    return (
       <>

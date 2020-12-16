@@ -29,11 +29,11 @@ const statColours = [
    },
 ]
 
-export function ResultStat({ stat, value, icon, index }) {
+export function ResultStat({ stat, value, icon, index, selected}) {
    const { outerColour, innerColour, barColour } = statColours[index]
 
    return (
-      <div className={jamStatStyles.container}>
+      <div className={jamStatStyles.container} style={{ opacity: !selected ? 0.25 : 1 }}>
          <div
             style={{
                border: `6px solid ${outerColour}`,
@@ -66,6 +66,9 @@ export function ResultStat({ stat, value, icon, index }) {
          >
             {value}
          </div>
+
+         {selected && 'STAR'}
+
       </div>
    )
 }
