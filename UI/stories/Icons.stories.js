@@ -1,16 +1,21 @@
 import React from 'react';
-import { ReactComponent as Star } from '../../static/Star.svg';
-import { ReactComponent as StarSmall } from '../../static/StarSmall.svg';
+import { Star, StarSmall, Arrow, BLUE_GRADIENT, RED_GRADIENT, GREEN_GRADIENT, PURPLE_GRADIENT, YELLOW_GRADIENT } from '../Icons';
 
 export default {
     title: 'Icons',
-    // component: Card,
 };
 
-const Template = (args) => <>
+export const Icons = (args) => <>
    &lt;Star /&gt;
-   <Star style={{filter: "drop-shadow(0px 4px 0px rgba(0, 0, 0, 0.1))"}}/>
+   <Star/>
    <br/>
    &lt;StarSmall /&gt;
-   <StarSmall style={{filter: "drop-shadow(0px 4px 0px rgba(0, 0, 0, 0.1))"}} />
+   <StarSmall/>
+   <br/>
+   &lt;Arrow /&gt;
+   <Arrow gradient={RED_GRADIENT}/>
+   <Arrow gradient={PURPLE_GRADIENT}/>
+   <Arrow gradient={BLUE_GRADIENT}/>
+   <Arrow gradient={GREEN_GRADIENT}/>
+   <Arrow gradient={YELLOW_GRADIENT}/>
 </>;
