@@ -4,7 +4,7 @@ import {chunk, map, orderBy, shuffle} from "lodash"
 import {UserTurn} from "../../UI/UserTurn"
 import {Result} from "../../UI/Result"
 import {ComputersTurn} from "../../UI/ComputersTurn";
-import { ScoreAside } from "../../UI/ScoreAside"
+import {ScoreAside} from "../../UI/ScoreAside"
 import Audio from '../components/Audio'
 
 export const PLAYER_USER = "PLAYER_USER"
@@ -45,8 +45,8 @@ export default function Game({data, location}) {
    const [computersCards, setComputersCards] = useState([])
    const [usersCards, setUsersCards] = useState([])
 
-   const [usersTurnCard, setUsersTurnCard] = useState([])
-   const [computersTurnCard, setComputersTurnCard] = useState([])
+   const [usersTurnCard, setUsersTurnCard] = useState(null)
+   const [computersTurnCard, setComputersTurnCard] = useState(null)
 
    const [roundsWon, setRoundsWon] = useState(0)
 
@@ -138,14 +138,19 @@ export default function Game({data, location}) {
       startGame()
    }, [])
 
-   console.log(usersTurnCard)
+
+   if (usersTurnCard < 1) {
+      return null;
+   }
+
+   console.log('TURN CARD', usersTurnCard)
 
    return (
       <Audio>
 
-         <ScoreAside cardsLeft={usersCards.length} turnNumber={turnCount} wins={roundsWon} />
+         <ScoreAside cardsLeft={usersCards.length} turnNumber={turnCount} wins={roundsWon}/>
 
-         {isUsersTurn && !roundWinner && (
+         {isUsersTurn && !roundWinner && usersTurnCard && (
             <UserTurn card={usersTurnCard} slamJams={slamJams}></UserTurn>
          )}
 

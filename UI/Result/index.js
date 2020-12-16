@@ -1,4 +1,4 @@
-import React from "react"
+import React, {useEffect} from "react"
 import resultStyles from "./result.module.css"
 import { GetAttributesFromCard } from "../../src/utils/helpers"
 import { PLAYER_USER } from "../../src/pages/game"
@@ -15,6 +15,17 @@ export function Result({
 }) {
 
    const playerWon = winner === PLAYER_USER
+
+   useEffect(() => {
+      document.addEventListener('keydown', handleEnter, false);
+      return () => document.removeEventListener('keydown', handleEnter)
+   }, []);
+
+   const handleEnter = (e) => {
+      if (e.key === 'Enter') {
+         incrementTurnCount()
+      }
+   }
 
    return (
       <div>
