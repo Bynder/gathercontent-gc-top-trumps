@@ -4,9 +4,19 @@ import { CardAttributeList } from "./CardAttributeList"
 import { CardImage } from "./CardImage"
 import { CardDescription } from "./CardDescription"
 import { CardAttribute } from "./CardAttribute"
+import { Star } from "../Icons"
 
-function Card({ children }) {
-   return <div className={cardStyles.card}>{children}</div>
+function Card({ children, hasPlayerWon }) {
+   return (
+      <div className={cardStyles.card}>
+         {hasPlayerWon && (
+            <span className={cardStyles.star}>
+               <Star />
+            </span>
+         )}
+         {children}
+      </div>
+   )
 }
 
 Card.AttributeList = CardAttributeList

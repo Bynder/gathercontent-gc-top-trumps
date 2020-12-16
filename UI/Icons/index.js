@@ -2,6 +2,9 @@ import React from 'react';
 import { ReactComponent as StarSvg } from '../../static/Star.svg';
 import { ReactComponent as StarSmallSvg } from '../../static/StarSmall.svg';
 import { ReactComponent as ArrowSvg } from '../../static/Arrow.svg';
+import { ReactComponent as SoundOffSvg } from '../../static/SoundOff.svg';
+import { ReactComponent as SoundOnSvg } from '../../static/SoundOn.svg';
+import { ReactComponent as InfoSvg } from '../../static/Info.svg';
 import iconStyles from './icons.module.css';
 
 export function Star() {
@@ -30,6 +33,17 @@ export function Arrow({gradient = GREEN_GRADIENT}) {
    if (!GRADIENTS.includes(gradient)) {
       throw new Error(`Invalid color ${gradient}`);
    }
-   console.log(gradient)
    return <ArrowSvg className={`${iconStyles[gradient]} ${iconStyles.shadow}`} />
+}
+
+export function SoundOff() {
+   return <SoundOffSvg />
+}
+
+export function SoundOn() {
+   return <SoundOnSvg />
+}
+
+export function Info() {
+   return <InfoSvg />
 }
