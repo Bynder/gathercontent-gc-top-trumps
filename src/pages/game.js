@@ -175,6 +175,8 @@ export default function Game({ data, location }) {
       startGame()
    }, [])
 
+   console.log(usersTurnCard);
+
    return (
       <div>
          <div>{location?.state?.name ?? "no name"}</div>
