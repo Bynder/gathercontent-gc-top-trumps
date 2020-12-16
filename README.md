@@ -1,6 +1,9 @@
 # gc-top-trumps
 
-- create `.env.development` add details (look at plugins config).
+- create `.env.development` (copy from .env.example).
+- cd to plugins/gatsby-source-gathercontent
 - run `yarn`
-- run `yarn start`
+- cd -
+- run `yarn`
+- run `yarn develop`
 
