@@ -83,7 +83,7 @@ exports.getStructure =  async (userName, apiKey, template) => {
  */
 
 exports.getItemData = async (userName, apiKey, item) => {
-   return get(`items/${item.id}?includes=structure`, {userName, apiKey})
+   return get(`items/${item.id}`, {userName, apiKey})
       .then(res => {
          if(res.data) {
             return res.data
