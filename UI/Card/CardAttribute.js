@@ -1,11 +1,11 @@
 import React from "react"
 import cardAttributeStyles from "./cardAttribute.module.css"
-import Rarity from "../../static/Rarity.svg"
-import Spreadibility from "../../static/Spreadibility.svg"
-import Taste from "../../static/Taste.svg"
-import Trendiness from "../../static/Trendiness.svg"
-import Versatility from "../../static/Versatility.svg"
-import { Star, StarSmall } from "../Icons"
+import { ReactComponent as Rarity }  from "../../static/Rarity.svg"
+import { ReactComponent as Spreadibility } from "../../static/Spreadibility.svg"
+import { ReactComponent as Taste } from "../../static/Taste.svg"
+import { ReactComponent as Trendiness } from "../../static/Trendiness.svg"
+import { ReactComponent as Versatility } from "../../static/Versatility.svg"
+import { StarSmall } from "../Icons"
 
 const statColours = [
    {
