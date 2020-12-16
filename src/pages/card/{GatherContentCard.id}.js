@@ -3,7 +3,7 @@ import { graphql, Link } from "gatsby"
 
 export default function CardPage({ data }) {
   console.log(data);
-  const { id, name, cardDescription, rarity, trendiness, tastiness, versatility, style, mugshot, mugshotAltText } = data.gatherContentCard;
+  const { id, name, cardDescription, rarity, spreadability, tastiness, versatility, trendiness, mugshot, mugshotAltText } = data.gatherContentCard;
 
    return (
       <div>
