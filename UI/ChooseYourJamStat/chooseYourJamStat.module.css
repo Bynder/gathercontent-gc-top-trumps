@@ -1,0 +1,28 @@
+.chooseYourJamStat {
+   position: relative;
+}
+
+.chooseYourJamStat h2 {
+   position: absolute;
+   text-transform: uppercase;
+   font-size: 32px;
+   font-weight: 800;
+
+   transform: rotate(-15deg);
+   text-align: center;
+   line-height: 100%;
+}
+
+.infront {
+   position: absolute;
+   color: #E51A2B;
+}
+
+.behind {
+   position: absolute;
+   color: #FFFFFF;
+   -webkit-text-fill-color: #E51A2B; /* Will override color (regardless of order) */
+   -webkit-text-stroke-width: 15px;
+   -webkit-text-stroke-color: white;
+   text-shadow: 10px 14px 18px rgba(0, 0, 0, 0.1);
+}
