@@ -79,27 +79,27 @@ function Home({data}) {
    ]
 
 
-   const [page, setPage] = useState(START_PAGE)
+   // const [page, setPage] = useState(START_PAGE)
 
-   const [name, setName] = useState(null)
+   // const [name, setName] = useState(null)
 
-   const [winner, setWinner] = useState(null)
-   const [turnCount, setTurnCount] = useState(0)
+   // const [winner, setWinner] = useState(null)
+   // const [turnCount, setTurnCount] = useState(0)
+   //
+   // const [isUsersTurn, setIsUsersTurn] = useState(true)
+   // const [isGameStarted, setIsGameStarted] = useState(false)
+   //
+   // const [computersCards, setComputersCards] = useState([])
+   // const [usersCards, setUsersCards] = useState([])
+   //
+   // const [usersTurnCard, setUsersTurnCard] = useState([])
+   // const [computersTurnCard, setComputersTurnCard] = useState([])
 
-   const [isUsersTurn, setIsUsersTurn] = useState(true)
-   const [isGameStarted, setIsGameStarted] = useState(false)
-
-   const [computersCards, setComputersCards] = useState([])
-   const [usersCards, setUsersCards] = useState([])
-
-   const [usersTurnCard, setUsersTurnCard] = useState([])
-   const [computersTurnCard, setComputersTurnCard] = useState([])
-
-   const incrementTurnCount = () => setTurnCount(turnCount + 1)
+   // const incrementTurnCount = () => setTurnCount(turnCount + 1)
 
    const startGame = () => {
-      // const shuffledCards = shuffle(cards)
-      const splitCards = chunk(cards, cards.length / 2)
+      const shuffledCards = shuffle(cards)
+      const splitCards = chunk(shuffledCards, shuffledCards.length / 2)
 
       setUsersCards(splitCards[0])
       setComputersCards(splitCards[1])
