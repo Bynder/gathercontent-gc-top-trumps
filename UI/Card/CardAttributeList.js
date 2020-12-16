@@ -6,7 +6,7 @@ export function CardAttributeList({ attributes, onSelectAttribute = () => "", se
    return (
       <ul className={cardStyles.attributeList}>
          {attributes.map((attr, index) => (
-            <JamStat
+            <Card
                stat={attr.description}
                value={attr.score}
                index={index}
