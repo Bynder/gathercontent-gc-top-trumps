@@ -31,6 +31,7 @@ export function ResultCard({
                   value={attr.score}
                   index={index}
                   selected={selectedAttribute === attr.description}
+                  winner={winner}
                />
             ))}
          </ul>

@@ -29,7 +29,7 @@ const statColours = [
    },
 ]
 
-export function ResultStat({ stat, value, icon, index, selected}) {
+export function ResultStat({ stat, value, icon, index, selected, winner}) {
    const { outerColour, innerColour, barColour } = statColours[index]
 
    return (
@@ -67,7 +67,7 @@ export function ResultStat({ stat, value, icon, index, selected}) {
             {value}
          </div>
 
-         {selected && 'STAR'}
+         {(winner && selected) && 'STAR'}
 
       </div>
    )

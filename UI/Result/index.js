@@ -1,7 +1,8 @@
 import React, {useState} from "react"
 import {ResultCard} from "../ResultCard"
 import {GetAttributesFromCard} from "../../src/utils/helpers"
-import {PLAYER_USER} from "../Home";
+import {PLAYER_USER} from "../../src/pages/game";
+
 
 export function Result({
                           usersTurnCard,
@@ -17,6 +18,7 @@ export function Result({
 
    return (
       <div>
+
          <h1>You</h1>
          <ResultCard
             name={usersTurnCard.name}
@@ -37,8 +39,7 @@ export function Result({
 
          <button onClick={() => incrementTurnCount()}>Next Round</button>
 
-         <div>Round {playerWon ? 'Won' : 'Lost'}!</div>
-
+         <div>Round {playerWon() ? 'Won' : 'Lost'}!</div>
       </div>
    )
 }
