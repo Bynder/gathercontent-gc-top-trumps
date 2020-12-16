@@ -29,7 +29,7 @@ function Home({data}) {
          spreadability: 7,
          tastiness: 1,
          versatility: 6,
-         style: 4,
+         trendiness: 4,
       },
       {
          name: "Crap Card",
@@ -38,7 +38,7 @@ function Home({data}) {
          spreadability: 1,
          tastiness: 1,
          versatility: 1,
-         style: 1,
+         trendiness: 1,
       },
       {
          name: "God CARD",
@@ -47,7 +47,7 @@ function Home({data}) {
          spreadability: 10,
          tastiness: 10,
          versatility: 10,
-         style: 10,
+         trendiness: 10,
       },
       {
          name: "Mediocre Card",
@@ -56,7 +56,7 @@ function Home({data}) {
          spreadability: 2,
          tastiness: 3,
          versatility: 4,
-         style: 5,
+         trendiness: 5,
       },
       {
          name: "Another Card",
@@ -65,7 +65,7 @@ function Home({data}) {
          spreadability: 5,
          tastiness: 3,
          versatility: 5,
-         style: 6,
+         trendiness: 6,
       },
       {
          name: "Extra Card",
@@ -74,7 +74,7 @@ function Home({data}) {
          spreadability: 6,
          tastiness: 5,
          versatility: 3,
-         style: 1,
+         trendiness: 1,
       },
    ]
 
@@ -142,6 +142,10 @@ function Home({data}) {
    }
 
    const slamJams = attribute => {
+
+      //Show spinner?
+      //Pause?
+
       const hasUserWon = usersTurnCard[attribute] > computersTurnCard[attribute]
       const isDraw = usersTurnCard[attribute] === computersTurnCard[attribute]
 
@@ -182,7 +186,7 @@ function Home({data}) {
    }
 
    if (page === USER_TURN) {
-      return <UserTurn usersTurnCard={usersTurnCard} />
+      return <UserTurn usersTurnCard={usersTurnCard} slamJams={slamJams} />
    }
 
    if (winner !== null) {

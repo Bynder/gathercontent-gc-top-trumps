@@ -21,9 +21,9 @@ export const pageQuery = graphql`
                versatility {
                   label
                }
-               style {
+               trendiness {
                   label
-               } 
+               }
             }
          }
       }

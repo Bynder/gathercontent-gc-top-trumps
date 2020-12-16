@@ -45,7 +45,7 @@ export const query = graphql`
         versatility {
           label
         }
-        style {
+        trendiness {
           label
         }
       }
