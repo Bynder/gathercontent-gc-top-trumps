@@ -3,7 +3,8 @@ import { graphql } from "gatsby"
 import { chunk, map, orderBy, shuffle } from "lodash"
 import { UserTurn } from "../../UI/UserTurn"
 import { Result } from "../../UI/Result"
-import Audio from '../components/Audio'
+import Audio from "../components/Audio"
+import { ScoreAside } from "../../UI/ScoreAside"
 
 export const PLAYER_USER = "PLAYER_USER"
 export const PLAYER_COMPUTER = "PLAYER_COMPUTER"
@@ -91,6 +92,8 @@ export default function Game({ data, location }) {
    const [usersTurnCard, setUsersTurnCard] = useState([])
    const [computersTurnCard, setComputersTurnCard] = useState([])
 
+   const [roundsWon, setRoundsWon] = useState(0)
+
    const incrementTurnCount = () => setTurnCount(turnCount + 1)
 
    const startGame = () => {
@@ -143,6 +146,7 @@ export default function Game({ data, location }) {
          setUsersCards([...usersCards, usersTurnCard, computersTurnCard])
          setIsUsersTurn(true)
          setRoundWinner(PLAYER_USER)
+         setRoundsWon(roundsWon + 1)
          return
       }
       console.log(
@@ -176,26 +180,27 @@ export default function Game({ data, location }) {
       startGame()
    }, [])
 
-   console.log(usersTurnCard);
+   console.log(usersTurnCard)
 
    return (
       <Audio>
-         <div>{location?.state?.name ?? "no name"}</div>
-
-         {isUsersTurn && !roundWinner && (
-            <UserTurn usersTurnCard={usersTurnCard} slamJams={slamJams}></UserTurn>
-         )}
-         {!isUsersTurn && !roundWinner && "COMPUTERS TURN"}
-         {roundWinner && (
-            <Result
-               usersTurnCard={usersTurnCard}
-               computersTurnCard={computersTurnCard}
-               winner={roundWinner}
-               selectedAttribute={selectedAttribute}
-               incrementTurnCount={incrementTurnCount}
-               slamJams={slamJams}
-            ></Result>
-         )}
+         <div>
+            <ScoreAside cardsLeft={usersCards.length} turnNumber={turnCount} wins={roundsWon} />
+            {isUsersTurn && !roundWinner && (
+               <UserTurn usersTurnCard={usersTurnCard} slamJams={slamJams}></UserTurn>
+            )}
+            {!isUsersTurn && !roundWinner && "COMPUTERS TURN"}
+            {roundWinner && (
+               <Result
+                  usersTurnCard={usersTurnCard}
+                  computersTurnCard={computersTurnCard}
+                  winner={roundWinner}
+                  selectedAttribute={selectedAttribute}
+                  incrementTurnCount={incrementTurnCount}
+                  slamJams={slamJams}
+               />
+            )}
+         </div>
       </Audio>
    )
 }
