@@ -20,17 +20,20 @@ export function IntroHero() {
          <span className={introStyles.logo} />
          <p className={introStyles.text}>Welcome to Slam Jam!</p>
          <p className={introStyles.text}>All you need to do is enter a name. Easy!</p>
-         <input
-            onChange={event => setName(event.target.value)}
-            onKeyPress={(event) => { if (event.nativeEvent.key === "Enter") {
-               navigate("/game", {state: { name }});
-            }}}
-            value={name}
-            type="text"
-            placeholder="ENTER A NAME"
-            className={introStyles.nameInput}
-            name="name"
-         />
+         <label>
+            Intro: To get started please enter your name.
+            <input
+               onChange={event => setName(event.target.value)}
+               onKeyPress={(event) => { if (event.nativeEvent.key === "Enter") {
+                  navigate("/game", {state: { name }});
+               }}}
+               value={name}
+               type="text"
+               placeholder="ENTER A NAME"
+               className={introStyles.nameInput}
+               name="name"
+            />
+         </label>
          <button className={buttonStyles.button}>
             GET JAMMIN!
          </button>
