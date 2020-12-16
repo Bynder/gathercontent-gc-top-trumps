@@ -1,7 +1,17 @@
-import React from 'react';
+import React, { useEffect, useState } from "react"
 import asideStyles from './scoreAside.module.css';
 
-export function ScoreAside({turnNumber, wins, cardsLeft, time}) {
+export function ScoreAside({turnNumber, wins, cardsLeft}) {
+   const [timeElapsed, setTimeElapsed] = useState(0)
+
+   useEffect(() => {
+      const intervalId = setInterval(() => {
+         setTimeElapsed(timeElapsed + 1);
+      }, 1000);
+
+      return () => clearInterval(intervalId);
+   }, [timeElapsed]);
+
    return (
       <div className={asideStyles.aside}>
          <ul>
@@ -23,7 +33,7 @@ export function ScoreAside({turnNumber, wins, cardsLeft, time}) {
 
             </li>
             <li className={asideStyles.time}>
-               <span className={asideStyles.stat}>{time}</span>
+               <span className={asideStyles.stat}>{timeElapsed}</span>
                <span className={asideStyles.icon}></span>
                <span className={asideStyles.tooltip}>Time</span>
 
