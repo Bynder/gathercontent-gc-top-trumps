@@ -47,3 +47,13 @@
    align-self: center;
    text-align: center;
 }
+
+.star {
+   position: absolute;
+   right: -40px;
+   top: 0;
+}
+
+.attribute {
+   position: relative
+}
