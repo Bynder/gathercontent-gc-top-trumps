@@ -1,17 +1,16 @@
-import React, {useState} from "react"
-import {Card} from "../Card"
+import React, { useState } from "react"
+import userTurnStyles from "./userTurn.module.css"
 import {GetAttributesFromCard} from "../../src/utils/helpers"
 import {ChooseYourJamStat} from "../ChooseYourJamStat";
-import {Button} from "../Button";
+import { Card } from "../Card"
+import { Button } from "../Button"
 
 export function UserTurn({card: {name, cardDescription}, card, slamJams}) {
    const [selectedAttribute, setSelectedAttribute] = useState(null)
 
    return (
       <div>
-
          <ChooseYourJamStat />
-
          <Card>
             <Card.Image name={name}/>
             <Card.Description description={cardDescription}/>
@@ -23,7 +22,10 @@ export function UserTurn({card: {name, cardDescription}, card, slamJams}) {
          </Card>
 
          {selectedAttribute && (
-            <Button text='Slam It!' onClick={() => slamJams(selectedAttribute)} />)}
+            <div className={userTurnStyles.button}>
+               <Button onClick={() => slamJams(selectedAttribute)}>Slam It!</Button>
+            </div>
+         )}
       </div>
    )
 }

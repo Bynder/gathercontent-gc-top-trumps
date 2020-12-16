@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import introStyles from "./introHero.module.css"
-import buttonStyles from "../Button/button.module.css"
 import { navigate } from 'gatsby';
+import { Button } from '../Button';
 
 export function IntroHero() {
    const [name, setName] = useState("")
@@ -28,9 +28,9 @@ export function IntroHero() {
             className={introStyles.nameInput}
             name="name"
          />
-         <button className={buttonStyles.button}>
+         <Button className={introStyles.button}>
             GET JAMMIN!
-         </button>
+         </Button>
       </form>
    )
 }

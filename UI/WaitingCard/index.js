@@ -7,6 +7,9 @@ export function WaitingCard({label}) {
    return (
       <div className={`${cardStyles.card} ${waitingStyles.waitingCard}`}>
          <div className={waitingStyles.loading}>
+            <Loader style={{
+               fill: "#FFFFFF"
+            }}/>
             <p className={waitingStyles.status}>{label}</p>
          </div>
       </div>
