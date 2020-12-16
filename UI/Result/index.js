@@ -13,9 +13,8 @@ export function Result({
    incrementTurnCount,
    winner,
 }) {
-   const playerWon = () => {
-      return winner === PLAYER_USER
-   }
+
+   const playerWon = winner === PLAYER_USER
 
    return (
       <div>
@@ -46,16 +45,16 @@ export function Result({
                   />
                </Card>
             </div>
-               <Button
-                  text="Next Round"
-                  className={resultStyles.button}
-                  onClick={() => incrementTurnCount()}
-               >
-                  Next Round
-               </Button>
+            <Button
+               text="Next Round"
+               className={resultStyles.button}
+               onClick={() => incrementTurnCount()}
+            >
+               Next Round
+            </Button>
          </div>
 
-         <div>Round {playerWon() ? "Won" : "Lost"}!</div>
+         <div>Round {playerWon ? "Won" : "Lost"}!</div>
       </div>
    )
 }

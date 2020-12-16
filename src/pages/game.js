@@ -4,8 +4,8 @@ import {chunk, map, orderBy, shuffle} from "lodash"
 import {UserTurn} from "../../UI/UserTurn"
 import {Result} from "../../UI/Result"
 import {ComputersTurn} from "../../UI/ComputersTurn";
+import { ScoreAside } from "../../UI/ScoreAside"
 import Audio from '../components/Audio'
-
 
 export const PLAYER_USER = "PLAYER_USER"
 export const PLAYER_COMPUTER = "PLAYER_COMPUTER"
@@ -47,6 +47,8 @@ export default function Game({data, location}) {
 
    const [usersTurnCard, setUsersTurnCard] = useState([])
    const [computersTurnCard, setComputersTurnCard] = useState([])
+
+   const [roundsWon, setRoundsWon] = useState(0)
 
    const incrementTurnCount = () => setTurnCount(turnCount + 1)
 
@@ -102,6 +104,7 @@ export default function Game({data, location}) {
          setUsersCards([...usersCards, usersTurnCard, computersTurnCard])
          setIsUsersTurn(true)
          setRoundWinner(PLAYER_USER)
+         setRoundsWon(roundsWon + 1)
          return
       }
       console.log(
@@ -135,10 +138,12 @@ export default function Game({data, location}) {
       startGame()
    }, [])
 
-   console.log(usersTurnCard);
+   console.log(usersTurnCard)
 
    return (
       <Audio>
+
+         <ScoreAside cardsLeft={usersCards.length} turnNumber={turnCount} wins={roundsWon} />
 
          {isUsersTurn && !roundWinner && (
             <UserTurn card={usersTurnCard} slamJams={slamJams}></UserTurn>
