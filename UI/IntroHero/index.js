@@ -28,7 +28,7 @@ export function IntroHero() {
             className={introStyles.nameInput}
             name="name"
          />
-         <button className={buttonStyles.button}>
+         <button className={`${buttonStyles.button} ${introStyles.button}`}>
             GET JAMMIN!
          </button>
       </form>

@@ -1,7 +1,7 @@
 import React from 'react';
-import { ReactComponent as StarSvg } from '../../static/Star.svg';
-import { ReactComponent as StarSmallSvg } from '../../static/StarSmall.svg';
-import { ReactComponent as ArrowSvg } from '../../static/Arrow.svg';
+import StarSvg from '../../static/Star.svg';
+import StarSmallSvg from '../../static/StarSmall.svg';
+import ArrowSvg from '../../static/Arrow.svg';
 import iconStyles from './icons.module.css';
 
 export function Star() {
