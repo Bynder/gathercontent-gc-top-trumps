@@ -1,25 +1,24 @@
-import React, {useState, useEffect} from "react"
-import {shuffle, chunk, orderBy, map} from "lodash"
-import {IntroHero} from "./IntroHero"
-import {UserTurn} from "./UserTurn"
+import React, { useEffect, useState } from "react"
+import { graphql } from "gatsby"
+import { chunk, map, orderBy, shuffle } from "lodash"
+import { UserTurn } from "../../UI/UserTurn"
+import { Result } from "../../UI/Result"
 
-export const START_PAGE = "START_PAGE"
-export const USER_TURN = "USER_TURN"
-export const COMPUTER_TURN = "COMPUTER_TURN"
-export const RESULT = "RESULT"
-export const WINNER_PAGE = "WINNER_PAGE"
+export const PLAYER_USER = "PLAYER_USER"
+export const PLAYER_COMPUTER = "PLAYER_COMPUTER"
 
-function Home({data}) {
+export default function Game({ data, location }) {
    // const [cards] = useState(
    //    data.cards.edges.map(card => ({
    //       ...card.node,
    //       rarity: parseInt(card.node.rarity[0]?.label),
    //       spreadability: parseInt(card.node.spreadability[0]?.label),
    //       versatility: parseInt(card.node.versatility[0]?.label),
-   //       style: parseInt(card.node.style[0]?.label),
+   //       trendiness: parseInt(card.node.trendiness[0]?.label),
    //       tastiness: parseInt(card.node.tastiness[0]?.label),
    //    }))
    // )
+
    const cards = [
       {
          name: "Ume Plum Jam\n",
@@ -78,16 +77,12 @@ function Home({data}) {
       },
    ]
 
-
-   const [page, setPage] = useState(START_PAGE)
-
-   const [name, setName] = useState('')
-
-   const [winner, setWinner] = useState(null)
+   const [gameWinner, setGameWinner] = useState(null)
+   const [roundWinner, setRoundWinner] = useState(null)
    const [turnCount, setTurnCount] = useState(0)
 
    const [isUsersTurn, setIsUsersTurn] = useState(true)
-   const [isGameStarted, setIsGameStarted] = useState(false)
+   const [selectedAttribute, setSelectedAttribute] = useState(0)
 
    const [computersCards, setComputersCards] = useState([])
    const [usersCards, setUsersCards] = useState([])
@@ -98,13 +93,11 @@ function Home({data}) {
    const incrementTurnCount = () => setTurnCount(turnCount + 1)
 
    const startGame = () => {
-      // const shuffledCards = shuffle(cards)
-      const splitCards = chunk(cards, cards.length / 2)
+      const shuffledCards = shuffle(cards)
+      const splitCards = chunk(shuffledCards, shuffledCards.length / 2)
 
       setUsersCards(splitCards[0])
       setComputersCards(splitCards[1])
-
-      setIsGameStarted(true)
 
       incrementTurnCount()
    }
@@ -117,34 +110,16 @@ function Home({data}) {
       setComputersCards(computersCards.slice(1))
    }
 
-   useEffect(() => {
-      if (!turnCount) {
-         return
-      }
-
-      if (!usersCards.length || !computersCards.length) {
-         setWinner(usersCards.length ? "USER" : "COMPUTER")
-         return
-      }
-
-      drawCard()
-      if (!isUsersTurn) {
-         computersTurn()
-      }
-   }, [turnCount])
-
    const computersTurn = () => {
-      const {name, cardDescription, ...attributes} = computersTurnCard
+      const { name, cardDescription, ...attributes } = computersTurnCard
 
-      const attributesArray = map(attributes, (value, key) => ({key: key, value: value}))
+      const attributesArray = map(attributes, (value, key) => ({ key: key, value: value }))
       const orderedAttributes = orderBy(attributesArray, ["value"], ["desc"])
-      slamJams(orderedAttributes[0].key)
+      setTimeout(() => slamJams(orderedAttributes[0].key), 1500)
    }
 
    const slamJams = attribute => {
-
-      //Show spinner?
-      //Pause?
+      setSelectedAttribute(attribute)
 
       const hasUserWon = usersTurnCard[attribute] > computersTurnCard[attribute]
       const isDraw = usersTurnCard[attribute] === computersTurnCard[attribute]
@@ -156,8 +131,7 @@ function Home({data}) {
          setUsersCards([...usersCards, usersTurnCard])
          setComputersCards([...computersCards, computersTurnCard])
          setIsUsersTurn(!isUsersTurn)
-
-         incrementTurnCount()
+         setRoundWinner(false)
          return
       }
 
@@ -167,8 +141,7 @@ function Home({data}) {
          )
          setUsersCards([...usersCards, usersTurnCard, computersTurnCard])
          setIsUsersTurn(true)
-
-         incrementTurnCount()
+         setRoundWinner(PLAYER_USER)
          return
       }
       console.log(
@@ -176,81 +149,78 @@ function Home({data}) {
       )
       setComputersCards([...computersCards, computersTurnCard, usersTurnCard])
       setIsUsersTurn(false)
+      setRoundWinner(PLAYER_COMPUTER)
 
-      incrementTurnCount()
       return
    }
 
-   if (page === START_PAGE) {
-      return <IntroHero setPage={setPage} setName={setName} name={name} startGame={startGame}/>
-   }
+   useEffect(() => {
+      if (!turnCount) {
+         return
+      }
 
-   if (page === USER_TURN) {
-      return <UserTurn usersTurnCard={usersTurnCard} slamJams={slamJams} />
-   }
+      if (!usersCards.length || !computersCards.length) {
+         setGameWinner(usersCards.length ? PLAYER_USER : PLAYER_COMPUTER)
+         return
+      }
 
-   if (winner !== null) {
-      return (
-         <>
-            <h1>{winner} wins!</h1>
-            <ul>
-               {computersCards.map(card => (
-                  <li>{card.name}</li>
-               ))}
-            </ul>
-         </>
-      )
-   }
+      setRoundWinner(null)
+      drawCard()
+      if (!isUsersTurn) {
+         computersTurn()
+      }
+   }, [turnCount])
+
+   useEffect(() => {
+      startGame()
+   }, [])
 
    return (
-      <>
-         <p>Users Cards: </p>
-         <ul>
-            {usersCards.map(card => (
-               <li>{card.name}</li>
-            ))}
-         </ul>
+      <div>
+         <div>{location?.state?.name ?? "no name"}</div>
 
-         <p>Computers Cards: </p>
-         <ul>
-            {computersCards.map(card => (
-               <li>{card.name}</li>
-            ))}
-         </ul>
-
-         <p>Computers Turn Card: </p>
-         <ul>
-            <li>{computersTurnCard.name}</li>
-         </ul>
-
-         {isGameStarted && isUsersTurn && (
-            <div
-               style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  width: 200,
-                  border: "1px solid red",
-               }}
-            >
-               <h1>Card</h1>
-               <p>{usersTurnCard.name}</p>
-               <p>{usersTurnCard.description}</p>
-               <button onClick={() => slamJams("rarity")}>rarity: {usersTurnCard.rarity}</button>
-               <button onClick={() => slamJams("spreadability")}>
-                  spreadability: {usersTurnCard.spreadability}
-               </button>
-               <button onClick={() => slamJams("versatility")}>
-                  versatility: {usersTurnCard.versatility}
-               </button>
-               <button onClick={() => slamJams("style")}>style: {usersTurnCard.style}</button>
-               <button onClick={() => slamJams("tastiness")}>
-                  tastiness: {usersTurnCard.tastiness}
-               </button>
-            </div>
+         {isUsersTurn && !roundWinner && (
+            <UserTurn usersTurnCard={usersTurnCard} slamJams={slamJams}></UserTurn>
          )}
-         {!isGameStarted && <button onClick={startGame}>Play!</button>}
-      </>
+         {!isUsersTurn && !roundWinner && "COMPUTERS TURN"}
+         {roundWinner && (
+            <Result
+               usersTurnCard={usersTurnCard}
+               computersTurnCard={computersTurnCard}
+               winner={roundWinner}
+               selectedAttribute={selectedAttribute}
+               incrementTurnCount={incrementTurnCount}
+               slamJams={slamJams}
+            ></Result>
+         )}
+      </div>
    )
 }
 
-export {Home}
+export const pageQuery = graphql`
+   query pageQuery {
+      cards: allGatherContentCard {
+         edges {
+            node {
+               name
+               cardDescription
+               rarity {
+                  label
+               }
+               spreadability {
+                  label
+               }
+               tastiness {
+                  label
+               }
+               versatility {
+                  label
+               }
+               trendiness {
+                  label
+               }
+            }
+         }
+      }
+   }
+`

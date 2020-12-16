@@ -1,0 +1,29 @@
+.shadow {
+   filter: drop-shadow(0px 4px 0px rgba(0, 0, 0, 0.1))
+}
+
+.greenGradient {
+   --color-stop-1: #39C639;
+   --color-stop-2: #2E9E2E;
+}
+
+.blueGradient {
+   --color-stop-1: #006EFF;
+   --color-stop-2: #0058CC;
+}
+
+.yellowGradient {
+   --color-stop-1: #F9D006;
+   --color-stop-2: #C7A705;
+}
+
+.purpleGradient {
+   --color-stop-1: #6E19E6;
+   --color-stop-2: #5814B8;
+}
+
+.redGradient {
+   --color-stop-1: #B81422;
+   --color-stop-2: #E51A2B;
+}
+
