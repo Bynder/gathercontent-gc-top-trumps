@@ -3,7 +3,7 @@ import { graphql, Link } from "gatsby"
 
 export default function CardPage({ data }) {
   console.log(data);
-  const { id, name, cardDescription, rarity, spreadability, tastiness, versatility, style, mugshot, mugshotAltText } = data.gatherContentCard;
+  const { id, name, cardDescription, rarity, spreadability, tastiness, versatility, trendiness, mugshot, mugshotAltText } = data.gatherContentCard;
 
    return (
       <div>
@@ -17,7 +17,7 @@ export default function CardPage({ data }) {
            <li>{spreadability[0].label}</li>
            <li>{tastiness[0].label}</li>
            <li>{versatility[0].label}</li>
-           <li>{style[0].label}</li>
+           <li>{trendiness[0].label}</li>
          </ul>
       </div>
    )
@@ -45,7 +45,7 @@ export const query = graphql`
         versatility {
           label
         }
-        style {
+        trendiness {
           label
         }
       }
