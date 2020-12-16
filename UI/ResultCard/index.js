@@ -1,15 +1,13 @@
 import React from "react"
 import cardStyles from "./card.module.css"
-import { JamStat } from "../JamStat"
+import { ResultStat } from "../ResultStat"
 
-export function Card({
+export function ResultCard({
    name,
    description,
    mugShotUrl,
    altText,
-   attributes,
-   onSelectAttribute = () => '',
-   selectedAttribute,
+   attributes
 }) {
    return (
       <div className={cardStyles.card}>
@@ -23,13 +21,10 @@ export function Card({
 
          <ul className={cardStyles.attributeList}>
             {attributes.map((attr, index) => (
-               <JamStat
+               <ResultStat
                   stat={attr.description}
                   value={attr.score}
                   index={index}
-                  onSelect={() => onSelectAttribute(attr.description)}
-                  selected={selectedAttribute === attr.description}
-                  isAnyAttributeSelected={!!selectedAttribute}
                />
             ))}
          </ul>
