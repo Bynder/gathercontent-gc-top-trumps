@@ -1,8 +1,4 @@
 .button {
-   position: absolute;
-   bottom: -28px;
-   height: 56px;
-   width: 164px;
    border: 4px solid #FFF;
    border-radius: 100px;
    background: linear-gradient(180deg, #E51A2B 0%, #B81422 100%);

@@ -1,45 +1,60 @@
-import React, {useState} from "react"
-import {ResultCard} from "../ResultCard"
-import {GetAttributesFromCard} from "../../src/utils/helpers"
-import {PLAYER_USER} from "../../src/pages/game";
-
+import React from "react"
+import resultStyles from "./result.module.css"
+import { GetAttributesFromCard } from "../../src/utils/helpers"
+import { PLAYER_USER } from "../../src/pages/game"
+import { Card } from "../Card"
+import { Button } from "../Button"
 
 export function Result({
-                          usersTurnCard,
-                          computersTurnCard,
-                          selectedAttribute,
-                          incrementTurnCount,
-                          winner,
-                       }) {
-
+   usersTurnCard,
+   computersTurnCard,
+   selectedAttribute,
+   incrementTurnCount,
+   winner,
+}) {
    const playerWon = () => {
       return winner === PLAYER_USER
    }
 
    return (
       <div>
+         <div className={resultStyles.resultContainer}>
+            <div className={resultStyles.result}>
+               <h1>You</h1>
+               <Card hasPlayerWon={playerWon}>
+                  <Card.Image name={usersTurnCard.name} />
+                  <Card.Description description={usersTurnCard.cardDescription} />
+                  <Card.AttributeList
+                     attributes={GetAttributesFromCard(usersTurnCard)}
+                     selectedAttribute={selectedAttribute}
+                     hasPlayerWon={playerWon}
+                  />
+               </Card>
+            </div>
 
-         <h1>You</h1>
-         <ResultCard
-            name={usersTurnCard.name}
-            description={usersTurnCard.cardDescription}
-            attributes={GetAttributesFromCard(usersTurnCard)}
-            selectedAttribute={selectedAttribute}
-            winner={playerWon}
-         />
-         <h1>Computer</h1>
+            <div className={resultStyles.result}>
+               <h1>Computer</h1>
 
-         <ResultCard
-            name={computersTurnCard.name}
-            description={computersTurnCard.cardDescription}
-            attributes={GetAttributesFromCard(computersTurnCard)}
-            selectedAttribute={selectedAttribute}
-            winner={!playerWon}
-         />
+               <Card hasPlayerWon={!playerWon}>
+                  <Card.Image name={computersTurnCard.name} />
+                  <Card.Description description={computersTurnCard.cardDescription} />
+                  <Card.AttributeList
+                     attributes={GetAttributesFromCard(computersTurnCard)}
+                     selectedAttribute={selectedAttribute}
+                     hasPlayerWon={!playerWon}
+                  />
+               </Card>
+            </div>
+               <Button
+                  text="Next Round"
+                  className={resultStyles.button}
+                  onClick={() => incrementTurnCount()}
+               >
+                  Next Round
+               </Button>
+         </div>
 
-         <button onClick={() => incrementTurnCount()}>Next Round</button>
-
-         <div>Round {playerWon() ? 'Won' : 'Lost'}!</div>
+         <div>Round {playerWon() ? "Won" : "Lost"}!</div>
       </div>
    )
 }

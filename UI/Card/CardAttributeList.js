@@ -2,7 +2,7 @@ import React from "react"
 import cardStyles from "./card.module.css"
 import { CardAttribute } from "./CardAttribute"
 
-export function CardAttributeList({ attributes, onSelectAttribute = () => "", selectedAttribute }) {
+export function CardAttributeList({ attributes, onSelectAttribute = () => "", selectedAttribute, hasPlayerWon }) {
    console.log(attributes)
    return (
       <ul className={cardStyles.attributeList}>
@@ -14,6 +14,7 @@ export function CardAttributeList({ attributes, onSelectAttribute = () => "", se
                onSelect={() => onSelectAttribute(attr.description)}
                selected={selectedAttribute === attr.description}
                isAnyAttributeSelected={!!selectedAttribute}
+               hasPlayerWon={hasPlayerWon}
             />
          ))}
       </ul>
