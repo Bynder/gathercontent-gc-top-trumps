@@ -17,6 +17,16 @@ export function UserTurn({ usersTurnCard: { name, cardDescription, ...attributes
             onSelectAttribute={setSelectedAttribute}
          />
 
+         <Card>
+            <Card.Image name={name} />
+            <Card.Description description={cardDescription} />
+            <Card.AttributeList
+               attributes={parsedAttributes}
+               selectedAttribute={selectedAttribute}
+               onSelectAttribute={setSelectedAttribute}
+            />
+         </Card>
+
          { selectedAttribute && ( <button onClick={() => slamJams(selectedAttribute)}>Slam It!</button>) }
       </div>
    )

@@ -1,5 +1,5 @@
 import React from "react"
-import jamStatStyles from "./jamstat.module.css"
+import cardAttributeStyles from "./cardAttribute.module.css"
 
 const statColours = [
    {
@@ -29,13 +29,21 @@ const statColours = [
    },
 ]
 
-export function JamStat({ stat, value, icon, index, onSelect, selected, isAnyAttributeSelected }) {
+export function CardAttribute({
+   stat,
+   value,
+   icon,
+   index,
+   onSelect,
+   selected,
+   isAnyAttributeSelected,
+}) {
    const { outerColour, innerColour, barColour } = statColours[index]
 
    return (
       <button
          onClick={onSelect}
-         className={jamStatStyles.container}
+         className={cardAttributeStyles.container}
          style={{ opacity: isAnyAttributeSelected && !selected ? 0.25 : 1 }}
       >
          <div
@@ -43,22 +51,22 @@ export function JamStat({ stat, value, icon, index, onSelect, selected, isAnyAtt
                border: `6px solid ${outerColour}`,
                background: `linear-gradient(180deg, ${outerColour} 0%, ${innerColour} 100%)`,
             }}
-            className={jamStatStyles.icon}
+            className={cardAttributeStyles.icon}
          ></div>
-         <div className={jamStatStyles.bar}>
+         <div className={cardAttributeStyles.bar}>
             <div
                style={{
                   border: `6px solid ${outerColour}`,
                   background: `linear-gradient(180deg, ${outerColour} 0%, ${innerColour} 100%)`,
                }}
-               className={jamStatStyles.outerBar}
+               className={cardAttributeStyles.outerBar}
             >
                <div
                   style={{
                      width: `${value}0%`,
                      background: `linear-gradient(180deg, #FFFFFF 0%, ${barColour} 100%)`,
                   }}
-                  className={jamStatStyles.innerBar}
+                  className={cardAttributeStyles.innerBar}
                />
             </div>
          </div>
@@ -66,7 +74,7 @@ export function JamStat({ stat, value, icon, index, onSelect, selected, isAnyAtt
             style={{
                "text-shadow": `4px 0 0 ${outerColour}, -4px 0 0 ${outerColour}, 0 4px 0 ${outerColour}, 0 -4px 0 ${outerColour}, 2px 2px ${outerColour}, -2px -2px 0 ${outerColour}, 2px -2px 0 ${outerColour}, -2px 2px 0 ${outerColour}`,
             }}
-            className={jamStatStyles.number}
+            className={cardAttributeStyles.number}
          >
             {value}
          </div>
