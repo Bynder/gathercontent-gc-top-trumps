@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from "react"
-import { graphql } from "gatsby"
-import { chunk, map, orderBy, shuffle } from "lodash"
-import { UserTurn } from "../../UI/UserTurn"
-import { Result } from "../../UI/Result"
+import React, {useEffect, useState} from "react"
+import {graphql} from "gatsby"
+import {chunk, map, orderBy, shuffle} from "lodash"
+import {UserTurn} from "../../UI/UserTurn"
+import {Result} from "../../UI/Result"
+import {ComputersTurn} from "../../UI/ComputersTurn";
 
 export const PLAYER_USER = "PLAYER_USER"
 export const PLAYER_COMPUTER = "PLAYER_COMPUTER"
 
-export default function Game({ data, location }) {
+export default function Game({data, location}) {
    // const [cards] = useState(
    //    data.cards.edges.map(card => ({
    //       ...card.node,
@@ -77,6 +78,18 @@ export default function Game({ data, location }) {
       },
    ]
 
+   const names = [
+      'Barack O - Jar - Ma',
+      'Jamantha Fox',
+      'Halle Berry',
+      'Silence of the Jams',
+      'David Jameron',
+      'Spready Murphy',
+      'Lidney Poitier',
+      'Jam Humphries',
+   ]
+
+   const [computerName, setComputerName] = useState(null)
    const [gameWinner, setGameWinner] = useState(null)
    const [roundWinner, setRoundWinner] = useState(null)
    const [turnCount, setTurnCount] = useState(0)
@@ -93,6 +106,8 @@ export default function Game({ data, location }) {
    const incrementTurnCount = () => setTurnCount(turnCount + 1)
 
    const startGame = () => {
+
+      setComputerName(shuffle(names)[0])
       const shuffledCards = shuffle(cards)
       const splitCards = chunk(shuffledCards, shuffledCards.length / 2)
 
@@ -111,9 +126,9 @@ export default function Game({ data, location }) {
    }
 
    const computersTurn = () => {
-      const { name, cardDescription, ...attributes } = computersTurnCard
+      const {name, cardDescription, ...attributes} = computersTurnCard
 
-      const attributesArray = map(attributes, (value, key) => ({ key: key, value: value }))
+      const attributesArray = map(attributes, (value, key) => ({key: key, value: value}))
       const orderedAttributes = orderBy(attributesArray, ["value"], ["desc"])
       setTimeout(() => slamJams(orderedAttributes[0].key), 1500)
    }
@@ -177,14 +192,18 @@ export default function Game({ data, location }) {
 
    return (
       <div>
-         <div>{location?.state?.name ?? "no name"}</div>
 
          {isUsersTurn && !roundWinner && (
-            <UserTurn usersTurnCard={usersTurnCard} slamJams={slamJams}></UserTurn>
+            <UserTurn card={usersTurnCard} slamJams={slamJams}></UserTurn>
          )}
-         {!isUsersTurn && !roundWinner && "COMPUTERS TURN"}
+
+         {!isUsersTurn && !roundWinner && (
+            <ComputersTurn name={computerName} card={computersTurnCard}></ComputersTurn>
+         )}
+
          {roundWinner && (
             <Result
+               computerName={computerName}
                usersTurnCard={usersTurnCard}
                computersTurnCard={computersTurnCard}
                winner={roundWinner}

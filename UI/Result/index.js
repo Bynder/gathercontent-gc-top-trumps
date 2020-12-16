@@ -5,6 +5,7 @@ import {PLAYER_USER} from "../../src/pages/game";
 
 
 export function Result({
+                          computerName,
                           usersTurnCard,
                           computersTurnCard,
                           selectedAttribute,
@@ -27,7 +28,7 @@ export function Result({
             selectedAttribute={selectedAttribute}
             winner={playerWon}
          />
-         <h1>Computer</h1>
+         <h1>{computerName}</h1>
 
          <ResultCard
             name={computersTurnCard.name}
