@@ -1,6 +1,8 @@
 import React, {useState} from "react"
 import {Card} from "../Card"
 import {GetAttributesFromCard} from "../../src/utils/helpers"
+import {ChooseYourJamStat} from "../ChooseYourJamStat";
+import {Button} from "../Button";
 
 export function UserTurn({card: {name, cardDescription}, card, slamJams}) {
    const [selectedAttribute, setSelectedAttribute] = useState(null)
@@ -8,7 +10,7 @@ export function UserTurn({card: {name, cardDescription}, card, slamJams}) {
    return (
       <div>
 
-         <h1>Choose your Jam stat</h1>
+         <ChooseYourJamStat />
 
          <Card>
             <Card.Image name={name}/>
@@ -21,7 +23,7 @@ export function UserTurn({card: {name, cardDescription}, card, slamJams}) {
          </Card>
 
          {selectedAttribute && (
-            <button onClick={() => slamJams(selectedAttribute)}>Slam It!</button>)}
+            <Button text='Slam It!' onClick={() => slamJams(selectedAttribute)} />)}
       </div>
    )
 }

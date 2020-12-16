@@ -7,6 +7,6 @@ export default {
    component: WaitingCard,
 };
 
-const Template = (args) => <div><WaitingCard  /></div>;
+const Template = (args) => <div><WaitingCard label='Waiting'  /></div>;
 export const Primary = Template.bind({});
 Primary.args = {};

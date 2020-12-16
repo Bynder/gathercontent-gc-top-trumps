@@ -6,7 +6,7 @@ export function ComputersTurn({name}) {
    return (
       <div>
          <h1>{name}</h1>
-         <WaitingCard  />
+         <WaitingCard label='Choosing Jam Stat'  />
       </div>
    )
 }
