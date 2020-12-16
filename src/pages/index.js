@@ -1,6 +1,5 @@
 import { graphql, Link } from "gatsby"
 import React from "react"
-import {Home} from "../../UI/Home"
 
 export const pageQuery = graphql`
    query pageQuery {
@@ -30,4 +29,6 @@ export const pageQuery = graphql`
    }
 `
 
-export default Home
+export default function About() {
+   return <Link to={"/intro"}>Intro</Link>
+}
