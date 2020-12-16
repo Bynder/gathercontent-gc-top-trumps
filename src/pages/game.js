@@ -1,84 +1,41 @@
-import React, { useEffect, useState } from "react"
-import { graphql } from "gatsby"
-import { chunk, map, orderBy, shuffle } from "lodash"
-import { UserTurn } from "../../UI/UserTurn"
-import { Result } from "../../UI/Result"
+import React, {useEffect, useState} from "react"
+import {graphql} from "gatsby"
+import {chunk, map, orderBy, shuffle} from "lodash"
+import {UserTurn} from "../../UI/UserTurn"
+import {Result} from "../../UI/Result"
+import {ComputersTurn} from "../../UI/ComputersTurn";
+import { ScoreAside } from "../../UI/ScoreAside"
 import Audio from '../components/Audio'
 import InfoIcon from '../components/InfoIcon'
 
 export const PLAYER_USER = "PLAYER_USER"
 export const PLAYER_COMPUTER = "PLAYER_COMPUTER"
 
-export default function Game({ data, location }) {
-   // const [cards] = useState(
-   //    data.cards.edges.map(card => ({
-   //       ...card.node,
-   //       rarity: parseInt(card.node.rarity[0]?.label),
-   //       spreadability: parseInt(card.node.spreadability[0]?.label),
-   //       versatility: parseInt(card.node.versatility[0]?.label),
-   //       trendiness: parseInt(card.node.trendiness[0]?.label),
-   //       tastiness: parseInt(card.node.tastiness[0]?.label),
-   //    }))
-   // )
+export default function Game({data, location}) {
+   const [cards] = useState(
+      data.cards.edges.map(card => ({
+         ...card.node,
+         rarity: parseInt(card.node.rarity[0]?.label),
+         spreadability: parseInt(card.node.spreadability[0]?.label),
+         versatility: parseInt(card.node.versatility[0]?.label),
+         trendiness: parseInt(card.node.trendiness[0]?.label),
+         tastiness: parseInt(card.node.tastiness[0]?.label),
+      }))
+   )
 
-   const cards = [
-      {
-         name: "Ume Plum Jam\n",
-         cardDescription:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris in faucibus dolor, ac viverra libero. Fusce bibendum diam felis, ut condimentum nulla rutrum vitae. \n\n\n",
-         rarity: 5,
-         spreadability: 7,
-         tastiness: 1,
-         versatility: 6,
-         trendiness: 4,
-      },
-      {
-         name: "Crap Card",
-         cardDescription: "\n",
-         rarity: 1,
-         spreadability: 1,
-         tastiness: 1,
-         versatility: 1,
-         trendiness: 1,
-      },
-      {
-         name: "God CARD",
-         cardDescription: "\n",
-         rarity: 10,
-         spreadability: 10,
-         tastiness: 10,
-         versatility: 10,
-         trendiness: 10,
-      },
-      {
-         name: "Mediocre Card",
-         cardDescription: "\n",
-         rarity: 1,
-         spreadability: 2,
-         tastiness: 3,
-         versatility: 4,
-         trendiness: 5,
-      },
-      {
-         name: "Another Card",
-         cardDescription: "\n",
-         rarity: 2,
-         spreadability: 5,
-         tastiness: 3,
-         versatility: 5,
-         trendiness: 6,
-      },
-      {
-         name: "Extra Card",
-         cardDescription: "\n",
-         rarity: 1,
-         spreadability: 6,
-         tastiness: 5,
-         versatility: 3,
-         trendiness: 1,
-      },
+
+   const names = [
+      'Barack O - Jar - Ma',
+      'Jamantha Fox',
+      'Halle Berry',
+      'Silence of the Jams',
+      'David Jameron',
+      'Spready Murphy',
+      'Lidney Poitier',
+      'Jam Humphries',
    ]
 
+   const [computerName, setComputerName] = useState(null)
    const [gameWinner, setGameWinner] = useState(null)
    const [roundWinner, setRoundWinner] = useState(null)
    const [turnCount, setTurnCount] = useState(0)
@@ -92,9 +49,13 @@ export default function Game({ data, location }) {
    const [usersTurnCard, setUsersTurnCard] = useState([])
    const [computersTurnCard, setComputersTurnCard] = useState([])
 
+   const [roundsWon, setRoundsWon] = useState(0)
+
    const incrementTurnCount = () => setTurnCount(turnCount + 1)
 
    const startGame = () => {
+
+      setComputerName(shuffle(names)[0])
       const shuffledCards = shuffle(cards)
       const splitCards = chunk(shuffledCards, shuffledCards.length / 2)
 
@@ -113,9 +74,9 @@ export default function Game({ data, location }) {
    }
 
    const computersTurn = () => {
-      const { name, cardDescription, ...attributes } = computersTurnCard
+      const {name, cardDescription, ...attributes} = computersTurnCard
 
-      const attributesArray = map(attributes, (value, key) => ({ key: key, value: value }))
+      const attributesArray = map(attributes, (value, key) => ({key: key, value: value}))
       const orderedAttributes = orderBy(attributesArray, ["value"], ["desc"])
       setTimeout(() => slamJams(orderedAttributes[0].key), 1500)
    }
@@ -144,6 +105,7 @@ export default function Game({ data, location }) {
          setUsersCards([...usersCards, usersTurnCard, computersTurnCard])
          setIsUsersTurn(true)
          setRoundWinner(PLAYER_USER)
+         setRoundsWon(roundsWon + 1)
          return
       }
       console.log(
@@ -177,56 +139,62 @@ export default function Game({ data, location }) {
       startGame()
    }, [])
 
-   console.log(usersTurnCard);
+   console.log(usersTurnCard)
 
    return (
-      <InfoIcon>
-         <Audio>
-            <div>{location?.state?.name ?? "no name"}</div>
+      <Audio>
 
-            {isUsersTurn && !roundWinner && (
-               <UserTurn usersTurnCard={usersTurnCard} slamJams={slamJams}></UserTurn>
-            )}
-            {!isUsersTurn && !roundWinner && "COMPUTERS TURN"}
-            {roundWinner && (
-               <Result
-                  usersTurnCard={usersTurnCard}
-                  computersTurnCard={computersTurnCard}
-                  winner={roundWinner}
-                  selectedAttribute={selectedAttribute}
-                  incrementTurnCount={incrementTurnCount}
-                  slamJams={slamJams}
-               ></Result>
-            )}
-         </Audio>
-      </InfoIcon>
+         <ScoreAside cardsLeft={usersCards.length} turnNumber={turnCount} wins={roundsWon} />
+
+         {isUsersTurn && !roundWinner && (
+            <UserTurn card={usersTurnCard} slamJams={slamJams}></UserTurn>
+         )}
+
+         {!isUsersTurn && !roundWinner && (
+            <ComputersTurn name={computerName} card={computersTurnCard}></ComputersTurn>
+         )}
+
+         {roundWinner && (
+            <Result
+               computerName={computerName}
+               usersTurnCard={usersTurnCard}
+               computersTurnCard={computersTurnCard}
+               winner={roundWinner}
+               selectedAttribute={selectedAttribute}
+               incrementTurnCount={incrementTurnCount}
+               slamJams={slamJams}
+            ></Result>
+         )}
+      </Audio>
    )
 }
 
+
 export const pageQuery = graphql`
-   query pageQuery {
-      cards: allGatherContentCard {
-         edges {
-            node {
-               name
-               cardDescription
-               rarity {
-                  label
-               }
-               spreadability {
-                  label
-               }
-               tastiness {
-                  label
-               }
-               versatility {
-                  label
-               }
-               trendiness {
-                  label
-               }
-            }
-         }
+query MyQuery {
+  allGatherContentItemsByFolderPlayingcards {
+    edges {
+      node {
+        id
+        cardDescription
+        rarity {
+          label
+        }
+        spreadability {
+          label
+        }
+        tastiness {
+          label
+        }
+        trendiness {
+          label
+        }
+        versatility {
+          label
+        }
+        name
       }
-   }
+    }
+  }
+}
 `
