@@ -81,7 +81,7 @@ function Home({data}) {
 
    const [page, setPage] = useState(START_PAGE)
 
-   const [name, setName] = useState(null)
+   const [name, setName] = useState('')
 
    const [winner, setWinner] = useState(null)
    const [turnCount, setTurnCount] = useState(0)
