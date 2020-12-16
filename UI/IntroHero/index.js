@@ -22,6 +22,9 @@ export function IntroHero() {
          <p className={introStyles.text}>All you need to do is enter a name. Easy!</p>
          <input
             onChange={event => setName(event.target.value)}
+            onKeyPress={(event) => { if (event.nativeEvent.key === "Enter") {
+               navigate("/game", {state: { name }});
+            }}}
             value={name}
             type="text"
             placeholder="ENTER A NAME"
