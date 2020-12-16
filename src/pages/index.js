@@ -1,6 +1,11 @@
-import { graphql, Link } from "gatsby"
 import React from "react"
+import { IntroHero } from "../../UI/IntroHero"
+import introStyles from "../../UI/IntroHero/introHero.module.css"
 
-export default function About() {
-   return <Link to={"/intro"}>Intro</Link>
+export default function Intro() {
+   return (
+      <div className={introStyles.container}>
+         <IntroHero />
+      </div>
+   )
 }
