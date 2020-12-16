@@ -4,3 +4,7 @@
    font-family: 'Dosis', sans-serif;
    box-sizing: border-box;
 }
+
+body {
+   background: linear-gradient(180deg, #E6F1FF 0%, #CCE2FF 100%);
+}
