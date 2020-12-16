@@ -168,30 +168,32 @@ export default function Game({data, location}) {
    )
 }
 
+
 export const pageQuery = graphql`
-   query pageQuery {
-      cards: allGatherContentCard {
-         edges {
-            node {
-               name
-               cardDescription
-               rarity {
-                  label
-               }
-               spreadability {
-                  label
-               }
-               tastiness {
-                  label
-               }
-               versatility {
-                  label
-               }
-               trendiness {
-                  label
-               }
-            }
-         }
+query MyQuery {
+  allGatherContentItemsByFolderPlayingcards {
+    edges {
+      node {
+        id
+        cardDescription
+        rarity {
+          label
+        }
+        spreadability {
+          label
+        }
+        tastiness {
+          label
+        }
+        trendiness {
+          label
+        }
+        versatility {
+          label
+        }
+        name
       }
-   }
+    }
+  }
+}
 `
