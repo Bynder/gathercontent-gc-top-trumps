@@ -5,14 +5,14 @@ import {ChooseYourJamStat} from "../ChooseYourJamStat";
 import { Card } from "../Card"
 import { Button } from "../Button"
 
-export function UserTurn({card: {name, cardDescription}, card, takeTurn}) {
+export function UserTurn({card: {name, cardDescription, mugshot, mugshotAltText}, card, takeTurn}) {
    const [selectedAttribute, setSelectedAttribute] = useState(null)
 
    return (
       <div>
          <ChooseYourJamStat />
          <Card>
-            <Card.Image name={name}/>
+            <Card.Image name={name} mugShotUrl={mugshot} altText={mugshotAltText}/>
             <Card.Description description={cardDescription}/>
             <Card.AttributeList
                attributes={GetAttributesFromCard(card)}

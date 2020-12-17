@@ -5,7 +5,6 @@ import {UserTurn} from "../../UI/UserTurn"
 import {Result} from "../../UI/Result"
 import {ComputersTurn} from "../../UI/ComputersTurn";
 import {ScoreAside} from "../../UI/ScoreAside"
-import Audio from '../components/Audio'
 import {WaitingCard} from "../../UI/WaitingCard";
 import resultStyles from "../../UI/Result/result.module.css";
 
@@ -34,6 +33,7 @@ export default function Game({data}) {
 
    const cards = data.cards.edges.map(card => ({
          ...card.node,
+         mugshot: card.node.mugshot[0]?.optimised_image_url,
          rarity: parseInt(card.node.rarity[0]?.label),
          spreadability: parseInt(card.node.spreadability[0]?.label),
          versatility: parseInt(card.node.versatility[0]?.label),
@@ -65,7 +65,13 @@ export default function Game({data}) {
 
    const computersTurn = (cards = {}) => {
 
-      const {name, cardDescription, ...attributes} = allState.computersCards[0]
+      const {
+         name,
+         cardDescription,
+         mugshot,
+         mugshotAltText,
+         ...attributes
+      } = allState.computersCards[0]
       const attributesArray = map(attributes, (value, key) => ({key: key, value: value}))
       const orderedAttributes = orderBy(attributesArray, ["value"], ["desc"])
 
@@ -160,7 +166,7 @@ export default function Game({data}) {
    }, [allState.turnCount])
 
    return (
-      <Audio>
+      <>
 
          <ScoreAside cardsLeft={allState.usersCards.length} turnNumber={allState.turnCount}
                      wins={allState.roundsWon}/>
@@ -196,34 +202,43 @@ export default function Game({data}) {
                slamJams={slamJams}
             ></Result>
          )}
-      </Audio>
+      </>
    )
 }
 
 export const pageQuery = graphql`
-   query pageQuery {
-      cards: allGatherContentCard {
-         edges {
-            node {
-               name
-               cardDescription
-               rarity {
-                  label
-               }
-               spreadability {
-                  label
-               }
-               tastiness {
-                  label
-               }
-               versatility {
-                  label
-               }
-               trendiness {
-                  label
-               }
-            }
-         }
+query cardsQuery {
+  cards: allGatherContentItemsByFolderPlayingcards {
+    edges {
+      node {
+        id
+        cardDescription
+        rarity {
+          label
+        }
+        mugshot {
+          optimised_image_url
+        }
+        mugshotAltText
+        spreadability {
+          label
+        }
+        tastiness {
+          label
+        }
+        trendiness {
+          label
+        }
+        versatility {
+          label
+        }
+        name
+        mugshotAltText
+        mugshot {
+          optimised_image_url
+        }
       }
-   }
+    }
+  }
+}
 `

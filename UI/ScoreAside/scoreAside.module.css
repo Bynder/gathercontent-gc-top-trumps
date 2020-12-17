@@ -100,21 +100,17 @@
    color: #678098;
    left: 66px;
    top: 8px;
-   /*filter: drop-shadow(0 0 0);*/
-   /*box-shadow:none;*/
 }
 
-.aside .tooltip {
-   position: absolute;
+.tooltip {
+   opacity: 1 !important;
    text-transform: uppercase;
    background: #29333D;
-   border-radius: 12px;
-   padding: 10px 12px;
-   font-weight: 800;
-   font-size: 18px;
+   border-radius: 12px !important;
+   padding: 15px 12px !important;
+   font-weight: 800 !important;
+   font-size: 18px !important;
    color: #ffffff;
-   left: 135px;
-   top: 0;
 }
 
 
