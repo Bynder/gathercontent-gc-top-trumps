@@ -1,5 +1,7 @@
 import React, {useEffect, useState} from "react"
 import {graphql} from "gatsby"
+import { useSpring } from "react-spring"
+import { Button } from "../../UI/Button"
 import {chunk, map, orderBy, shuffle} from "lodash"
 import {UserTurn} from "../../UI/UserTurn"
 import {Result} from "../../UI/Result"
@@ -20,6 +22,8 @@ export const GAME_STATE_COMPUTER_TURN = "COMPUTER_TURN"
 export const GAME_STATE_RESULTS = "STATE_RESULTS"
 
 export default function Game({data}) {
+   const [userProps, userSet] = useSpring(() => ({ opacity: 1 }))
+   const [waitingProps, waitingSet] = useSpring(() => ({ opacity: 0, display: "none" }))
 
    const names = [
       'Barack O - Jar - Ma',
@@ -61,16 +65,21 @@ export default function Game({data}) {
    const incrementTurnCount = () => setAllState({...allState, turnCount: allState.turnCount + 1})
 
    const usersTurn = (cards = {}) => {
+      waitingSet({ opacity: 0, display: "none" })
+      userSet({ opacity: 1, display: "block" })
       setAllState({...allState, ...cards, gameState: GAME_STATE_YOUR_TURN})
    }
 
    const computersTurn = (cards = {}) => {
+      userSet({ opacity: 0, display: "none" })
+      waitingSet({ opacity: 1, display: "block" })
 
       const {
          name,
          cardDescription,
          mugshot,
          mugshotAltText,
+         id,
          ...attributes
       } = allState.computersCards[0]
       const attributesArray = map(attributes, (value, key) => ({key: key, value: value}))
@@ -82,6 +91,8 @@ export default function Game({data}) {
    }
 
    const takeTurn = attribute => {
+      waitingSet({ opacity: 1, display: "block" })
+      setTimeout(() => slamJams(attribute), 700);	      userSet({ opacity: 0, display: "none" })
       setAllState({...allState, gameState: GAME_STATE_WAITING_FOR_COMPUTER})
       setTimeout(() => slamJams(attribute), 700);
    }
@@ -113,6 +124,8 @@ export default function Game({data}) {
    }
 
    const slamJams = attribute => {
+      waitingSet({ opacity: 1, display: "block" })
+      userSet({ opacity: 1, display: "block" })
 
       const [usersCard, ...usersRemaining] = allState.usersCards;
       const [computersCard, ...computersRemaining] = allState.computersCards;
@@ -169,41 +182,56 @@ export default function Game({data}) {
 
    return (
       <InfoIcon>
-
-         <ScoreAside cardsLeft={allState.usersCards.length} turnNumber={allState.turnCount}
-                     wins={allState.roundsWon}/>
-
-         {allState.gameState === GAME_STATE_YOUR_TURN && (
-            <div>
-               <UserTurn card={allState.usersCards[0]} takeTurn={takeTurn}></UserTurn>
+         <ScoreAside
+            cardsLeft={allState.usersCards.length}
+            turnNumber={allState.turnCount}
+            wins={allState.roundsWon}
+         />
+         <div className={resultStyles.resultContainer}>
+            <div className={resultStyles.result}>
+               <UserTurn
+                  animationStyle={userProps}
+                  card={allState.usersCards[0]}
+                  takeTurn={takeTurn}
+                  playerWon={
+                     allState.gameState === GAME_STATE_RESULTS &&
+                     allState.roundWinner === PLAYER_USER
+                  }
+                  showButton={allState.gameState !== GAME_STATE_RESULTS}
+                  selectedAttribute={allState.selectedAttribute}
+                  setSelectedAttribute={attr =>
+                     setAllState({ ...allState, selectedAttribute: attr })
+                  }
+               />
             </div>
-         )}
-
-         {allState.gameState === GAME_STATE_WAITING_FOR_COMPUTER && (
-            <div className={resultStyles.resultContainer}>
-               <div className={resultStyles.result}>
-                  <UserTurn card={allState.usersCards[0]} takeTurn={takeTurn}></UserTurn>
-               </div>
-               <WaitingCard label="Waiting"/>
+            <div className={resultStyles.result}>
+               <ComputersTurn
+                  animationStyle={waitingProps}
+                  name={allState.computerName}
+                  isLoading={allState.gameState !== GAME_STATE_RESULTS}
+                  loadingLabel={
+                     allState.gameState === GAME_STATE_WAITING_FOR_COMPUTER
+                        ? "Waiting"
+                        : "Choosing Jam Stat"
+                  }
+                  playerWon={allState.roundWinner === PLAYER_USER}
+                  computersTurnCard={allState.computersCards[0]}
+                  selectedAttribute={allState.selectedAttribute}
+               />
             </div>
-         )}
-
-         {allState.gameState === GAME_STATE_COMPUTER_TURN && (
-            <ComputersTurn name={allState.computerName}
-                           card={allState.computersCards[0]}></ComputersTurn>
-         )}
-
-         {allState.gameState === GAME_STATE_RESULTS && (
-            <Result
-               computerName={allState.computerName}
-               usersTurnCard={allState.usersCards[0]}
-               computersTurnCard={allState.computersCards[0]}
-               winner={allState.roundWinner}
-               selectedAttribute={allState.selectedAttribute}
-               incrementTurnCount={incrementTurnCount}
-               slamJams={slamJams}
-            ></Result>
-         )}
+            {allState.gameState === GAME_STATE_RESULTS && (
+               <>
+                  <Button
+                     text="Next Round"
+                     className={resultStyles.button}
+                     onClick={() => incrementTurnCount()}
+                  >
+                     Next Round
+                  </Button>
+                  <div>{allState.roundWinner === PLAYER_USER ? "YOU WON!!" : "YOU LOST!!"}</div>
+               </>
+            )}
+         </div>
       </InfoIcon>
    )
 }
