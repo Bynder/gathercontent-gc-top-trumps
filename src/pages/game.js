@@ -125,6 +125,8 @@ export default function Game({ data }) {
          }
       }
 
+
+
       return {
          usersCards: [...allState.usersCards.splice(1), allState.usersCards[0]],
          computersCards: [...allState.computersCards.splice(1), allState.computersCards[0]],
