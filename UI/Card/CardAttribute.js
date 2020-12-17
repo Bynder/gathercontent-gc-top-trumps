@@ -67,7 +67,7 @@ export function CardAttribute({
                }}
                className={cardAttributeStyles.icon}
             >
-               <Icon />
+               <Icon className={cardAttributeStyles.iconDropShadow}/>
             </div>
             <div className={cardAttributeStyles.bar}>
                <div
