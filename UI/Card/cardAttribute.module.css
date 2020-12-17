@@ -7,6 +7,7 @@
    align-items: center;
    cursor: pointer;
 }
+
 .icon {
    width: 58px;
    height: 58px;
@@ -65,4 +66,89 @@
 
 .attribute {
    position: relative
+}
+
+.att {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   width: 50px;
+   height: 50px;
+   border-radius: 100%;
+   box-sizing: content-box;
+   filter: drop-shadow(0px 3px 0px rgba(41, 51, 61, 0.2));
+}
+
+.frame1 {
+   display: flex;
+   width: 48px;
+   height: 48px;
+   box-sizing: content-box;
+   border-radius: 100px;
+   filter: none;
+   align-items: center;
+   justify-content: center;
+}
+
+.frame3 {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   padding: 8px;
+   width: 48px;
+   height: 48px;
+   box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
+   border-radius: 100%;
+}
+
+@value blueInner: #006EFF;
+@value blueOuter: #0058CC;
+@value yellowInner: #F9D006;
+@value yellowOuter: #C7A705;
+@value greenInner: #39C639;
+@value greenOuter: #2E9E2E;
+@value purpleInner: #6E19E6;
+@value purpleOuter: #5814B8;
+@value redInner: #B81422;
+@value redOuter: #E51A2B;
+
+.blueGrad {
+   background: linear-gradient(180deg, blueInner 0%, blueOuter 100%);
+}
+
+.yellowGrad {
+   background: linear-gradient(180deg, yellowInner 0%, yellowOuter 100%);
+}
+
+.greenGrad {
+   background: linear-gradient(180deg, greenInner 0%, greenOuter 100%);
+}
+
+.purpleGrad {
+   background: linear-gradient(180deg, purpleInner 0%, purpleOuter 100%);
+}
+
+.redGrad {
+   background: linear-gradient(180deg, redInner 0%, redOuter 100%);
+}
+
+.att.blueGrad {
+   border: 4px solid blueInner;
+}
+
+.att.yellowGrad {
+   border: 4px solid yellowInner;
+}
+
+.att.greenGrad {
+   border: 4px solid greenInner;
+}
+
+.att.purpleGrad {
+   border: 4px solid purpleInner;
+}
+
+.att.redGrad {
+   border: 4px solid redInner;
 }
