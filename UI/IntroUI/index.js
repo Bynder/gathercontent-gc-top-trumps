@@ -3,12 +3,12 @@ import introStyles from "./intro.module.css"
 import { Button } from '../Button';
 import {navigate} from "gatsby";
 
-export function IntroUI({introHeader, introContent}) {
+export function IntroUI({introContent}) {
 
    return (
       <div className={introStyles.container}>
+         <span className={introStyles.logo} />
          <div className={introStyles.intro}>
-            <div className={introStyles.header} dangerouslySetInnerHTML={{__html: introHeader}}/>
             <div className={introStyles.text} dangerouslySetInnerHTML={{__html: introContent}}/>
          </div>
          <div className={introStyles.buttonContainer}>

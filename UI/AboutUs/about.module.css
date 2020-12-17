@@ -46,3 +46,16 @@ a {
    justify-content: center;
    width: 100%;
 }
+
+.logoAbout {
+   position: relative;
+   background-image: url("/Logo.svg");
+   width: 360px;
+   height: 175px;
+   top:30px;
+   background-size: contain;
+   display: flex;
+   justify-content: center;
+   align-self: center;
+   z-index: 100;
+}
