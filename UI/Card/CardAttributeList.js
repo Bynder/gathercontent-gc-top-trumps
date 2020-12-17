@@ -14,6 +14,7 @@ export function CardAttributeList({attributes, onSelectAttribute = () => "", sel
             offset={{'left': 0}}
             clickable={true}
             arrowColor={"transparent"}
+            id="cardAttributeToolTip"
          />
          {attributes.map((attr, index) => (
             <CardAttribute
@@ -24,6 +25,7 @@ export function CardAttributeList({attributes, onSelectAttribute = () => "", sel
                selected={selectedAttribute === attr.description}
                isAnyAttributeSelected={!!selectedAttribute}
                hasPlayerWon={hasPlayerWon}
+               key={attr.description}
             />
          ))}
       </ul>
