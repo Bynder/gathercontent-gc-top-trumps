@@ -1,14 +1,23 @@
+@value medium from '../settings/breakpoints.module.css';
+
 .aside {
-   position: absolute;
-   left: 0;
-   top: calc(50% - 166px);
+   margin: 20px 0;
    background: #FFFFFF;
-   width: 174px;
-   border-radius: 0 32px 32px 0;
+   border-radius: 32px;
    border: 8px solid #E6F1FF;
-   border-left: 0;
    box-shadow: 0 0 24px rgba(0, 0, 0, 0.05);
    font-family: 'Dosis', sans-serif;
+}
+
+@media (medium) {
+   .aside {
+      position: absolute;
+      top: calc(50% - 166px);
+      left: 0;
+      width: 174px;
+      border-radius: 0 32px 32px 0;
+      border-left: 0;
+   }
 }
 
 .aside ul {
