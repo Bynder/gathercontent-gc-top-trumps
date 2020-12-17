@@ -1,18 +1,31 @@
 import React from "react"
-import { IntroHero } from "../../UI/IntroHero"
 import introStyles from "../../UI/IntroHero/introHero.module.css"
-import InfoIcon from '../components/InfoIcon'
-import { navigate } from 'gatsby';
+import {graphql} from 'gatsby';
+import InfoIcon from "../components/InfoIcon";
+import {IntroUI} from "../../UI/IntroUI";
 
-export default function Intro() {
+export default function Intro({data}) {
+
+   console.log(data);
+   const introHeader = data.allGatherContentItemsByFolderWelcomeandintro.nodes[0].header;
+   const introContent = data.allGatherContentItemsByFolderWelcomeandintro.nodes[0].introAndExplainer;
+
    return (
       <InfoIcon>
          <div className={introStyles.container}>
-            <IntroHero onSubmit={(e, state) => {
-               e.preventDefault()
-               navigate("/game", { state });
-            }} />
+            <IntroUI introHeader={introHeader} introContent={introContent} />
          </div>
       </InfoIcon>
    )
 }
+
+export const pageQuery = graphql`
+query introQuery {
+  allGatherContentItemsByFolderWelcomeandintro {
+    nodes {
+      header
+      introAndExplainer
+    }
+  }
+}
+`
