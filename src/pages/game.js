@@ -87,30 +87,37 @@ export default function Game({data}) {
 
    const drawCard = () => {
 
+      const [usersCard, ...usersRemaining] = allState.usersCards;
+      const [computersCard, ...computersRemaining] = allState.usersCards;
+
+
       if (allState.roundWinner === PLAYER_USER) {
          return {
             computersCards: allState.computersCards.splice(1),
-            usersCards: [...allState.usersCards.splice(1), allState.usersCards[0], allState.computersCards[0]],
+            usersCards: [...allState.usersCards.splice(1), usersCard, computersCard],
          }
       }
 
       if (allState.roundWinner === PLAYER_COMPUTER) {
          return {
             usersCards: allState.usersCards.splice(1),
-            computersCards: [...allState.computersCards.splice(1), allState.computersCards[0], allState.usersCards[0]],
+            computersCards: [...allState.computersCards.splice(1), computersCard, usersCard],
          }
       }
 
       return {
-         usersCards: [...allState.usersCards.splice(1), allState.usersCards[0]],
-         computersCards: [...allState.computersCards.splice(1), allState.computersCards[0]]
+         usersCards: [...allState.usersCards.splice(1), usersCard],
+         computersCards: [...allState.computersCards.splice(1), computersCard]
       }
    }
 
    const slamJams = attribute => {
 
-      const hasUserWon = allState.usersCards[0][attribute] > allState.computersCards[0][attribute]
-      const isDraw = allState.usersCards[0][attribute] === allState.computersCards[0][attribute]
+      const [usersCard, ...usersRemaining] = allState.usersCards;
+      const [computersCard, ...computersRemaining] = allState.computersCards;
+
+      const hasUserWon = usersCard[attribute] > computersCard[attribute]
+      const isDraw = usersCard[attribute] === computersCard[attribute]
 
       if (isDraw) {
 
@@ -155,13 +162,7 @@ export default function Game({data}) {
          return
       }
 
-      const cards = drawCard()
-
-      if (allState.roundWinner === null) {
-         return usersTurn(cards);
-      }
-
-      allState.roundWinner === PLAYER_USER || allState.roundWinner === DRAW_PLAYER ? usersTurn(cards) : computersTurn(cards);
+      [null, PLAYER_USER, DRAW_PLAYER].includes(allState.roundWinner) ? usersTurn(drawCard()) : computersTurn(drawCard())
 
    }, [allState.turnCount])
 

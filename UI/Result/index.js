@@ -16,29 +16,28 @@ export function Result({
 
    const playerWon = winner === PLAYER_USER
 
-   const message = () => {
-      if (winner === PLAYER_USER) {
-         return 'Round Won!!'
-      }
-      if (winner === PLAYER_COMPUTER) {
-         return 'Round Lost!!'
-      }
+   let message = 'Draw';
 
-      return 'Draw';
+   if (winner === PLAYER_USER) {
+      message = 'Round Won!!';
    }
+   if (winner === PLAYER_COMPUTER) {
+      message = 'Round Lost!!';
+   }
+
 
    return (
       <div>
          <div className={resultStyles.resultContainer}>
             <div className={resultStyles.result}>
                <h1>You</h1>
-               <Card hasPlayerWon={playerWon}>
+               <Card hasPlayerWon={winner === PLAYER_USER}>
                   <Card.Image name={usersTurnCard.name}/>
                   <Card.Description description={usersTurnCard.cardDescription}/>
                   <Card.AttributeList
                      attributes={GetAttributesFromCard(usersTurnCard)}
                      selectedAttribute={selectedAttribute}
-                     hasPlayerWon={playerWon}
+                     hasPlayerWon={winner === PLAYER_USER}
                   />
                </Card>
             </div>
@@ -46,13 +45,13 @@ export function Result({
             <div className={resultStyles.result}>
                <h1>{computerName}</h1>
 
-               <Card hasPlayerWon={!playerWon}>
+               <Card hasPlayerWon={winner === PLAYER_COMPUTER}>
                   <Card.Image name={computersTurnCard.name}/>
                   <Card.Description description={computersTurnCard.cardDescription}/>
                   <Card.AttributeList
                      attributes={GetAttributesFromCard(computersTurnCard)}
                      selectedAttribute={selectedAttribute}
-                     hasPlayerWon={!playerWon}
+                     hasPlayerWon={winner === PLAYER_COMPUTER}
                   />
                </Card>
             </div>
@@ -64,7 +63,7 @@ export function Result({
                Next Round
             </Button>
          </div>
-         <div>{message()}</div>
+         <div>{message}</div>
       </div>
    )
 }
