@@ -20,8 +20,7 @@ export default function Game({data, location}) {
          trendiness: parseInt(card.node.trendiness[0]?.label),
          tastiness: parseInt(card.node.tastiness[0]?.label),
       }))
-   )
-
+   );
 
    const names = [
       'Barack O - Jar - Ma',
@@ -170,8 +169,8 @@ export default function Game({data, location}) {
 
 
 export const pageQuery = graphql`
-query MyQuery {
-  allGatherContentItemsByFolderPlayingcards {
+query cardsQuery {
+  cards: allGatherContentItemsByFolderPlayingcards {
     edges {
       node {
         id
@@ -192,6 +191,10 @@ query MyQuery {
           label
         }
         name
+        mugshotAltText
+        mugshot {
+          optimised_image_url
+        }
       }
     }
   }
