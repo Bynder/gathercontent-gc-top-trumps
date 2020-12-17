@@ -50,5 +50,10 @@
 
 .star {
    position: absolute;
-   right: -20px;
+   right: -40px;
+   top: 0;
+}
+
+.attribute {
+   position: relative
 }

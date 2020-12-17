@@ -6,6 +6,8 @@
    border-radius: 32px;
    padding: 20px;
    position: relative;
+   display: flex;
+   flex-direction: column;
 }
 
 .mugShotContainer {
@@ -38,11 +40,11 @@
 }
 
 .description {
-    padding: 26px 0;
    font-weight: 600;
    font-size: 20px;
    line-height: 24px;
    text-align: center;
+   flex-grow: 2;
 }
 
 .attributeList {

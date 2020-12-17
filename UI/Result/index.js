@@ -6,15 +6,15 @@ import { Card } from "../Card"
 import { Button } from "../Button"
 
 export function Result({
+   computerName,
    usersTurnCard,
    computersTurnCard,
    selectedAttribute,
    incrementTurnCount,
    winner,
 }) {
-   const playerWon = () => {
-      return winner === PLAYER_USER
-   }
+
+   const playerWon = winner === PLAYER_USER
 
    return (
       <div>
@@ -33,7 +33,7 @@ export function Result({
             </div>
 
             <div className={resultStyles.result}>
-               <h1>Computer</h1>
+               <h1>{computerName}</h1>
 
                <Card hasPlayerWon={!playerWon}>
                   <Card.Image name={computersTurnCard.name} />
@@ -45,16 +45,16 @@ export function Result({
                   />
                </Card>
             </div>
-               <Button
-                  text="Next Round"
-                  className={resultStyles.button}
-                  onClick={() => incrementTurnCount()}
-               >
-                  Next Round
-               </Button>
+            <Button
+               text="Next Round"
+               className={resultStyles.button}
+               onClick={() => incrementTurnCount()}
+            >
+               Next Round
+            </Button>
          </div>
 
-         <div>Round {playerWon() ? "Won" : "Lost"}!</div>
+         <div>Round {playerWon ? "Won" : "Lost"}!</div>
       </div>
    )
 }
