@@ -25,7 +25,11 @@ query InfoQuery {
    displayInfo ?
       <AboutUs introTitle={data.header} introContent={data.explainer} toggle={toggle}></AboutUs> :
       <>
-      <Button onClick={toggle} style={{position: 'absolute', top: '20px', right: '100px'}}>
+      <Button
+         onClick={toggle}
+         style={{position: 'absolute', top: '20px', right: '100px'}}
+         aria-label="Game information"
+      >
          <Info/>
       </Button>
          {children}
