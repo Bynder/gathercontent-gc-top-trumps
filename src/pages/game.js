@@ -5,7 +5,6 @@ import {UserTurn} from "../../UI/UserTurn"
 import {Result} from "../../UI/Result"
 import {ComputersTurn} from "../../UI/ComputersTurn";
 import { ScoreAside } from "../../UI/ScoreAside"
-import Audio from '../components/Audio'
 
 export const PLAYER_USER = "PLAYER_USER"
 export const PLAYER_COMPUTER = "PLAYER_COMPUTER"
@@ -14,6 +13,7 @@ export default function Game({data, location}) {
    const [cards] = useState(
       data.cards.edges.map(card => ({
          ...card.node,
+         mugshot: card.node.mugshot[0]?.optimised_image_url,
          rarity: parseInt(card.node.rarity[0]?.label),
          spreadability: parseInt(card.node.spreadability[0]?.label),
          versatility: parseInt(card.node.versatility[0]?.label),
@@ -72,9 +72,10 @@ export default function Game({data, location}) {
    }
 
    const computersTurn = () => {
-      const {name, cardDescription, ...attributes} = computersTurnCard
+      const {name, cardDescription, mugshot, mugshotAltText, ...attributes} = computersTurnCard
 
       const attributesArray = map(attributes, (value, key) => ({key: key, value: value}))
+      console.log(attributesArray);
       const orderedAttributes = orderBy(attributesArray, ["value"], ["desc"])
       setTimeout(() => slamJams(orderedAttributes[0].key), 1500)
    }
@@ -140,8 +141,7 @@ export default function Game({data, location}) {
    console.log(usersTurnCard)
 
    return (
-      <Audio>
-
+      <>
          <ScoreAside cardsLeft={usersCards.length} turnNumber={turnCount} wins={roundsWon} />
 
          {isUsersTurn && !roundWinner && (
@@ -163,8 +163,8 @@ export default function Game({data, location}) {
                slamJams={slamJams}
             ></Result>
          )}
-      </Audio>
-   )
+      </>
+   );
 }
 
 
@@ -178,6 +178,10 @@ query cardsQuery {
         rarity {
           label
         }
+        mugshot {
+          optimised_image_url
+        }
+        mugshotAltText
         spreadability {
           label
         }
