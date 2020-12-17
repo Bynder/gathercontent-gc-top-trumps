@@ -5,6 +5,7 @@
    background-color: transparent;
    border: none;
    align-items: center;
+   cursor: pointer;
 }
 .icon {
    width: 48px;
