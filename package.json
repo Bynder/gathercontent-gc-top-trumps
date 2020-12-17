@@ -19,6 +19,7 @@
   "dependencies": {
     "@svgr/webpack": "^5.5.0",
     "gatsby": "^2.26.1",
+    "gatsby-plugin-react-helmet": "^3.7.0",
     "gatsby-plugin-react-svg": "^3.0.0",
     "gatsby-plugin-svgr": "^2.0.2",
     "howler": "^2.2.1",
@@ -26,6 +27,7 @@
     "markdown-to-jsx": "^7.1.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
+    "react-helmet": "^6.1.0",
     "react-tooltip": "^4.2.11",
     "storybook-css-modules-preset": "^1.0.5"
   },
