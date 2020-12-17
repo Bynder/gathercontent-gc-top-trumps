@@ -29,7 +29,7 @@ export function ScoreAside({ turnNumber, wins, cardsLeft }) {
             className={asideStyles.tooltip}
             place="right"
             effect={"solid"}
-            offset={{'right': 90}}
+            offset={{'right': 65}}
             clickable={true}
             arrowColor={"transparent"}
          />
