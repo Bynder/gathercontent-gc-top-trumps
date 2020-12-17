@@ -13,7 +13,3 @@
    align-items: center;
    justify-content: center;
 }
-
-.button:disabled {
-   opacity: 0.2;
-}

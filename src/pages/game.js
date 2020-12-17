@@ -8,8 +8,6 @@ import {ScoreAside} from "../../UI/ScoreAside"
 import {WaitingCard} from "../../UI/WaitingCard";
 import resultStyles from "../../UI/Result/result.module.css";
 import InfoIcon from "../components/InfoIcon";
-import { useSpring } from "react-spring"
-import { Button } from "../../UI/Button"
 
 export const PLAYER_USER = "PLAYER_USER"
 export const PLAYER_COMPUTER = "PLAYER_COMPUTER"
@@ -21,30 +19,29 @@ export const GAME_STATE_WAITING_FOR_COMPUTER = "WAITING_FOR_COMPUTER "
 export const GAME_STATE_COMPUTER_TURN = "COMPUTER_TURN"
 export const GAME_STATE_RESULTS = "STATE_RESULTS"
 
-export default function Game({ data }) {
-   const [userProps, userSet] = useSpring(() => ({ opacity: 1 }))
-   const [waitingProps, waitingSet] = useSpring(() => ({ opacity: 0, display: "none" }))
+export default function Game({data}) {
 
    const names = [
-      "Barack O - Jar - Ma",
-      "Jamantha Fox",
-      "Halle Berry",
-      "Silence of the Jams",
-      "David Jameron",
-      "Spready Murphy",
-      "Lidney Poitier",
-      "Jam Humphries",
+      'Barack O - Jar - Ma',
+      'Jamantha Fox',
+      'Halle Berry',
+      'Silence of the Jams',
+      'David Jameron',
+      'Spready Murphy',
+      'Lidney Poitier',
+      'Jam Humphries',
    ]
 
    const cards = data.cards.edges.map(card => ({
-      ...card.node,
-      mugshot: card.node.mugshot[0]?.optimised_image_url,
-      rarity: parseInt(card.node.rarity[0]?.label),
-      spreadability: parseInt(card.node.spreadability[0]?.label),
-      versatility: parseInt(card.node.versatility[0]?.label),
-      trendiness: parseInt(card.node.trendiness[0]?.label),
-      tastiness: parseInt(card.node.tastiness[0]?.label),
-   }))
+         ...card.node,
+         mugshot: card.node.mugshot[0]?.optimised_image_url,
+         rarity: parseInt(card.node.rarity[0]?.label),
+         spreadability: parseInt(card.node.spreadability[0]?.label),
+         versatility: parseInt(card.node.versatility[0]?.label),
+         trendiness: parseInt(card.node.trendiness[0]?.label),
+         tastiness: parseInt(card.node.tastiness[0]?.label),
+      })
+   )
 
    const shuffledCards = shuffle(cards)
    const splitCards = chunk(shuffledCards, shuffledCards.length / 2)
@@ -58,49 +55,35 @@ export default function Game({ data }) {
       roundsWon: 0,
       roundWinner: null,
       currentPlayer: PLAYER_USER,
-      selectedAttribute: 0,
+      selectedAttribute: 0
    })
 
-   const incrementTurnCount = () =>
-      setAllState({ ...allState, turnCount: allState.turnCount + 1, selectedAttribute: null })
+   const incrementTurnCount = () => setAllState({...allState, turnCount: allState.turnCount + 1})
 
    const usersTurn = (cards = {}) => {
-      waitingSet({ opacity: 0, display: "none" })
-      userSet({ opacity: 1, display: "block" })
-      setAllState({ ...allState, ...cards, gameState: GAME_STATE_YOUR_TURN })
+      setAllState({...allState, ...cards, gameState: GAME_STATE_YOUR_TURN})
    }
 
    const computersTurn = (cards = {}) => {
-      userSet({ opacity: 0, display: "none" })
-      waitingSet({ opacity: 1, display: "block" })
+
       const {
          name,
          cardDescription,
          mugshot,
          mugshotAltText,
-         id,
          ...attributes
       } = allState.computersCards[0]
-      const attributesArray = map(attributes, (value, key) => ({ key: key, value: value }))
+      const attributesArray = map(attributes, (value, key) => ({key: key, value: value}))
       const orderedAttributes = orderBy(attributesArray, ["value"], ["desc"])
 
-      console.log(attributesArray)
-
-      setAllState({
-         ...allState,
-         ...cards,
-         gameState: GAME_STATE_COMPUTER_TURN,
-         selectedAttribute: orderedAttributes[0],
-      })
+      setAllState({...allState, ...cards, gameState: GAME_STATE_COMPUTER_TURN})
 
       setTimeout(() => slamJams(orderedAttributes[0].key), 1500)
    }
 
    const takeTurn = attribute => {
-      waitingSet({ opacity: 1, display: "block" })
-      userSet({ opacity: 0, display: "none" })
-      setAllState({ ...allState, gameState: GAME_STATE_WAITING_FOR_COMPUTER })
-      setTimeout(() => slamJams(attribute), 700)
+      setAllState({...allState, gameState: GAME_STATE_WAITING_FOR_COMPUTER})
+      setTimeout(() => slamJams(attribute), 700);
    }
 
    const drawCard = () => {
@@ -130,8 +113,7 @@ export default function Game({ data }) {
    }
 
    const slamJams = attribute => {
-      waitingSet({ opacity: 1, display: "block" })
-      userSet({ opacity: 1, display: "block" })
+
       const [usersCard, ...usersRemaining] = allState.usersCards;
       const [computersCard, ...computersRemaining] = allState.computersCards;
 
@@ -139,23 +121,25 @@ export default function Game({ data }) {
       const isDraw = usersCard[attribute] === computersCard[attribute]
 
       if (isDraw) {
+
          setAllState({
             ...allState,
             roundWinner: allState.currentPlayer === PLAYER_USER ? DRAW_PLAYER : DRAW_COMPUTER,
             gameState: GAME_STATE_RESULTS,
-            selectedAttribute: attribute,
+            selectedAttribute: attribute
          })
          return
       }
 
       if (hasUserWon) {
+
          setAllState({
             ...allState,
             roundsWon: allState.roundsWon + 1,
             currentPlayer: PLAYER_USER,
             roundWinner: PLAYER_USER,
             gameState: GAME_STATE_RESULTS,
-            selectedAttribute: attribute,
+            selectedAttribute: attribute
          })
 
          return
@@ -166,13 +150,14 @@ export default function Game({ data }) {
          currentPlayer: PLAYER_COMPUTER,
          roundWinner: PLAYER_COMPUTER,
          gameState: GAME_STATE_RESULTS,
-         selectedAttribute: attribute,
+         selectedAttribute: attribute
       })
 
       return
    }
 
    useEffect(() => {
+
       if (!allState.usersCards.length || !allState.computersCards.length) {
          //Show results
          return
@@ -184,93 +169,78 @@ export default function Game({ data }) {
 
    return (
       <InfoIcon>
-         <ScoreAside
-            cardsLeft={allState.usersCards.length}
-            turnNumber={allState.turnCount}
-            wins={allState.roundsWon}
-         />
-         <div className={resultStyles.resultContainer}>
-            <div className={resultStyles.result}>
-               <UserTurn
-                  animationStyle={userProps}
-                  card={allState.usersCards[0]}
-                  takeTurn={takeTurn}
-                  playerWon={
-                     allState.gameState === GAME_STATE_RESULTS &&
-                     allState.roundWinner === PLAYER_USER
-                  }
-                  showButton={allState.gameState !== GAME_STATE_RESULTS}
-                  selectedAttribute={allState.selectedAttribute}
-                  setSelectedAttribute={attr =>
-                     setAllState({ ...allState, selectedAttribute: attr })
-                  }
-               />
+
+         <ScoreAside cardsLeft={allState.usersCards.length} turnNumber={allState.turnCount}
+                     wins={allState.roundsWon}/>
+
+         {allState.gameState === GAME_STATE_YOUR_TURN && (
+            <div>
+               <UserTurn card={allState.usersCards[0]} takeTurn={takeTurn}></UserTurn>
             </div>
-            <div className={resultStyles.result}>
-               <ComputersTurn
-                  animationStyle={waitingProps}
-                  name={allState.computerName}
-                  isLoading={allState.gameState !== GAME_STATE_RESULTS}
-                  loadingLabel={
-                     allState.gameState === GAME_STATE_WAITING_FOR_COMPUTER
-                        ? "Waiting"
-                        : "Choosing Jam Stat"
-                  }
-                  playerWon={allState.roundWinner === PLAYER_USER}
-                  computersTurnCard={allState.computersCards[0]}
-                  selectedAttribute={allState.selectedAttribute}
-               />
+         )}
+
+         {allState.gameState === GAME_STATE_WAITING_FOR_COMPUTER && (
+            <div className={resultStyles.resultContainer}>
+               <div className={resultStyles.result}>
+                  <UserTurn card={allState.usersCards[0]} takeTurn={takeTurn}></UserTurn>
+               </div>
+               <WaitingCard label="Waiting"/>
             </div>
-            {allState.gameState === GAME_STATE_RESULTS && (
-               <>
-                  <Button
-                     text="Next Round"
-                     className={resultStyles.button}
-                     onClick={() => incrementTurnCount()}
-                  >
-                     Next Round
-                  </Button>
-                  <div>{allState.roundWinner === PLAYER_USER ? "YOU WON!!" : "YOU LOST!!"}</div>
-               </>
-            )}
-         </div>
+         )}
+
+         {allState.gameState === GAME_STATE_COMPUTER_TURN && (
+            <ComputersTurn name={allState.computerName}
+                           card={allState.computersCards[0]}></ComputersTurn>
+         )}
+
+         {allState.gameState === GAME_STATE_RESULTS && (
+            <Result
+               computerName={allState.computerName}
+               usersTurnCard={allState.usersCards[0]}
+               computersTurnCard={allState.computersCards[0]}
+               winner={allState.roundWinner}
+               selectedAttribute={allState.selectedAttribute}
+               incrementTurnCount={incrementTurnCount}
+               slamJams={slamJams}
+            ></Result>
+         )}
       </InfoIcon>
    )
 }
 
 export const pageQuery = graphql`
-   query cardsQuery {
-      cards: allGatherContentItemsByFolderPlayingcards {
-         edges {
-            node {
-               id
-               cardDescription
-               rarity {
-                  label
-               }
-               mugshot {
-                  optimised_image_url
-               }
-               mugshotAltText
-               spreadability {
-                  label
-               }
-               tastiness {
-                  label
-               }
-               trendiness {
-                  label
-               }
-               versatility {
-                  label
-               }
-               name
-               mugshotAltText
-               mugshot {
-                  optimised_image_url
-               }
-            }
-         }
+query cardsQuery {
+  cards: allGatherContentItemsByFolderPlayingcards {
+    edges {
+      node {
+        id
+        cardDescription
+        rarity {
+          label
+        }
+        mugshot {
+          optimised_image_url
+        }
+        mugshotAltText
+        spreadability {
+          label
+        }
+        tastiness {
+          label
+        }
+        trendiness {
+          label
+        }
+        versatility {
+          label
+        }
+        name
+        mugshotAltText
+        mugshot {
+          optimised_image_url
+        }
       }
-   }
+    }
+  }
+}
 `
