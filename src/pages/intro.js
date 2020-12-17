@@ -1,15 +1,31 @@
-import React from "react"
-import { IntroHero } from "../../UI/IntroHero"
+import React, {useState} from "react"
 import introStyles from "../../UI/IntroHero/introHero.module.css"
-import { navigate } from 'gatsby';
+import {graphql, navigate} from 'gatsby';
 
-export default function Intro() {
+export default function Intro({data, location}) {
+
+   const introHeader = data.allGatherContentItemsByFolderWelcomeandintro.nodes[0].header;
+   const introContent = data.allGatherContentItemsByFolderWelcomeandintro.nodes[0].introAndExplainer;
+
    return (
       <div className={introStyles.container}>
-         <IntroHero onSubmit={(e, state) => {
-            e.preventDefault()
-            navigate("/game", { state });
-         }} />
+         <div className={introStyles.header}>
+            {introHeader}
+         </div>
+      <div className={introStyles.text}>
+         {introContent}
+      </div>
       </div>
    )
 }
+
+export const pageQuery = graphql`
+query introQuery {
+  allGatherContentItemsByFolderWelcomeandintro {
+    nodes {
+      header
+      introAndExplainer
+    }
+  }
+}
+`

@@ -1,4 +1,4 @@
-import { graphql, Link } from "gatsby"
+import { Link } from "gatsby"
 import React from "react"
 
 export default function About() {
