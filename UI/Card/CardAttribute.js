@@ -102,3 +102,7 @@ export function CardAttribute({
       </div>
    )
 }
+
+CardAttribute.defaultProps = {
+   index: 0,
+}
