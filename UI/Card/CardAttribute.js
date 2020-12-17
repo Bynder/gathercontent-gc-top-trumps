@@ -60,7 +60,7 @@ export function CardAttribute({
             className={cardAttributeStyles.container}
             style={{ opacity: isAnyAttributeSelected && !selected ? 0.25 : 1 }}
          >
-            <div data-tip={stat}
+            <div data-tip={stat} data-for="cardAttributeToolTip"
                style={{
                   border: `6px solid ${outerColour}`,
                   background: `linear-gradient(180deg, ${outerColour} 0%, ${innerColour} 100%)`,
@@ -88,7 +88,7 @@ export function CardAttribute({
             </div>
             <div
                style={{
-                  "text-shadow": `4px 0 0 ${outerColour}, -4px 0 0 ${outerColour}, 0 4px 0 ${outerColour}, 0 -4px 0 ${outerColour}, 2px 2px ${outerColour}, -2px -2px 0 ${outerColour}, 2px -2px 0 ${outerColour}, -2px 2px 0 ${outerColour}`,
+                  "textShadow": `4px 0 0 ${outerColour}, -4px 0 0 ${outerColour}, 0 4px 0 ${outerColour}, 0 -4px 0 ${outerColour}, 2px 2px ${outerColour}, -2px -2px 0 ${outerColour}, 2px -2px 0 ${outerColour}, -2px 2px 0 ${outerColour}`,
                }}
                className={cardAttributeStyles.number}
             >
