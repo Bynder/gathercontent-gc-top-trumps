@@ -142,7 +142,6 @@ export default function Game({data, location}) {
    console.log(usersTurnCard)
 
    return (
-      <>
          <InfoIcon>
             <ScoreAside cardsLeft={usersCards.length} turnNumber={turnCount} wins={roundsWon} />
 
@@ -166,7 +165,6 @@ export default function Game({data, location}) {
                ></Result>
             )}
          </InfoIcon>
-      </>
    );
 }
 
