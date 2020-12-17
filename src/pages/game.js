@@ -100,7 +100,7 @@ export default function Game({data}) {
    const drawCard = () => {
 
       const [usersCard, ...usersRemaining] = allState.usersCards;
-      const [computersCard, ...computersRemaining] = allState.usersCards;
+      const [computersCard, ...computersRemaining] = allState.computersCards;
 
 
       if (allState.roundWinner === PLAYER_USER) {
