@@ -6,6 +6,7 @@ import { ReactComponent as Taste } from "../../static/Taste.svg"
 import { ReactComponent as Trendiness } from "../../static/Trendiness.svg"
 import { ReactComponent as Versatility } from "../../static/Versatility.svg"
 import { StarSmall } from "../Icons"
+import { ReactTooltip } from "react-tooltip";
 
 const statColours = [
    {
@@ -53,13 +54,13 @@ export function CardAttribute({
    const { outerColour, innerColour, barColour, icon: Icon } = statColours[index]
 
    return (
-      <div className={cardAttributeStyles.attribute}>
+      <li className={cardAttributeStyles.attribute}>
          <button
             onClick={onSelect}
             className={cardAttributeStyles.container}
             style={{ opacity: isAnyAttributeSelected && !selected ? 0.25 : 1 }}
          >
-            <div
+            <div data-tip={stat}
                style={{
                   border: `6px solid ${outerColour}`,
                   background: `linear-gradient(180deg, ${outerColour} 0%, ${innerColour} 100%)`,
@@ -99,7 +100,7 @@ export function CardAttribute({
                <StarSmall />
             </span>
          ) : null}
-      </div>
+      </li>
    )
 }
 

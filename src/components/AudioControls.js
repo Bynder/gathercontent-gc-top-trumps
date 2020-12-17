@@ -10,6 +10,7 @@ export default function AudioControls() {
       <Button
          onClick={isSoundEnabled ? disableSound : enableSound}
          style={{ position: 'absolute', top: '20px', right: '20px'}}
+         aria-label="Mute Audio"
       >
          {isSoundEnabled ? <SoundOn/> : <SoundOff/>}
       </Button>

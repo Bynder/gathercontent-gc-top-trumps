@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react"
-import { graphql } from "gatsby"
-import { chunk, map, orderBy, shuffle } from "lodash"
-import { UserTurn } from "../../UI/UserTurn"
-import { Result } from "../../UI/Result"
-import { ComputersTurn } from "../../UI/ComputersTurn"
-import { ScoreAside } from "../../UI/ScoreAside"
-import { WaitingCard } from "../../UI/WaitingCard"
-import resultStyles from "../../UI/Result/result.module.css"
+import React, {useEffect, useState} from "react"
+import {graphql} from "gatsby"
+import {chunk, map, orderBy, shuffle} from "lodash"
+import {UserTurn} from "../../UI/UserTurn"
+import {Result} from "../../UI/Result"
+import {ComputersTurn} from "../../UI/ComputersTurn";
+import {ScoreAside} from "../../UI/ScoreAside"
+import {WaitingCard} from "../../UI/WaitingCard";
+import resultStyles from "../../UI/Result/result.module.css";
+import InfoIcon from "../components/InfoIcon";
 import { useSpring } from "react-spring"
 import { Button } from "../../UI/Button"
 
@@ -103,39 +104,39 @@ export default function Game({ data }) {
    }
 
    const drawCard = () => {
+
+      const [usersCard, ...usersRemaining] = allState.usersCards;
+      const [computersCard, ...computersRemaining] = allState.usersCards;
+
+
       if (allState.roundWinner === PLAYER_USER) {
          return {
             computersCards: allState.computersCards.splice(1),
-            usersCards: [
-               ...allState.usersCards.splice(1),
-               allState.usersCards[0],
-               allState.computersCards[0],
-            ],
+            usersCards: [...allState.usersCards.splice(1), usersCard, computersCard],
          }
       }
 
       if (allState.roundWinner === PLAYER_COMPUTER) {
          return {
             usersCards: allState.usersCards.splice(1),
-            computersCards: [
-               ...allState.computersCards.splice(1),
-               allState.computersCards[0],
-               allState.usersCards[0],
-            ],
+            computersCards: [...allState.computersCards.splice(1), computersCard, usersCard],
          }
       }
 
       return {
-         usersCards: [...allState.usersCards.splice(1), allState.usersCards[0]],
-         computersCards: [...allState.computersCards.splice(1), allState.computersCards[0]],
+         usersCards: [...allState.usersCards.splice(1), usersCard],
+         computersCards: [...allState.computersCards.splice(1), computersCard]
       }
    }
 
    const slamJams = attribute => {
       waitingSet({ opacity: 1, display: "block" })
       userSet({ opacity: 1, display: "block" })
-      const hasUserWon = allState.usersCards[0][attribute] > allState.computersCards[0][attribute]
-      const isDraw = allState.usersCards[0][attribute] === allState.computersCards[0][attribute]
+      const [usersCard, ...usersRemaining] = allState.usersCards;
+      const [computersCard, ...computersRemaining] = allState.computersCards;
+
+      const hasUserWon = usersCard[attribute] > computersCard[attribute]
+      const isDraw = usersCard[attribute] === computersCard[attribute]
 
       if (isDraw) {
          setAllState({
@@ -177,19 +178,12 @@ export default function Game({ data }) {
          return
       }
 
-      const cards = drawCard()
+      [null, PLAYER_USER, DRAW_PLAYER].includes(allState.roundWinner) ? usersTurn(drawCard()) : computersTurn(drawCard())
 
-      if (allState.roundWinner === null) {
-         return usersTurn(cards)
-      }
-
-      allState.roundWinner === PLAYER_USER || allState.roundWinner === DRAW_PLAYER
-         ? usersTurn(cards)
-         : computersTurn(cards)
    }, [allState.turnCount])
 
    return (
-      <>
+      <InfoIcon>
          <ScoreAside
             cardsLeft={allState.usersCards.length}
             turnNumber={allState.turnCount}
@@ -240,7 +234,7 @@ export default function Game({ data }) {
                </>
             )}
          </div>
-      </>
+      </InfoIcon>
    )
 }
 
