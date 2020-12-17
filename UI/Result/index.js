@@ -32,7 +32,7 @@ export function Result({
             <div className={resultStyles.result}>
                <h1>You</h1>
                <Card hasPlayerWon={winner === PLAYER_USER}>
-                  <Card.Image name={usersTurnCard.name}/>
+                  <Card.Image name={usersTurnCard.name} mugShotUrl={usersTurnCard.mugshot} altText={usersTurnCard.mugshotAltText} />
                   <Card.Description description={usersTurnCard.cardDescription}/>
                   <Card.AttributeList
                      attributes={GetAttributesFromCard(usersTurnCard)}
@@ -46,7 +46,7 @@ export function Result({
                <h1>{computerName}</h1>
 
                <Card hasPlayerWon={winner === PLAYER_COMPUTER}>
-                  <Card.Image name={computersTurnCard.name}/>
+                  <Card.Image name={computersTurnCard.name} mugShotUrl={computersTurnCard.mugshot} altText={computersTurnCard.mugshotAltText} />
                   <Card.Description description={computersTurnCard.cardDescription}/>
                   <Card.AttributeList
                      attributes={GetAttributesFromCard(computersTurnCard)}
