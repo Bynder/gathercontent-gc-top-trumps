@@ -4,24 +4,22 @@ import {chunk, map, orderBy, shuffle} from "lodash"
 import {UserTurn} from "../../UI/UserTurn"
 import {Result} from "../../UI/Result"
 import {ComputersTurn} from "../../UI/ComputersTurn";
-import { ScoreAside } from "../../UI/ScoreAside"
+import {ScoreAside} from "../../UI/ScoreAside"
 import Audio from '../components/Audio'
+import {WaitingCard} from "../../UI/WaitingCard";
+import resultStyles from "../../UI/Result/result.module.css";
 
 export const PLAYER_USER = "PLAYER_USER"
 export const PLAYER_COMPUTER = "PLAYER_COMPUTER"
+export const DRAW_PLAYER = "DRAW_PLAYER"
+export const DRAW_COMPUTER = "DRAW_COMPUTER"
 
-export default function Game({data, location}) {
-   const [cards] = useState(
-      data.cards.edges.map(card => ({
-         ...card.node,
-         rarity: parseInt(card.node.rarity[0]?.label),
-         spreadability: parseInt(card.node.spreadability[0]?.label),
-         versatility: parseInt(card.node.versatility[0]?.label),
-         trendiness: parseInt(card.node.trendiness[0]?.label),
-         tastiness: parseInt(card.node.tastiness[0]?.label),
-      }))
-   )
+export const GAME_STATE_YOUR_TURN = "YOUR_TURN"
+export const GAME_STATE_WAITING_FOR_COMPUTER = "WAITING_FOR_COMPUTER "
+export const GAME_STATE_COMPUTER_TURN = "COMPUTER_TURN"
+export const GAME_STATE_RESULTS = "STATE_RESULTS"
 
+export default function Game({data}) {
 
    const names = [
       'Barack O - Jar - Ma',
@@ -34,132 +32,166 @@ export default function Game({data, location}) {
       'Jam Humphries',
    ]
 
-   const [computerName, setComputerName] = useState(null)
-   const [gameWinner, setGameWinner] = useState(null)
-   const [roundWinner, setRoundWinner] = useState(null)
-   const [turnCount, setTurnCount] = useState(0)
+   const cards = data.cards.edges.map(card => ({
+         ...card.node,
+         rarity: parseInt(card.node.rarity[0]?.label),
+         spreadability: parseInt(card.node.spreadability[0]?.label),
+         versatility: parseInt(card.node.versatility[0]?.label),
+         trendiness: parseInt(card.node.trendiness[0]?.label),
+         tastiness: parseInt(card.node.tastiness[0]?.label),
+      })
+   )
 
-   const [isUsersTurn, setIsUsersTurn] = useState(true)
-   const [selectedAttribute, setSelectedAttribute] = useState(0)
+   const shuffledCards = shuffle(cards)
+   const splitCards = chunk(shuffledCards, shuffledCards.length / 2)
 
-   const [computersCards, setComputersCards] = useState([])
-   const [usersCards, setUsersCards] = useState([])
+   const [allState, setAllState] = useState({
+      gameState: GAME_STATE_YOUR_TURN,
+      computerName: shuffle(names)[0],
+      usersCards: splitCards[0],
+      computersCards: splitCards[1],
+      turnCount: 1,
+      roundsWon: 0,
+      roundWinner: null,
+      currentPlayer: PLAYER_USER,
+      selectedAttribute: 0
+   })
 
-   const [usersTurnCard, setUsersTurnCard] = useState([])
-   const [computersTurnCard, setComputersTurnCard] = useState([])
+   const incrementTurnCount = () => setAllState({...allState, turnCount: allState.turnCount + 1})
 
-   const [roundsWon, setRoundsWon] = useState(0)
-
-   const incrementTurnCount = () => setTurnCount(turnCount + 1)
-
-   const startGame = () => {
-
-      setComputerName(shuffle(names)[0])
-      const shuffledCards = shuffle(cards)
-      const splitCards = chunk(shuffledCards, shuffledCards.length / 2)
-
-      setUsersCards(splitCards[0])
-      setComputersCards(splitCards[1])
-
-      incrementTurnCount()
+   const usersTurn = (cards = {}) => {
+      setAllState({...allState, ...cards, gameState: GAME_STATE_YOUR_TURN})
    }
 
-   const drawCard = () => {
-      setComputersTurnCard(computersCards[0])
-      setUsersTurnCard(usersCards[0])
+   const computersTurn = (cards = {}) => {
 
-      setUsersCards(usersCards.slice(1))
-      setComputersCards(computersCards.slice(1))
-   }
-
-   const computersTurn = () => {
-      const {name, cardDescription, ...attributes} = computersTurnCard
-
+      const {name, cardDescription, ...attributes} = allState.computersCards[0]
       const attributesArray = map(attributes, (value, key) => ({key: key, value: value}))
       const orderedAttributes = orderBy(attributesArray, ["value"], ["desc"])
+
+      setAllState({...allState, ...cards, gameState: GAME_STATE_COMPUTER_TURN})
+
       setTimeout(() => slamJams(orderedAttributes[0].key), 1500)
    }
 
-   const slamJams = attribute => {
-      setSelectedAttribute(attribute)
+   const takeTurn = attribute => {
+      setAllState({...allState, gameState: GAME_STATE_WAITING_FOR_COMPUTER})
+      setTimeout(() => slamJams(attribute), 700);
+   }
 
-      const hasUserWon = usersTurnCard[attribute] > computersTurnCard[attribute]
-      const isDraw = usersTurnCard[attribute] === computersTurnCard[attribute]
+   const drawCard = () => {
+
+      if (allState.roundWinner === PLAYER_USER) {
+         return {
+            computersCards: allState.computersCards.splice(1),
+            usersCards: [...allState.usersCards.splice(1), allState.usersCards[0], allState.computersCards[0]],
+         }
+      }
+
+      if (allState.roundWinner === PLAYER_COMPUTER) {
+         return {
+            usersCards: allState.usersCards.splice(1),
+            computersCards: [...allState.computersCards.splice(1), allState.computersCards[0], allState.usersCards[0]],
+         }
+      }
+
+      return {
+         usersCards: [...allState.usersCards.splice(1), allState.usersCards[0]],
+         computersCards: [...allState.computersCards.splice(1), allState.computersCards[0]]
+      }
+   }
+
+   const slamJams = attribute => {
+
+      const hasUserWon = allState.usersCards[0][attribute] > allState.computersCards[0][attribute]
+      const isDraw = allState.usersCards[0][attribute] === allState.computersCards[0][attribute]
 
       if (isDraw) {
-         console.log(
-            `Draw: Users= ${attribute} - ${usersTurnCard[attribute]} \n Computers= ${attribute} - ${computersTurnCard[attribute]}`
-         )
-         setUsersCards([...usersCards, usersTurnCard])
-         setComputersCards([...computersCards, computersTurnCard])
-         setIsUsersTurn(!isUsersTurn)
-         setRoundWinner(false)
+
+         setAllState({
+            ...allState,
+            roundWinner: allState.currentPlayer === PLAYER_USER ? DRAW_PLAYER : DRAW_COMPUTER,
+            gameState: GAME_STATE_RESULTS,
+            selectedAttribute: attribute
+         })
          return
       }
 
       if (hasUserWon) {
-         console.log(
-            `User Won: Users= ${attribute} - ${usersTurnCard[attribute]} \n Computers= ${attribute} - ${computersTurnCard[attribute]}`
-         )
-         setUsersCards([...usersCards, usersTurnCard, computersTurnCard])
-         setIsUsersTurn(true)
-         setRoundWinner(PLAYER_USER)
-         setRoundsWon(roundsWon + 1)
+
+         setAllState({
+            ...allState,
+            roundsWon: allState.roundsWon + 1,
+            currentPlayer: PLAYER_USER,
+            roundWinner: PLAYER_USER,
+            gameState: GAME_STATE_RESULTS,
+            selectedAttribute: attribute
+         })
+
          return
       }
-      console.log(
-         `Computer Won: Users= ${attribute} - ${usersTurnCard[attribute]} \n Computers= ${attribute} - ${computersTurnCard[attribute]}`
-      )
-      setComputersCards([...computersCards, computersTurnCard, usersTurnCard])
-      setIsUsersTurn(false)
-      setRoundWinner(PLAYER_COMPUTER)
+
+      setAllState({
+         ...allState,
+         currentPlayer: PLAYER_COMPUTER,
+         roundWinner: PLAYER_COMPUTER,
+         gameState: GAME_STATE_RESULTS,
+         selectedAttribute: attribute
+      })
 
       return
    }
 
    useEffect(() => {
-      if (!turnCount) {
+
+      if (!allState.usersCards.length || !allState.computersCards.length) {
+         //Show results
          return
       }
 
-      if (!usersCards.length || !computersCards.length) {
-         setGameWinner(usersCards.length ? PLAYER_USER : PLAYER_COMPUTER)
-         return
+      const cards = drawCard()
+
+      if (allState.roundWinner === null) {
+         return usersTurn(cards);
       }
 
-      setRoundWinner(null)
-      drawCard()
-      if (!isUsersTurn) {
-         computersTurn()
-      }
-   }, [turnCount])
+      allState.roundWinner === PLAYER_USER || allState.roundWinner === DRAW_PLAYER ? usersTurn(cards) : computersTurn(cards);
 
-   useEffect(() => {
-      startGame()
-   }, [])
-
-   console.log(usersTurnCard)
+   }, [allState.turnCount])
 
    return (
       <Audio>
 
-         <ScoreAside cardsLeft={usersCards.length} turnNumber={turnCount} wins={roundsWon} />
+         <ScoreAside cardsLeft={allState.usersCards.length} turnNumber={allState.turnCount}
+                     wins={allState.roundsWon}/>
 
-         {isUsersTurn && !roundWinner && (
-            <UserTurn card={usersTurnCard} slamJams={slamJams}></UserTurn>
+         {allState.gameState === GAME_STATE_YOUR_TURN && (
+            <div>
+               <UserTurn card={allState.usersCards[0]} takeTurn={takeTurn}></UserTurn>
+            </div>
          )}
 
-         {!isUsersTurn && !roundWinner && (
-            <ComputersTurn name={computerName} card={computersTurnCard}></ComputersTurn>
+         {allState.gameState === GAME_STATE_WAITING_FOR_COMPUTER && (
+            <div className={resultStyles.resultContainer}>
+               <div className={resultStyles.result}>
+                  <UserTurn card={allState.usersCards[0]} takeTurn={takeTurn}></UserTurn>
+               </div>
+               <WaitingCard label="Waiting"/>
+            </div>
          )}
 
-         {roundWinner && (
+         {allState.gameState === GAME_STATE_COMPUTER_TURN && (
+            <ComputersTurn name={allState.computerName}
+                           card={allState.computersCards[0]}></ComputersTurn>
+         )}
+
+         {allState.gameState === GAME_STATE_RESULTS && (
             <Result
-               computerName={computerName}
-               usersTurnCard={usersTurnCard}
-               computersTurnCard={computersTurnCard}
-               winner={roundWinner}
-               selectedAttribute={selectedAttribute}
+               computerName={allState.computerName}
+               usersTurnCard={allState.usersCards[0]}
+               computersTurnCard={allState.computersCards[0]}
+               winner={allState.roundWinner}
+               selectedAttribute={allState.selectedAttribute}
                incrementTurnCount={incrementTurnCount}
                slamJams={slamJams}
             ></Result>
