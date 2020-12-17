@@ -10,8 +10,9 @@ export const wrapRootElement = ({ element }) => (
          <Helmet>
             <html lang="en" />
             <meta charSet="utf-8" />
+            <meta name="description" content="JamSlams is a one-player game powered by GatherContent, Gatsby and Unsplash." />
             <title>SlamJams by GatherContent</title>
-            <link rel="canonical" href="https://slamjams.lol" />
+            <link rel="canonical" href="https://jamslam.lol" />
          </Helmet>
          <AudioControls/>
          {element}
