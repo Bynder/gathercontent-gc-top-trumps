@@ -54,7 +54,7 @@ export function CardAttribute({
    const { outerColour, innerColour, barColour, icon: Icon } = statColours[index]
 
    return (
-      <div className={cardAttributeStyles.attribute}>
+      <li className={cardAttributeStyles.attribute}>
          <button
             onClick={onSelect}
             className={cardAttributeStyles.container}
@@ -100,7 +100,7 @@ export function CardAttribute({
                <StarSmall />
             </span>
          ) : null}
-      </div>
+      </li>
    )
 }
 
