@@ -5,6 +5,10 @@ import { ReactComponent as ArrowSvg } from '../../static/Arrow.svg';
 import { ReactComponent as SoundOffSvg } from '../../static/SoundOff.svg';
 import { ReactComponent as SoundOnSvg } from '../../static/SoundOn.svg';
 import { ReactComponent as InfoSvg } from '../../static/Info.svg';
+import { ReactComponent as RoundSvg } from '../../static/Round.svg';
+import { ReactComponent as WinSvg } from '../../static/Win.svg';
+import { ReactComponent as CardsSvg } from '../../static/Cards.svg';
+import { ReactComponent as ClockSvg } from '../../static/Clock.svg';
 import iconStyles from './icons.module.css';
 
 export function Star() {
@@ -47,3 +51,20 @@ export function SoundOn() {
 export function Info() {
    return <InfoSvg />
 }
+
+export function Round () {
+   return <RoundSvg className={iconStyles.shadowSm}/>;
+}
+
+export function Wins () {
+   return <WinSvg className={iconStyles.shadowSm}/>;
+}
+
+export function Cards () {
+   return <CardsSvg className={iconStyles.shadowSm}/>;
+}
+
+export function Clock () {
+   return <ClockSvg className={iconStyles.shadowSm}/>;
+}
+

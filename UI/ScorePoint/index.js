@@ -1,11 +1,6 @@
-import scorePointStyles from "../ScorePoint/scorePoint.module.css";
 import React from "react";
+import scorePointStyles from "../ScorePoint/scorePoint.module.css";
 
-export function ScorePoint({scorePointClassName}) {
-
-   return (
-      <div className={`${scorePointStyles.scorePoint} `}>
-         <span className={scorePointStyles.scorePointBg}></span>
-         <span className={`${scorePointStyles.icon} ${scorePointStyles[scorePointClassName]}`}></span>
-   </div>);
+export function ScorePoint({ children, className }) {
+   return <span className={`${scorePointStyles.scorePointBg} ${className}`}>{children}</span>;
 }
