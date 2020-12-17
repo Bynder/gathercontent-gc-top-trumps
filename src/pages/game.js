@@ -67,7 +67,7 @@ export default function Game({data}) {
    const usersTurn = (cards = {}) => {
       waitingSet({ opacity: 0, display: "none" })
       userSet({ opacity: 1, display: "block" })
-      setAllState({...allState, ...cards, gameState: GAME_STATE_YOUR_TURN})
+      setAllState({...allState, ...cards, gameState: GAME_STATE_YOUR_TURN, selectedAttribute: 0})
    }
 
    const computersTurn = (cards = {}) => {
@@ -85,7 +85,11 @@ export default function Game({data}) {
       const attributesArray = map(attributes, (value, key) => ({key: key, value: value}))
       const orderedAttributes = orderBy(attributesArray, ["value"], ["desc"])
 
-      setAllState({...allState, ...cards, gameState: GAME_STATE_COMPUTER_TURN})
+      setAllState({
+         ...allState, ...cards,
+         gameState: GAME_STATE_COMPUTER_TURN,
+         selectedAttribute: 0
+      })
 
       setTimeout(() => slamJams(orderedAttributes[0].key), 1500)
    }
