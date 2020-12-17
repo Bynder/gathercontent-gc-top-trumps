@@ -57,6 +57,16 @@ export default function Game({data}) {
       selectedAttribute: 0
    })
 
+   const [timeElapsed, setTimeElapsed] = useState(0)
+
+   useEffect(() => {
+      const intervalId = setInterval(() => {
+         setTimeElapsed(timeElapsed + 1)
+      }, 1000)
+
+      return () => clearInterval(intervalId)
+   }, [timeElapsed])
+
    const incrementTurnCount = () => setAllState({...allState, turnCount: allState.turnCount + 1})
 
    const usersTurn = (cards = {}) => {
@@ -169,6 +179,7 @@ export default function Game({data}) {
       <>
 
          <ScoreAside cardsLeft={allState.usersCards.length} turnNumber={allState.turnCount}
+                     timeElapsed={timeElapsed}
                      wins={allState.roundsWon}/>
 
          {allState.gameState === GAME_STATE_YOUR_TURN && (
