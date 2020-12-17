@@ -9,7 +9,7 @@ export function AudioProvider({ children }) {
    const background = useRef(new Howl({ src: '/Casual Game Background.mp3', loop: true }));
    const roundWin = useRef(new Howl({ src: '/Correct Answer.mp3' }));
    const roundLoose = useRef(new Howl({ src: '/Wrong.mp3' }));
-   const gameWin = useRef(new Howl({ src: '/Win Fanfare (WAV).mp3' }));
+   const gameWin = useRef(new Howl({ src: '/Win Fanfare (WAV).mp3', volume: 0.4 }));
    const gameLoose = useRef(new Howl({ src: '/Game Over Pipe Organ.mp3' }));
 
    useEffect(() => {
