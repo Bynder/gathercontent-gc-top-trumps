@@ -105,21 +105,21 @@ export default function Game({data}) {
 
       if (allState.roundWinner === PLAYER_USER) {
          return {
-            computersCards: allState.computersCards.splice(1),
-            usersCards: [...allState.usersCards.splice(1), usersCard, computersCard],
+            computersCards: computersRemaining,
+            usersCards: [...usersRemaining, usersCard, computersCard],
          }
       }
 
       if (allState.roundWinner === PLAYER_COMPUTER) {
          return {
-            usersCards: allState.usersCards.splice(1),
-            computersCards: [...allState.computersCards.splice(1), computersCard, usersCard],
+            usersCards: usersRemaining,
+            computersCards: [...computersRemaining, computersCard, usersCard],
          }
       }
 
       return {
-         usersCards: [...allState.usersCards.splice(1), usersCard],
-         computersCards: [...allState.computersCards.splice(1), computersCard]
+         usersCards: [...usersRemaining, usersCard],
+         computersCards: [...computersRemaining, computersCard]
       }
    }
 
