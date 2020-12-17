@@ -7,6 +7,7 @@ import {ComputersTurn} from "../../UI/ComputersTurn";
 import {ScoreAside} from "../../UI/ScoreAside"
 import {WaitingCard} from "../../UI/WaitingCard";
 import resultStyles from "../../UI/Result/result.module.css";
+import InfoIcon from "../components/InfoIcon";
 
 export const PLAYER_USER = "PLAYER_USER"
 export const PLAYER_COMPUTER = "PLAYER_COMPUTER"
@@ -167,7 +168,7 @@ export default function Game({data}) {
    }, [allState.turnCount])
 
    return (
-      <>
+      <InfoIcon>
 
          <ScoreAside cardsLeft={allState.usersCards.length} turnNumber={allState.turnCount}
                      wins={allState.roundsWon}/>
@@ -203,7 +204,7 @@ export default function Game({data}) {
                slamJams={slamJams}
             ></Result>
          )}
-      </>
+      </InfoIcon>
    )
 }
 
