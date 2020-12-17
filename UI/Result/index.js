@@ -45,6 +45,9 @@ export function Result({
                   />
                </Card>
             </div>
+         </div>
+
+         <div className={resultStyles.resultsFooter}>
             <Button
                text="Next Round"
                className={resultStyles.button}

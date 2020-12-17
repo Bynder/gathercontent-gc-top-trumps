@@ -1,5 +1,7 @@
+@value medium from '../settings/breakpoints.module.css';
+
 .card {
-   width: 395px;
+   max-width: 100%;
    min-height: 666px;
    background: #FFFFFF;
    box-shadow: 0px 8px 32px rgba(0, 0, 0, 0.1);
@@ -8,6 +10,12 @@
    position: relative;
    display: flex;
    flex-direction: column;
+}
+
+@media (medium) {
+   .card {
+      width: 395px;
+   }
 }
 
 .mugShotContainer {
