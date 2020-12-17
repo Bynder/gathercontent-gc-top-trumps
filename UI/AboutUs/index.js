@@ -1,12 +1,19 @@
 import React from "react"
 import aboutStyles from "./about.module.css"
+import { Button } from '../Button';
 
-export function AboutUs({introTitle, introContent}) {
+export function AboutUs({introContent, toggle}) {
 
    return (
-      <div className={aboutStyles.about}>
-         <h1 className={aboutStyles.title}>{introTitle}</h1>
-         <p className={aboutStyles.text}>{introContent}</p>
+      <div className={aboutStyles.container}>
+         <div className={aboutStyles.about}>
+            <div className={aboutStyles.text} dangerouslySetInnerHTML={{__html: introContent}}/>
+         </div>
+         <div className={aboutStyles.buttonContainer}>
+            <Button className={aboutStyles.button} onClick={toggle}>
+               GET JAMMIN'
+            </Button>
+         </div>
       </div>
    )
 }

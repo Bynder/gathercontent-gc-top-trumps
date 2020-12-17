@@ -5,7 +5,6 @@ import {UserTurn} from "../../UI/UserTurn"
 import {Result} from "../../UI/Result"
 import {ComputersTurn} from "../../UI/ComputersTurn";
 import { ScoreAside } from "../../UI/ScoreAside"
-import Audio from '../components/Audio'
 import InfoIcon from '../components/InfoIcon'
 
 export const PLAYER_USER = "PLAYER_USER"
@@ -144,27 +143,29 @@ export default function Game({data, location}) {
 
    return (
       <>
-         <ScoreAside cardsLeft={usersCards.length} turnNumber={turnCount} wins={roundsWon} />
+         <InfoIcon>
+            <ScoreAside cardsLeft={usersCards.length} turnNumber={turnCount} wins={roundsWon} />
 
-         {isUsersTurn && !roundWinner && (
-            <UserTurn card={usersTurnCard} slamJams={slamJams}></UserTurn>
-         )}
+            {isUsersTurn && !roundWinner && (
+               <UserTurn card={usersTurnCard} slamJams={slamJams}></UserTurn>
+            )}
 
-         {!isUsersTurn && !roundWinner && (
-            <ComputersTurn name={computerName} card={computersTurnCard}></ComputersTurn>
-         )}
+            {!isUsersTurn && !roundWinner && (
+               <ComputersTurn name={computerName} card={computersTurnCard}></ComputersTurn>
+            )}
 
-         {roundWinner && (
-            <Result
-               computerName={computerName}
-               usersTurnCard={usersTurnCard}
-               computersTurnCard={computersTurnCard}
-               winner={roundWinner}
-               selectedAttribute={selectedAttribute}
-               incrementTurnCount={incrementTurnCount}
-               slamJams={slamJams}
-            ></Result>
-         )}
+            {roundWinner && (
+               <Result
+                  computerName={computerName}
+                  usersTurnCard={usersTurnCard}
+                  computersTurnCard={computersTurnCard}
+                  winner={roundWinner}
+                  selectedAttribute={selectedAttribute}
+                  incrementTurnCount={incrementTurnCount}
+                  slamJams={slamJams}
+               ></Result>
+            )}
+         </InfoIcon>
       </>
    );
 }
