@@ -30,6 +30,10 @@
    position: relative;
 }
 
+.aside li:hover .tooltip {
+   visibility: visible;
+}
+
 .aside li span.icon {
    position: absolute;
    width: 48px;
@@ -105,6 +109,7 @@
 }
 
 .aside .tooltip {
+   visibility: hidden;
    position: absolute;
    text-transform: uppercase;
    background: #29333D;
