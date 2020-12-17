@@ -1,11 +1,23 @@
+@value medium from '../settings/breakpoints.module.css';
+
 .resultContainer {
-   display: flex;
    height: 100%;
    width: 100%;
 }
 
-.result {
-   margin-right: 40px;
+@media (medium) {
+   .resultContainer {
+      display: grid;
+      grid-template-columns: auto auto;
+      grid-column-gap: 40px;
+   }
+}
+
+.resultsFooter {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   margin: 20px 0;
 }
 
 .button {

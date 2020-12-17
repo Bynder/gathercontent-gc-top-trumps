@@ -6,7 +6,7 @@ import asideStyles from "../ScoreAside/scoreAside.module.css";
 
 export function CardAttributeList({attributes, onSelectAttribute = () => "", selectedAttribute, hasPlayerWon}) {
    return (
-      <ul className={cardStyles.attributeList}>
+      <div>
          <ReactTooltip
             className={asideStyles.tooltip}
             place="left"
@@ -16,18 +16,20 @@ export function CardAttributeList({attributes, onSelectAttribute = () => "", sel
             arrowColor={"transparent"}
             id="cardAttributeToolTip"
          />
-         {attributes.map((attr, index) => (
-            <CardAttribute
-               stat={attr.description}
-               value={attr.score}
-               index={index}
-               onSelect={() => onSelectAttribute(attr.description)}
-               selected={selectedAttribute === attr.description}
-               isAnyAttributeSelected={!!selectedAttribute}
-               hasPlayerWon={hasPlayerWon}
-               key={attr.description}
-            />
-         ))}
-      </ul>
+         <ul className={cardStyles.attributeList}>
+            {attributes.map((attr, index) => (
+               <CardAttribute
+                  stat={attr.description}
+                  value={attr.score}
+                  index={index}
+                  onSelect={() => onSelectAttribute(attr.description)}
+                  selected={selectedAttribute === attr.description}
+                  isAnyAttributeSelected={!!selectedAttribute}
+                  hasPlayerWon={hasPlayerWon}
+                  key={attr.description}
+               />
+            ))}
+         </ul>
+      </div>
    )
 }

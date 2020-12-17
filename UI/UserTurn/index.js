@@ -5,7 +5,7 @@ import {ChooseYourJamStat} from "../ChooseYourJamStat";
 import { Card } from "../Card"
 import { Button } from "../Button"
 
-export function UserTurn({card: {name, cardDescription, mugshot, mugshotAltText}, card, slamJams}) {
+export function UserTurn({card: {name, cardDescription, mugshot, mugshotAltText}, card, takeTurn}) {
    const [selectedAttribute, setSelectedAttribute] = useState(null)
 
    return (
@@ -23,7 +23,7 @@ export function UserTurn({card: {name, cardDescription, mugshot, mugshotAltText}
 
          {selectedAttribute && (
             <div className={userTurnStyles.button}>
-               <Button onClick={() => slamJams(selectedAttribute)}>Slam It!</Button>
+               <Button onClick={() => takeTurn(selectedAttribute)}>Slam It!</Button>
             </div>
          )}
       </div>
