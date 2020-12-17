@@ -1,18 +1,36 @@
 import React from "react"
-import { IntroHero } from "../../UI/IntroHero"
-import introStyles from "../../UI/IntroHero/introHero.module.css"
-import InfoIcon from '../components/InfoIcon'
-import { navigate } from 'gatsby';
+import introStyles from "../../UI/IntroUI/intro.module.css"
+import {graphql} from 'gatsby';
+import InfoIcon from "../components/InfoIcon";
+import {IntroUI} from "../../UI/IntroUI";
 
-export default function Intro() {
+export default function Intro({data}) {
+   const colouredStrings = [
+      ['Tastiness', '<span style="color:red">Tastiness</span>'],
+      ['Spreadability', '<span style="color:purple">Spreadability</span>'],
+      ['Versatility', '<span style="color:green">Versatility</span>'],
+      ['Trendiness', '<span style="color:blue">Trendiness</span>'],
+      ['Rarity', '<span style="color:orange">Rarity</span>'],
+   ];
+
+   const introContent = colouredStrings.reduce((finalStr, [key, value]) => finalStr.replace(key, value),
+      data.allGatherContentItemsByFolderWelcomeandintro.nodes[0].introAndExplainer);
+
    return (
       <InfoIcon>
          <div className={introStyles.container}>
-            <IntroHero onSubmit={(e, state) => {
-               e.preventDefault()
-               navigate("/game", { state });
-            }} />
+            <IntroUI introContent={introContent}/>
          </div>
       </InfoIcon>
    )
 }
+
+export const pageQuery = graphql`
+query introQuery {
+  allGatherContentItemsByFolderWelcomeandintro {
+    nodes {
+      introAndExplainer
+    }
+  }
+}
+`

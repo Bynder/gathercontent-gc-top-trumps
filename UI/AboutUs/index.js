@@ -6,6 +6,7 @@ export function AboutUs({introContent, toggle}) {
 
    return (
       <div className={aboutStyles.container}>
+         <span className={aboutStyles.logoAbout} />
          <div className={aboutStyles.about}>
             <div className={aboutStyles.text} dangerouslySetInnerHTML={{__html: introContent}}/>
          </div>

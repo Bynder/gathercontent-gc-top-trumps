@@ -1,4 +1,4 @@
-.about {
+.intro {
    width: 580px;
    height: 510px;
    background: linear-gradient(180deg, #FFFFFF 0%, #F0F2F5 100%);
@@ -38,21 +38,24 @@ a {
 .container{
    display: flex;
    flex-direction: column;
+   align-items: center;
    justify-content: center;
 }
 
 .buttonContainer{
    display: flex;
+   flex-direction: column;
+   align-items: center;
    justify-content: center;
    width: 100%;
 }
 
-.logoAbout {
+.logo {
    position: relative;
    background-image: url("/Logo.svg");
    width: 360px;
    height: 175px;
-   top:30px;
+   top:75px;
    background-size: contain;
    display: flex;
    justify-content: center;
