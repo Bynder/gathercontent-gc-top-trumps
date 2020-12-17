@@ -26,89 +26,22 @@
 }
 
 .aside li {
-   width: 58px;
-   height: 58px;
-   border-radius: 58px;
-   border: 6px solid #678099;
    list-style-type: none;
    padding: 0;
+   display: flex;
+   align-items: center;
+}
+
+.m15 {
    margin: 15px;
-   box-shadow: inset 0px 0px 6px rgba(0, 0, 0, 0.2);
-   filter: drop-shadow(0px 3px 0px rgba(41, 51, 61, 0.2));
-   background: linear-gradient(180deg, #678099 0%, #52667A 100%);
-   position: relative;
-}
-
-.aside li span.icon {
-   position: absolute;
-   width: 48px;
-   height: 48px;
-   border-radius: 48px;
-   left: -1px;
-   top: 0;
-}
-
-.aside li.turnNumber span.icon  {
-   background: url("../../static/rounds.png") no-repeat center;
-}
-
-@media (-webkit-min-device-pixel-ratio: 2),
-(min-resolution: 192dpi) {
-
-   .aside li.turnNumber span.icon{
-      background:url('../../static/rounds@2x.png') no-repeat center;
-      background-size: 32px 32px;
-   }
-}
-
-.aside li.wins span.icon  {
-   background: url("../../static/star.png") no-repeat center;
-}
-
-@media (-webkit-min-device-pixel-ratio: 2),
-(min-resolution: 192dpi) {
-
-   .aside li.wins span.icon{
-      background:url('../../static/star@2x.png') no-repeat center;
-      background-size: 32px 32px;
-   }
-}
-
-.aside li.cardsLeft span.icon  {
-   background: url("../../static/cards.png") no-repeat center;
-}
-
-@media (-webkit-min-device-pixel-ratio: 2),
-(min-resolution: 192dpi) {
-
-   .aside li.cardsLeft span.icon{
-      background:url('../../static/cards@2x.png') no-repeat center;
-      background-size: 32px 32px;
-   }
-}
-
-.aside li.time span.icon  {
-   background: url("../../static/clock.png") no-repeat center;
-}
-
-@media (-webkit-min-device-pixel-ratio: 2),
-(min-resolution: 192dpi) {
-
-   .aside li.time span.icon{
-      background:url('../../static/clock@2x.png') no-repeat center;
-      background-size: 32px 32px;
-   }
 }
 
 .aside li span.stat {
-   position: relative;
    font-weight: 800;
    font-size: 24px;
    text-transform: uppercase;
    line-height: 100%;
    color: #678098;
-   left: 66px;
-   top: 8px;
 }
 
 .tooltip {
@@ -121,7 +54,3 @@
    font-size: 18px !important;
    color: #ffffff;
 }
-
-
-
-
