@@ -20,7 +20,7 @@ export function ComputersTurn({
             <WaitingCard label={loadingLabel} />
          ) : (
             <Card hasPlayerWon={!playerWon}>
-               <Card.Image name={computersTurnCard.name} />
+               <Card.Image name={computersTurnCard.name} mugShotUrl={computersTurnCard.mugshot} altText={computersTurnCard.mugshotAltText}/>
                <Card.Description description={computersTurnCard.cardDescription} />
                <Card.AttributeList
                   attributes={GetAttributesFromCard(computersTurnCard)}
