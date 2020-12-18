@@ -1,23 +1,13 @@
 import React from 'react';
 import cardAttributeStyles from './cardAttribute.module.css';
 
-export function AttributeBar({value, outerColour, innerColour, colour, barColour}) {
+export function AttributeBar({ score, colour }) {
    return (
-      <div className={cardAttributeStyles.bar}>
-         <div
-            style={{
-               border: `6px solid ${outerColour}`,
-               background: `linear-gradient(180deg, ${outerColour} 0%, ${innerColour} 100%)`,
-            }}
-            className={`${cardAttributeStyles.outerBar} ${colour}`}
-         >
-            <div
-               style={{
-                  width: `${value}0%`,
-                  background: `linear-gradient(180deg, #FFFFFF 0%, ${barColour} 100%)`,
-               }}
-               className={`${cardAttributeStyles.innerBar} ${colour}`}
-            />
+      <div className={`${cardAttributeStyles.bar} ${cardAttributeStyles.gradient} ${colour}`}>
+         <div className={cardAttributeStyles.innerBorder}>
+            <div className={cardAttributeStyles.innerBarShadow}>
+               <div className={cardAttributeStyles.innerBar} style={{ width: `${score}0%` }}/>
+            </div>
          </div>
       </div>
    );
