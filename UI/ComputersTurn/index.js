@@ -13,7 +13,6 @@ export function ComputersTurn({
    selectedAttribute,
    isLoading,
 }) {
-   console.log(isLoading)
    return (
       <animated.div style={animationStyle}>
          <h1>{name}</h1>

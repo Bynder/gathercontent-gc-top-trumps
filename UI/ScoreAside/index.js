@@ -3,26 +3,11 @@ import asideStyles from "./scoreAside.module.css"
 import ReactTooltip from 'react-tooltip';
 import { Cards, Clock, Round, Wins } from '../Icons';
 import { ScorePoint } from '../ScorePoint';
+import { FormatTime } from "../../src/utils/helpers"
 
-export function ScoreAside({ turnNumber, wins, cardsLeft }) {
-   const [timeElapsed, setTimeElapsed] = useState(0)
+export function ScoreAside({ turnNumber, wins, cardsLeft, timeElapsed}) {
 
-   useEffect(() => {
-      const intervalId = setInterval(() => {
-         setTimeElapsed(timeElapsed + 1)
-      }, 1000)
-
-      return () => clearInterval(intervalId)
-   }, [timeElapsed])
-
-   const minutes =
-      Math.floor(timeElapsed / 60) < 10
-         ? `0${Math.floor(timeElapsed / 60)}`
-         : Math.floor(timeElapsed / 60)
-   const seconds =
-      Math.floor(timeElapsed % 60) < 10
-         ? `0${Math.floor(timeElapsed % 60)}`
-         : Math.floor(timeElapsed % 60)
+   const time = FormatTime(timeElapsed)
 
    return (
       <div className={asideStyles.aside}>
@@ -44,14 +29,14 @@ export function ScoreAside({ turnNumber, wins, cardsLeft }) {
                <ScorePoint className={asideStyles.m15}><Wins /></ScorePoint>
                <span className={asideStyles.stat}>{wins}</span>
             </li>
-            <li data-tip="Cards Remaining" data-for="asideToolTip">
+            <li data-tip="Cards" data-for="asideToolTip">
                <ScorePoint className={asideStyles.m15}><Cards /></ScorePoint>
                <span className={asideStyles.stat}>{cardsLeft}</span>
             </li>
             <li data-tip="Time" data-for="asideToolTip">
                <ScorePoint className={asideStyles.m15}><Clock /></ScorePoint>
                <span className={asideStyles.stat}>
-                  {minutes}:{seconds}
+                  {time.minutes}:{time.seconds}
                </span>
             </li>
          </ul>

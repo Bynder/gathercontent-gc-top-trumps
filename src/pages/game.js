@@ -1,15 +1,14 @@
 import React, {useEffect, useState} from "react"
-import {graphql} from "gatsby"
-import { useSpring } from "react-spring"
-import { Button } from "../../UI/Button"
+import {graphql, navigate} from "gatsby"
+import {useSpring} from "react-spring"
+import {Button} from "../../UI/Button"
 import {chunk, map, orderBy, shuffle} from "lodash"
 import {UserTurn} from "../../UI/UserTurn"
-import {Result} from "../../UI/Result"
 import {ComputersTurn} from "../../UI/ComputersTurn";
 import {ScoreAside} from "../../UI/ScoreAside"
-import {WaitingCard} from "../../UI/WaitingCard";
 import resultStyles from "../../UI/Result/result.module.css";
 import InfoIcon from "../components/InfoIcon";
+import {GetAttributesFromCard} from "../../src/utils/helpers"
 
 export const PLAYER_USER = "PLAYER_USER"
 export const PLAYER_COMPUTER = "PLAYER_COMPUTER"
@@ -22,8 +21,8 @@ export const GAME_STATE_COMPUTER_TURN = "COMPUTER_TURN"
 export const GAME_STATE_RESULTS = "STATE_RESULTS"
 
 export default function Game({data}) {
-   const [userProps, userSet] = useSpring(() => ({ opacity: 1 }))
-   const [waitingProps, waitingSet] = useSpring(() => ({ opacity: 0, display: "none" }))
+   const [userProps, userSet] = useSpring(() => ({opacity: 1}))
+   const [waitingProps, waitingSet] = useSpring(() => ({opacity: 0, display: "none"}))
 
    const names = [
       'Barack O - Jar - Ma',
@@ -62,6 +61,16 @@ export default function Game({data}) {
       selectedAttribute: 0
    })
 
+   const [timeElapsed, setTimeElapsed] = useState(0)
+
+   useEffect(() => {
+      const intervalId = setInterval(() => {
+         setTimeElapsed(timeElapsed + 1)
+      }, 1000)
+
+      return () => clearInterval(intervalId)
+   }, [timeElapsed])
+
    const incrementTurnCount = () => setAllState({...allState, turnCount: allState.turnCount + 1})
 
    const usersTurn = (cards = {}) => {
@@ -74,16 +83,8 @@ export default function Game({data}) {
       userSet({ opacity: 0, display: "none" })
       waitingSet({ opacity: 1, display: "block" })
 
-      const {
-         name,
-         cardDescription,
-         mugshot,
-         mugshotAltText,
-         id,
-         ...attributes
-      } = allState.computersCards[0]
-      const attributesArray = map(attributes, (value, key) => ({key: key, value: value}))
-      const orderedAttributes = orderBy(attributesArray, ["value"], ["desc"])
+      const attributes = GetAttributesFromCard(allState.computersCards[0])
+      const orderedAttributes = orderBy(attributes, ["value"], ["desc"])
 
       setAllState({
          ...allState, ...cards,
@@ -95,8 +96,8 @@ export default function Game({data}) {
    }
 
    const takeTurn = attribute => {
-      waitingSet({ opacity: 1, display: "block" })
-      setTimeout(() => slamJams(attribute), 700);	      userSet({ opacity: 0, display: "none" })
+      waitingSet({opacity: 1, display: "block"})
+      userSet({opacity: 0, display: "none"})
       setAllState({...allState, gameState: GAME_STATE_WAITING_FOR_COMPUTER})
       setTimeout(() => slamJams(attribute), 700);
    }
@@ -105,7 +106,6 @@ export default function Game({data}) {
 
       const [usersCard, ...usersRemaining] = allState.usersCards;
       const [computersCard, ...computersRemaining] = allState.computersCards;
-
 
       if (allState.roundWinner === PLAYER_USER) {
          return {
@@ -131,8 +131,8 @@ export default function Game({data}) {
       waitingSet({ opacity: 1, display: "block" })
       userSet({ opacity: 1, display: "block" })
 
-      const [usersCard, ...usersRemaining] = allState.usersCards;
-      const [computersCard, ...computersRemaining] = allState.computersCards;
+      const [usersCard] = allState.usersCards;
+      const [computersCard] = allState.computersCards;
 
       const hasUserWon = usersCard[attribute] > computersCard[attribute]
       const isDraw = usersCard[attribute] === computersCard[attribute]
@@ -175,12 +175,24 @@ export default function Game({data}) {
 
    useEffect(() => {
 
-      if (!allState.usersCards.length || !allState.computersCards.length) {
-         //Show results
+      if (allState.gameState === GAME_STATE_RESULTS && (allState.usersCards.length === 1 || allState.computersCards.length === 1)) {
+         navigate("/results", {
+            state: {
+               ...allState,
+               timeElapsed: timeElapsed,
+               won: allState.usersCards.length === 1
+            }
+         });
          return
       }
 
-      [null, PLAYER_USER, DRAW_PLAYER].includes(allState.roundWinner) ? usersTurn(drawCard()) : computersTurn(drawCard())
+   }, [allState.gameState])
+
+   useEffect(() => {
+
+      const cards = drawCard();
+
+      [null, PLAYER_USER, DRAW_PLAYER].includes(allState.roundWinner) ? usersTurn(cards) : computersTurn(cards)
 
    }, [allState.turnCount])
 
@@ -190,6 +202,7 @@ export default function Game({data}) {
             cardsLeft={allState.usersCards.length}
             turnNumber={allState.turnCount}
             wins={allState.roundsWon}
+            timeElapsed={timeElapsed}
          />
          <div className={resultStyles.resultContainer}>
             <div className={resultStyles.result}>
@@ -204,7 +217,7 @@ export default function Game({data}) {
                   showButton={allState.gameState !== GAME_STATE_RESULTS}
                   selectedAttribute={allState.selectedAttribute}
                   setSelectedAttribute={attr =>
-                     setAllState({ ...allState, selectedAttribute: attr })
+                     setAllState({...allState, selectedAttribute: attr})
                   }
                />
             </div>
