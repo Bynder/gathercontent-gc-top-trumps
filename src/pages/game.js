@@ -67,7 +67,7 @@ export default function Game({data}) {
    const usersTurn = (cards = {}) => {
       waitingSet({ opacity: 0, display: "none" })
       userSet({ opacity: 1, display: "block" })
-      setAllState({...allState, ...cards, gameState: GAME_STATE_YOUR_TURN})
+      setAllState({...allState, ...cards, gameState: GAME_STATE_YOUR_TURN, selectedAttribute: 0})
    }
 
    const computersTurn = (cards = {}) => {
@@ -85,7 +85,11 @@ export default function Game({data}) {
       const attributesArray = map(attributes, (value, key) => ({key: key, value: value}))
       const orderedAttributes = orderBy(attributesArray, ["value"], ["desc"])
 
-      setAllState({...allState, ...cards, gameState: GAME_STATE_COMPUTER_TURN})
+      setAllState({
+         ...allState, ...cards,
+         gameState: GAME_STATE_COMPUTER_TURN,
+         selectedAttribute: 0
+      })
 
       setTimeout(() => slamJams(orderedAttributes[0].key), 1500)
    }
@@ -100,26 +104,26 @@ export default function Game({data}) {
    const drawCard = () => {
 
       const [usersCard, ...usersRemaining] = allState.usersCards;
-      const [computersCard, ...computersRemaining] = allState.usersCards;
+      const [computersCard, ...computersRemaining] = allState.computersCards;
 
 
       if (allState.roundWinner === PLAYER_USER) {
          return {
-            computersCards: allState.computersCards.splice(1),
-            usersCards: [...allState.usersCards.splice(1), usersCard, computersCard],
+            computersCards: computersRemaining,
+            usersCards: [...usersRemaining, usersCard, computersCard],
          }
       }
 
       if (allState.roundWinner === PLAYER_COMPUTER) {
          return {
-            usersCards: allState.usersCards.splice(1),
-            computersCards: [...allState.computersCards.splice(1), computersCard, usersCard],
+            usersCards: usersRemaining,
+            computersCards: [...computersRemaining, computersCard, usersCard],
          }
       }
 
       return {
-         usersCards: [...allState.usersCards.splice(1), usersCard],
-         computersCards: [...allState.computersCards.splice(1), computersCard]
+         usersCards: [...usersRemaining, usersCard],
+         computersCards: [...computersRemaining, computersCard]
       }
    }
 
