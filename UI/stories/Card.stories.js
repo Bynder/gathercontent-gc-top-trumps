@@ -15,7 +15,7 @@ const Template = args => (
          <Card.AttributeList
             attributes={args.attributes}
             onSelectAttribute={() => {}}
-            selectedAttribute={() => {}}
+            selectedAttribute={false}
          />
       </Card>
       Things we need to do:

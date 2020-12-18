@@ -1,12 +1,13 @@
 import React from "react"
 import cardAttributeStyles from "./cardAttribute.module.css"
-import { ReactComponent as Rarity }  from "../../static/Rarity.svg"
+import { ReactComponent as Rarity } from "../../static/Rarity.svg"
 import { ReactComponent as Spreadibility } from "../../static/Spreadibility.svg"
 import { ReactComponent as Taste } from "../../static/Taste.svg"
 import { ReactComponent as Trendiness } from "../../static/Trendiness.svg"
 import { ReactComponent as Versatility } from "../../static/Versatility.svg"
 import { StarSmall } from "../Icons"
-import { ReactTooltip } from "react-tooltip";
+import { AttributeIcon } from './AttributeIcon';
+import { AttributeBar } from './AttributeBar';
 
 const statColours = [
    {
@@ -47,14 +48,14 @@ const statColours = [
 ]
 
 export function CardAttribute({
-   stat,
-   value,
-   index,
-   onSelect,
-   selected,
-   isAnyAttributeSelected,
-   hasPlayerWon,
-}) {
+                                 stat,
+                                 value,
+                                 index,
+                                 onSelect,
+                                 selected,
+                                 isAnyAttributeSelected,
+                                 hasPlayerWon,
+                              }) {
    const { outerColour, innerColour, barColour, colour, icon: Icon } = statColours[index]
 
    return (
@@ -64,30 +65,11 @@ export function CardAttribute({
             className={cardAttributeStyles.container}
             style={{ opacity: isAnyAttributeSelected && !selected ? 0.25 : 1 }}
          >
-            <div className={`${cardAttributeStyles.att} ${colour}`} data-tip={stat} data-for="cardAttributeToolTip">
-               <div className={`${cardAttributeStyles.frame1} ${colour}`}>
-                  <div className={`${cardAttributeStyles.frame3} ${colour}`}>
-                     <Icon className={cardAttributeStyles.iconDropShadow}/>
-                  </div>
-               </div>
-            </div>
-            <div className={cardAttributeStyles.bar}>
-               <div
-                  style={{
-                     border: `6px solid ${outerColour}`,
-                     background: `linear-gradient(180deg, ${outerColour} 0%, ${innerColour} 100%)`,
-                  }}
-                  className={`${cardAttributeStyles.outerBar} ${colour}`}
-               >
-                  <div
-                     style={{
-                        width: `${value}0%`,
-                        background: `linear-gradient(180deg, #FFFFFF 0%, ${barColour} 100%)`,
-                     }}
-                     className={`${cardAttributeStyles.innerBar} ${colour}`}
-                  />
-               </div>
-            </div>
+            <AttributeIcon colour={colour} stat={stat} style={{'margin-right': '10px'}}>
+               <Icon className={cardAttributeStyles.iconDropShadow}/>
+            </AttributeIcon>
+            <AttributeBar value={value} outerColour={outerColour} innerColour={innerColour}
+                          colour={colour} barColour={barColour}/>
             <div
                style={{
                   "textShadow": `4px 0 0 ${outerColour}, -4px 0 0 ${outerColour}, 0 4px 0 ${outerColour}, 0 -4px 0 ${outerColour}, 2px 2px ${outerColour}, -2px -2px 0 ${outerColour}, 2px -2px 0 ${outerColour}, -2px 2px 0 ${outerColour}`,

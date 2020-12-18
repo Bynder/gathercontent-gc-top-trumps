@@ -56,6 +56,7 @@
    height: 32px;
    align-self: center;
    text-align: center;
+   filter: drop-shadow(0 2px 0 rgba(0, 0, 0, 0.1));
 }
 
 .star {
