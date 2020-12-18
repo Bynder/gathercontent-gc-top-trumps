@@ -1,6 +1,8 @@
+@value medium from '../settings/breakpoints.module.css';
+
 .card {
-   width: 395px;
-   height: 666px;
+   max-width: 100%;
+   min-height: 566px;
    background: #FFFFFF;
    box-shadow: 0px 8px 32px rgba(0, 0, 0, 0.1);
    border-radius: 32px;
@@ -10,11 +12,17 @@
    flex-direction: column;
 }
 
+@media (medium) {
+   .card {
+      width: 395px;
+   }
+}
+
 .mugShotContainer {
    position: relative;
    box-shadow: inset 0px 4px 0px rgba(0, 0, 0, 0.1);
    border-radius: 24px;
-   height: 160px;
+   height: 100px;
 }
 
 .mugShot {
@@ -51,6 +59,8 @@
    display: flex;
    flex-direction: column;
    padding: 0;
+   margin: 0;
+   list-style: none;
 }
 
 .attribute {

@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react"
 import asideStyles from "./scoreAside.module.css"
+import ReactTooltip from 'react-tooltip';
+import { Cards, Clock, Round, Wins } from '../Icons';
+import { ScorePoint } from '../ScorePoint';
 
 export function ScoreAside({ turnNumber, wins, cardsLeft }) {
    const [timeElapsed, setTimeElapsed] = useState(0)
@@ -24,27 +27,32 @@ export function ScoreAside({ turnNumber, wins, cardsLeft }) {
    return (
       <div className={asideStyles.aside}>
          <ul>
-            <li className={asideStyles.turnNumber}>
+         <ReactTooltip
+            className={asideStyles.tooltip}
+            place="right"
+            effect={"solid"}
+            offset={{'right': -20}}
+            clickable={true}
+            arrowColor={"transparent"}
+            id="asideToolTip"
+         />
+            <li data-tip="Rounds" data-for="asideToolTip">
+               <ScorePoint className={asideStyles.m15}><Round /></ScorePoint>
                <span className={asideStyles.stat}>{turnNumber}</span>
-               <span className={asideStyles.icon}></span>
-               <span className={asideStyles.tooltip}>Rounds</span>
             </li>
-            <li className={asideStyles.wins}>
+            <li data-tip="Wins" data-for="asideToolTip">
+               <ScorePoint className={asideStyles.m15}><Wins /></ScorePoint>
                <span className={asideStyles.stat}>{wins}</span>
-               <span className={asideStyles.icon}></span>
-               <span className={asideStyles.tooltip}>Wins</span>
             </li>
-            <li className={asideStyles.cardsLeft}>
+            <li data-tip="Cards Remaining" data-for="asideToolTip">
+               <ScorePoint className={asideStyles.m15}><Cards /></ScorePoint>
                <span className={asideStyles.stat}>{cardsLeft}</span>
-               <span className={asideStyles.icon}></span>
-               <span className={asideStyles.tooltip}>Cards&nbsp;Remaining</span>
             </li>
-            <li className={asideStyles.time}>
+            <li data-tip="Time" data-for="asideToolTip">
+               <ScorePoint className={asideStyles.m15}><Clock /></ScorePoint>
                <span className={asideStyles.stat}>
                   {minutes}:{seconds}
                </span>
-               <span className={asideStyles.icon}></span>
-               <span className={asideStyles.tooltip}>Time</span>
             </li>
          </ul>
       </div>

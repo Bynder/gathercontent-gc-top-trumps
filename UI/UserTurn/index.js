@@ -1,13 +1,22 @@
-import React, {useEffect, useState} from "react"
+import React, { useState } from "react"
 import userTurnStyles from "./userTurn.module.css"
-import {GetAttributesFromCard} from "../../src/utils/helpers"
-import {ChooseYourJamStat} from "../ChooseYourJamStat";
-import {Card} from "../Card"
-import {Button} from "../Button"
+import { GetAttributesFromCard } from "../../src/utils/helpers"
+import { ChooseYourJamStat } from "../ChooseYourJamStat"
+import { Card } from "../Card"
+import { Button } from "../Button"
+import { animated } from "react-spring"
 
-export function UserTurn({card: {name, cardDescription}, card, slamJams}) {
+export function UserTurn({
+   card: { name, cardDescription, mugshot, mugshotAltText },
+   card,
+   takeTurn,
+   animationStyle,
+   playerWon,
+   showButton,
+   selectedAttribute,
+   setSelectedAttribute,
+}) {
 
-   const [selectedAttribute, setSelectedAttribute] = useState(null)
    const attributes = GetAttributesFromCard(card);
 
    const handleNumbers = (e) => {
@@ -32,24 +41,29 @@ export function UserTurn({card: {name, cardDescription}, card, slamJams}) {
       return () => document.removeEventListener('keydown', handleEnter)
    }, [selectedAttribute]);
 
+
    return (
-      <div>
-         <ChooseYourJamStat/>
-         <Card>
-            <Card.Image name={name}/>
-            <Card.Description description={cardDescription}/>
+      <animated.div style={animationStyle}>
+         <h1>You</h1>
+         <ChooseYourJamStat />
+         <Card hasPlayerWon={playerWon}>
+            <Card.Image name={name} mugShotUrl={mugshot} altText={mugshotAltText} />
+            <Card.Description description={cardDescription} />
             <Card.AttributeList
-               attributes={GetAttributesFromCard(card)}
+               attributes={attributes}
                selectedAttribute={selectedAttribute}
                onSelectAttribute={setSelectedAttribute}
+               hasPlayerWon={playerWon}
             />
          </Card>
 
-         {selectedAttribute && (
+         {showButton && (
             <div className={userTurnStyles.button}>
-               <Button onClick={() => slamJams(selectedAttribute)}>Slam It!</Button>
+               <Button disabled={!selectedAttribute} onClick={() => takeTurn(selectedAttribute)}>
+                  Slam It!
+               </Button>
             </div>
          )}
-      </div>
+      </animated.div>
    )
 }
