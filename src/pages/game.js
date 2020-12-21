@@ -211,7 +211,7 @@ export default function Game({data}) {
 
       const cards = drawCard();
 
-      [null, PLAYER_USER, DRAW_PLAYER].includes(allState.roundWinner) ? usersTurn(cards) : computersTurn(cards)
+      [null, PLAYER_USER, DRAW_COMPUTER].includes(allState.roundWinner) ? usersTurn(cards) : computersTurn(cards)
 
    }, [allState.turnCount])
 
@@ -239,6 +239,7 @@ export default function Game({data}) {
                   setSelectedAttribute={attr =>
                      setAllState((previousState) => ({...previousState, selectedAttribute: attr}))
                   }
+                  slamJams={slamJams}
                />
 
             </div>

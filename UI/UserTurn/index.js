@@ -1,55 +1,54 @@
-import React, { useState } from "react"
+import React, {useEffect, useState} from "react"
 import userTurnStyles from "./userTurn.module.css"
-import { GetAttributesFromCard } from "../../src/utils/helpers"
-import { ChooseYourJamStat } from "../ChooseYourJamStat"
-import { Card } from "../Card"
-import { Button } from "../Button"
-import { animated } from "react-spring"
+import {GetAttributesFromCard} from "../../src/utils/helpers"
+import {ChooseYourJamStat} from "../ChooseYourJamStat"
+import {Card} from "../Card"
+import {Button} from "../Button"
+import {animated} from "react-spring"
 
 export function UserTurn({
-   card: { name, cardDescription, mugshot, mugshotAltText },
-   card,
-   takeTurn,
-   animationStyle,
-   playerWon,
-   showButton,
-   selectedAttribute,
-   setSelectedAttribute,
-   isResults
-}) {
+                            card: {name, cardDescription, mugshot, mugshotAltText},
+                            card,
+                            takeTurn,
+                            animationStyle,
+                            playerWon,
+                            showButton,
+                            selectedAttribute,
+                            setSelectedAttribute,
+                            isResults,
+                            slamJams
+                         }) {
 
    const attributes = GetAttributesFromCard(card);
 
-   const handleNumbers = (e) => {
+   const handleKeysPress = (e) => {
+
+      if(isResults){
+         return
+      }
+
+      if (e.key === 'Enter' && selectedAttribute) {
+         slamJams(selectedAttribute)
+      }
+
       if ([1, 2, 3, 4, 5].includes(parseInt(e.key))) {
          setSelectedAttribute(attributes[e.key - 1].description)
       }
    }
 
    useEffect(() => {
-      document.addEventListener('keydown', handleNumbers, false);
-      return () => document.removeEventListener('keydown', handleNumbers)
-   }, []);
-
-   const handleEnter = (e) => {
-      if (e.key === 'Enter') {
-         slamJams(selectedAttribute)
-      }
-   }
-
-   useEffect(() => {
-      document.addEventListener('keydown', handleEnter, false);
-      return () => document.removeEventListener('keydown', handleEnter)
-   }, [selectedAttribute]);
+      document.addEventListener('keydown', handleKeysPress, false);
+      return () => document.removeEventListener('keydown', handleKeysPress)
+   }, [selectedAttribute, isResults]);
 
 
    return (
       <animated.div style={animationStyle}>
          <h1>You</h1>
-         {!isResults && <ChooseYourJamStat />}
+         {!isResults && <ChooseYourJamStat/>}
          <Card hasPlayerWon={playerWon}>
-            <Card.Image name={name} mugShotUrl={mugshot} altText={mugshotAltText} />
-            <Card.Description description={cardDescription} />
+            <Card.Image name={name} mugShotUrl={mugshot} altText={mugshotAltText}/>
+            <Card.Description description={cardDescription}/>
             <Card.AttributeList
                attributes={attributes}
                selectedAttribute={selectedAttribute}
