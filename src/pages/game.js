@@ -190,6 +190,9 @@ export default function Game({data}) {
    }, [allState.gameState])
 
    useEffect(() => {
+      if (allState.turnCount === 1) {
+         return
+      }
 
       const cards = drawCard();
 
