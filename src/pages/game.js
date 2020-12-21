@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef} from "react"
+import React, { useContext, useEffect, useState, useRef } from "react"
 import {graphql, navigate} from "gatsby"
 import {useSpring} from "react-spring"
 import {chunk, orderBy, shuffle} from "lodash"
@@ -9,6 +9,7 @@ import resultStyles from "../../UI/Result/result.module.css";
 import InfoIcon from "../components/InfoIcon";
 import {GetAttributesFromCard} from "../utils/helpers"
 import { ResultFooter } from '../components/ResultFooter';
+import { AudioContext } from '../context/AudioContext';
 
 export const PLAYER_USER = "PLAYER_USER"
 export const PLAYER_COMPUTER = "PLAYER_COMPUTER"
@@ -23,6 +24,7 @@ export const GAME_STATE_RESULTS = "STATE_RESULTS"
 export default function Game({data}) {
    const [userProps, userSet] = useSpring(() => ({ opacity: 1 }))
    const [waitingProps, waitingSet] = useSpring(() => ({ opacity: 0, display: "none" }))
+   const { playRoundWin, playRoundLoose, playGameWin, playGameLoose} = useContext(AudioContext);
 
    const names = [
       'Barack O - Jar - Ma',
@@ -141,6 +143,7 @@ export default function Game({data}) {
       const isDraw = usersCard[attribute] === computersCard[attribute]
 
       if (isDraw) {
+         playRoundLoose();
 
          setAllState((previousState) => ({
             ...previousState,
@@ -152,6 +155,8 @@ export default function Game({data}) {
       }
 
       if (hasUserWon) {
+         playRoundWin();
+
          setAllState((previousState) => ({
             ...previousState,
             roundsWon: previousState.roundsWon + 1,
@@ -163,6 +168,8 @@ export default function Game({data}) {
 
          return
       }
+
+      playRoundLoose();
 
       setAllState((previousState) => ({
          ...previousState,
@@ -176,7 +183,6 @@ export default function Game({data}) {
    }
 
    useEffect(() => {
-
       if (allState.gameState === GAME_STATE_RESULTS && (allState.usersCards.length === 1 || allState.computersCards.length === 1)) {
          navigate("/results", {
             state: {
@@ -192,6 +198,11 @@ export default function Game({data}) {
 
    useEffect(() => {
       if (allState.turnCount === 1) {
+         return
+      }
+
+      if (!allState.usersCards.length || !allState.computersCards.length) {
+         (allState.usersCards.length === 30) ? playGameWin() : playGameLoose();
          return
       }
 

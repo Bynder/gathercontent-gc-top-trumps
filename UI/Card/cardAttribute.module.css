@@ -1,3 +1,14 @@
+@value blueInner: #006EFF;
+@value blueOuter: #0058CC;
+@value yellowInner: #F9D006;
+@value yellowOuter: #C7A705;
+@value greenInner: #39C639;
+@value greenOuter: #2E9E2E;
+@value purpleInner: #6E19E6;
+@value purpleOuter: #5814B8;
+@value redInner: #E51A2B;
+@value redOuter: #B81422;
+
 .container {
    width: 100%;
    display: flex;
@@ -8,42 +19,50 @@
    cursor: pointer;
 }
 
-.icon {
-   width: 58px;
-   height: 58px;
-   border-radius: 100px;
-   margin-right: 10px;
-   display: flex;
-   justify-content: center;
-   align-items: center;
-}
-
-.iconDropShadow {
-   filter: drop-shadow(0px 3px 0px rgba(41, 51, 61, 0.2))
-}
-
 .bar {
-   display: flex;
-   flex-grow: 2;
-   align-items: center;
+   flex-grow: 1;
+   filter: drop-shadow(0px 3px 0px rgba(41, 51, 61, 0.2));
+   border: 4px solid;
+   border-radius: 18px;
+   height: 36px;
 }
 
-.outerBar {
-   position: relative;
-   width: 100%;
-   border-radius: 100px;
-   height: 32px;
-   align-self: center;
-   display: flex;
+.innerBorder {
+   flex-grow: 1;
+   padding: 2px;
+}
+
+.innerBarShadow {
+   flex-grow: 1;
+   border-radius: 50px;
+   box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
+   padding: 4px;
 }
 
 .innerBar {
-   position: absolute;
-   height: 100%;
-   border-radius: 100px;
-   align-self: center;
-   display: flex;
-   padding: 4px;
+   height: 16px;
+   border-radius: 8px;
+   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.15);
+}
+
+.red .innerBar {
+   background: linear-gradient(180deg, #FFFFFF 0%, #F5A3AA 100%)
+}
+
+.purple .innerBar {
+   background: linear-gradient(180deg, #FFFFFF 0%, #C5A3F5 100%)
+}
+
+.green .innerBar {
+   background: linear-gradient(180deg, #FFFFFF 0%, #B0E8B0 100%)
+}
+
+.blue .innerBar {
+   background: linear-gradient(180deg, #FFFFFF 0%, #99C5FF 100%)
+}
+
+.yellow .innerBar {
+   background: linear-gradient(180deg, #FFFFFF 0%, #FCEC9C 100%)
 }
 
 .number {
@@ -65,91 +84,119 @@
    top: 0;
 }
 
-.attribute {
-   position: relative
-}
-
 .att {
-   display: flex;
-   align-items: center;
-   justify-content: center;
-   width: 50px;
-   height: 50px;
-   border-radius: 100%;
-   box-sizing: content-box;
+   width: 60px;
+   height: 60px;
+   border-radius: 30px;
+   border: 4px solid;
    filter: drop-shadow(0px 3px 0px rgba(41, 51, 61, 0.2));
 }
 
-.frame1 {
-   display: flex;
-   width: 48px;
-   height: 48px;
-   box-sizing: content-box;
-   border-radius: 100px;
-   filter: none;
-   align-items: center;
-   justify-content: center;
-}
-
-.frame3 {
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-   justify-content: center;
-   padding: 8px;
-   width: 48px;
-   height: 48px;
+.innerCircleShadow {
+   flex-grow: 1;
+   border-radius: 50%;
    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
-   border-radius: 100%;
+   padding: 8px;
+   display: flex;
 }
 
-@value blueInner: #006EFF;
-@value blueOuter: #0058CC;
-@value yellowInner: #F9D006;
-@value yellowOuter: #C7A705;
-@value greenInner: #39C639;
-@value greenOuter: #2E9E2E;
-@value purpleInner: #6E19E6;
-@value purpleOuter: #5814B8;
-@value redInner: #B81422;
-@value redOuter: #E51A2B;
-
-.blueGrad {
+.blue.gradient {
    background: linear-gradient(180deg, blueInner 0%, blueOuter 100%);
 }
 
-.yellowGrad {
+.yellow.gradient {
    background: linear-gradient(180deg, yellowInner 0%, yellowOuter 100%);
 }
 
-.greenGrad {
+.green.gradient {
    background: linear-gradient(180deg, greenInner 0%, greenOuter 100%);
 }
 
-.purpleGrad {
+.purple.gradient {
    background: linear-gradient(180deg, purpleInner 0%, purpleOuter 100%);
 }
 
-.redGrad {
+.red.gradient {
    background: linear-gradient(180deg, redInner 0%, redOuter 100%);
 }
 
-.att.blueGrad {
-   border: 4px solid blueInner;
+.att.blue, .bar.blue {
+   border-color: blueInner;
 }
 
-.att.yellowGrad {
-   border: 4px solid yellowInner;
+.att.yellow, .bar.yellow {
+   border-color: yellowInner;
 }
 
-.att.greenGrad {
-   border: 4px solid greenInner;
+.att.green, .bar.green {
+   border-color: greenInner;
 }
 
-.att.purpleGrad {
-   border: 4px solid purpleInner;
+.att.purple, .bar.purple {
+   border-color: purpleInner;
 }
 
-.att.redGrad {
-   border: 4px solid redInner;
+.att.red, .bar.red {
+   border-color: redInner;
+}
+
+
+.red.number  {
+   text-shadow:
+      4px 0 0 redInner,
+      -4px 0 0 redInner,
+      0 4px 0 redInner,
+      0 -4px 0 redInner,
+      2px 2px redInner,
+      -2px -2px 0 redInner,
+      2px -2px 0 redInner,
+      -2px 2px 0 redInner;
+}
+
+.purple.number  {
+   text-shadow:
+      4px 0 0 purpleInner,
+      -4px 0 0 purpleInner,
+      0 4px 0 purpleInner,
+      0 -4px 0 purpleInner,
+      2px 2px purpleInner,
+      -2px -2px 0 purpleInner,
+      2px -2px 0 purpleInner,
+      -2px 2px 0 purpleInner;
+}
+
+.green.number  {
+   text-shadow:
+      4px 0 0 greenInner,
+      -4px 0 0 greenInner,
+      0 4px 0 greenInner,
+      0 -4px 0 greenInner,
+      2px 2px greenInner,
+      -2px -2px 0 greenInner,
+      2px -2px 0 greenInner,
+      -2px 2px 0 greenInner;
+}
+
+.blue.number  {
+   text-shadow:
+      4px 0 0 blueInner,
+      -4px 0 0 blueInner,
+      0 4px 0 blueInner,
+      0 -4px 0 blueInner,
+      2px 2px blueInner,
+      -2px -2px 0 blueInner,
+      2px -2px 0 blueInner,
+      -2px 2px 0 blueInner;
+}
+
+.yellow.number  {
+   text-shadow:
+      4px 0 0 yellowInner,
+      -4px 0 0 yellowInner,
+      0 4px 0 yellowInner,
+      0 -4px 0 yellowInner,
+      2px 2px yellowInner,
+      -2px -2px 0 yellowInner,
+      2px -2px 0 yellowInner,
+      -2px 2px 0 yellowInner;
 }
