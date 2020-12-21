@@ -53,6 +53,7 @@
    line-height: 24px;
    text-align: center;
    flex-grow: 2;
+   min-height: 90px;
 }
 
 .attributeList {

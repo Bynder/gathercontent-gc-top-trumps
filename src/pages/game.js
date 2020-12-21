@@ -236,6 +236,7 @@ export default function Game({data}) {
                      setAllState((previousState) => ({...previousState, selectedAttribute: attr}))
                   }
                />
+
             </div>
             <div className={resultStyles.result}>
                <ComputersTurn
@@ -247,7 +248,7 @@ export default function Game({data}) {
                         ? "Waiting"
                         : "Choosing Jam Stat"
                   }
-                  playerWon={allState.roundWinner === PLAYER_USER}
+                  playerWon={allState.roundWinner === PLAYER_COMPUTER}
                   computersTurnCard={allState.computersCards[0]}
                   selectedAttribute={allState.selectedAttribute}
                />

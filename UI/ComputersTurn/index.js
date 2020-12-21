@@ -19,13 +19,13 @@ export function ComputersTurn({
          {isLoading ? (
             <WaitingCard label={loadingLabel} />
          ) : (
-            <Card hasPlayerWon={!playerWon}>
+            <Card hasPlayerWon={playerWon}>
                <Card.Image name={computersTurnCard.name} mugShotUrl={computersTurnCard.mugshot} altText={computersTurnCard.mugshotAltText}/>
                <Card.Description description={computersTurnCard.cardDescription} />
                <Card.AttributeList
                   attributes={GetAttributesFromCard(computersTurnCard)}
                   selectedAttribute={selectedAttribute}
-                  hasPlayerWon={!playerWon}
+                  hasPlayerWon={playerWon}
                />
             </Card>
          )}
