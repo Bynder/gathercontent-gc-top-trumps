@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react"
+import React, { useContext, useEffect, useState } from "react"
 import {graphql} from "gatsby"
 import { useSpring } from "react-spring"
 import { Button } from "../../UI/Button"
@@ -10,6 +10,7 @@ import {ScoreAside} from "../../UI/ScoreAside"
 import {WaitingCard} from "../../UI/WaitingCard";
 import resultStyles from "../../UI/Result/result.module.css";
 import InfoIcon from "../components/InfoIcon";
+import { AudioContext } from '../context/AudioContext';
 
 export const PLAYER_USER = "PLAYER_USER"
 export const PLAYER_COMPUTER = "PLAYER_COMPUTER"
@@ -24,6 +25,7 @@ export const GAME_STATE_RESULTS = "STATE_RESULTS"
 export default function Game({data}) {
    const [userProps, userSet] = useSpring(() => ({ opacity: 1 }))
    const [waitingProps, waitingSet] = useSpring(() => ({ opacity: 0, display: "none" }))
+   const { playRoundWin, playRoundLoose, playGameWin, playGameLoose} = useContext(AudioContext);
 
    const names = [
       'Barack O - Jar - Ma',
@@ -138,6 +140,7 @@ export default function Game({data}) {
       const isDraw = usersCard[attribute] === computersCard[attribute]
 
       if (isDraw) {
+         playRoundLoose();
 
          setAllState({
             ...allState,
@@ -149,6 +152,7 @@ export default function Game({data}) {
       }
 
       if (hasUserWon) {
+         playRoundWin();
 
          setAllState({
             ...allState,
@@ -161,6 +165,8 @@ export default function Game({data}) {
 
          return
       }
+
+      playRoundLoose();
 
       setAllState({
          ...allState,
@@ -176,6 +182,7 @@ export default function Game({data}) {
    useEffect(() => {
 
       if (!allState.usersCards.length || !allState.computersCards.length) {
+         (allState.usersCards.length === 30) ? playGameWin() : playGameLoose();
          //Show results
          return
       }
