@@ -183,17 +183,20 @@ export default function Game({data}) {
    }
 
    useEffect(() => {
-      if (allState.gameState === GAME_STATE_RESULTS && (allState.usersCards.length === 1 || allState.computersCards.length === 1)) {
+      const gameStateIsResults = allState.gameState === GAME_STATE_RESULTS
+      const userLost = allState.usersCards.length === 1
+      const computerLost = allState.computersCards.length === 1
+
+      if (gameStateIsResults && (userLost || computerLost)) {
          navigate("/results", {
             state: {
-               ...allState,
+               won: !userLost,
+               turnCount: allState.turnCount,
+               roundsWon: allState.roundsWon,
                timeElapsed: timeElapsed,
-               won: allState.usersCards.length === 1
-            }
-         });
-         return
+            },
+         })
       }
-
    }, [allState.gameState])
 
    useEffect(() => {
