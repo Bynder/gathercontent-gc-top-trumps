@@ -7,8 +7,8 @@ import {navigate} from "gatsby";
 export default function Results({location}) {
    return (
       <div className={introStyles.container}>
-         <FinalScore won={location.state.won} totalRounds={location.state.turnCount}
-                     totalWins={location.state.roundsWon} timeElapsed={location.state.timeElapsed}
+         <FinalScore won={location.state?.won} totalRounds={location.state?.turnCount}
+                     totalWins={location.state?.roundsWon} timeElapsed={location.state?.timeElapsed}
          />
 
          <Button onClick={() =>  navigate("/game")}>Play Again</Button>
