@@ -48,7 +48,7 @@ export default function Game({data}) {
       })
    )
 
-   const shuffledCards = shuffle(cards).slice(0, 4)
+   const shuffledCards = shuffle(cards)
    const splitCards = chunk(shuffledCards, shuffledCards.length / 2)
 
    const [allState, setAllState] = useState({
