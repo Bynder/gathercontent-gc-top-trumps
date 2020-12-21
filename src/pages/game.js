@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState, useRef } from "react"
+import React, {useContext, useEffect, useState, useRef} from "react"
 import {graphql, navigate} from "gatsby"
 import {useSpring} from "react-spring"
 import {chunk, orderBy, shuffle} from "lodash"
@@ -8,8 +8,8 @@ import {ScoreAside} from "../../UI/ScoreAside"
 import resultStyles from "../../UI/Result/result.module.css";
 import InfoIcon from "../components/InfoIcon";
 import {GetAttributesFromCard} from "../utils/helpers"
-import { ResultFooter } from '../components/ResultFooter';
-import { AudioContext } from '../context/AudioContext';
+import {ResultFooter} from '../components/ResultFooter';
+import {AudioContext} from '../context/AudioContext';
 
 export const PLAYER_USER = "PLAYER_USER"
 export const PLAYER_COMPUTER = "PLAYER_COMPUTER"
@@ -22,9 +22,9 @@ export const GAME_STATE_COMPUTER_TURN = "COMPUTER_TURN"
 export const GAME_STATE_RESULTS = "STATE_RESULTS"
 
 export default function Game({data}) {
-   const [userProps, userSet] = useSpring(() => ({ opacity: 1 }))
-   const [waitingProps, waitingSet] = useSpring(() => ({ opacity: 0, display: "none" }))
-   const { playRoundWin, playRoundLoose, playGameWin, playGameLoose} = useContext(AudioContext);
+   const [userProps, userSet] = useSpring(() => ({opacity: 1}))
+   const [waitingProps, waitingSet] = useSpring(() => ({opacity: 0, display: "none"}))
+   const {playRoundWin, playRoundLoose, playGameWin, playGameLoose} = useContext(AudioContext);
 
    const names = [
       'Barack O - Jar - Ma',
@@ -49,7 +49,7 @@ export default function Game({data}) {
    )
 
    const shuffledCards = shuffle(cards)
-   const splitCards = chunk(shuffledCards, shuffledCards.length / 2)
+   const splitCards = chunk(shuffledCards, 2)
 
    const [allState, setAllState] = useState({
       gameState: GAME_STATE_YOUR_TURN,
@@ -59,6 +59,7 @@ export default function Game({data}) {
       turnCount: 1,
       roundsWon: 0,
       roundWinner: null,
+      gameWinner: null,
       currentPlayer: PLAYER_USER,
       selectedAttribute: 0
    })
@@ -76,17 +77,24 @@ export default function Game({data}) {
       return () => clearInterval(intervalId)
    }, [timeElapsed])
 
-   const incrementTurnCount = () => setAllState((previousState) => ({...previousState, turnCount: previousState.turnCount + 1}))
+   const incrementTurnCount = () => setAllState((previousState) => ({
+      ...previousState,
+      turnCount: previousState.turnCount + 1
+   }))
 
    const usersTurn = (cards = {}) => {
-      waitingSet({ opacity: 0, display: "none" })
-      userSet({ opacity: 1, display: "block" })
-      setAllState((previousState) => ({...previousState, ...cards, gameState: GAME_STATE_YOUR_TURN, selectedAttribute: 0}))
+      waitingSet({opacity: 0, display: "none"})
+      userSet({opacity: 1, display: "block"})
+      setAllState((previousState) => ({
+         ...previousState, ...cards,
+         gameState: GAME_STATE_YOUR_TURN,
+         selectedAttribute: 0
+      }))
    }
 
    const computersTurn = (cards = {}) => {
-      userSet({ opacity: 0, display: "none" })
-      waitingSet({ opacity: 1, display: "block" })
+      userSet({opacity: 0, display: "none"})
+      waitingSet({opacity: 1, display: "block"})
 
       const attributes = GetAttributesFromCard(cards.computersCards[0])
       const orderedAttributes = orderBy(attributes, ["score"], ["desc"])
@@ -104,7 +112,10 @@ export default function Game({data}) {
    const takeTurn = attribute => {
       waitingSet({opacity: 1, display: "block"})
       userSet({opacity: 0, display: "none"})
-      setAllState((previousState) => ({...previousState, gameState: GAME_STATE_WAITING_FOR_COMPUTER}))
+      setAllState((previousState) => ({
+         ...previousState,
+         gameState: GAME_STATE_WAITING_FOR_COMPUTER
+      }))
       setTimeout(() => slamJams(attribute), 700);
    }
 
@@ -133,8 +144,8 @@ export default function Game({data}) {
    }
 
    const slamJams = attribute => {
-      waitingSet({ opacity: 1, display: "block" })
-      userSet({ opacity: 1, display: "block" })
+      waitingSet({opacity: 1, display: "block"})
+      userSet({opacity: 1, display: "block"})
 
       const [usersCard] = allStateRef.current.usersCards;
       const [computersCard] = allStateRef.current.computersCards;
@@ -184,20 +195,33 @@ export default function Game({data}) {
 
    useEffect(() => {
       const gameStateIsResults = allState.gameState === GAME_STATE_RESULTS
-      const userLost = allState.usersCards.length === 1
-      const computerLost = allState.computersCards.length === 1
+      const userLost = allState.usersCards.length === 1 && allState.roundWinner === PLAYER_COMPUTER
+      const computerLost = allState.computersCards.length === 1 && allState.roundWinner === PLAYER_USER
 
       if (gameStateIsResults && (userLost || computerLost)) {
-         navigate("/results", {
-            state: {
-               won: !userLost,
-               turnCount: allState.turnCount,
-               roundsWon: allState.roundsWon,
-               timeElapsed: timeElapsed,
-            },
-         })
+         setAllState((previousState) => ({
+            ...previousState,
+            gameWinner: userLost ? PLAYER_COMPUTER : PLAYER_USER
+         }))
       }
+
    }, [allState.gameState])
+
+   useEffect(() => {
+      if (!allState.gameWinner) {
+         return
+      }
+
+      setTimeout(() => navigate("/results", {
+         state: {
+            won: allState.gameWinner === PLAYER_USER,
+            turnCount: allState.turnCount,
+            roundsWon: allState.roundsWon,
+            timeElapsed: timeElapsed,
+         },
+      }), 3000)
+
+   }, [allState.gameWinner])
 
    useEffect(() => {
       if (allState.turnCount === 1) {
@@ -259,7 +283,8 @@ export default function Game({data}) {
                />
             </div>
             {allState.gameState === GAME_STATE_RESULTS && (
-               <ResultFooter nextRound={incrementTurnCount} roundWinner={allState.roundWinner}/>
+               <ResultFooter nextRound={incrementTurnCount} roundWinner={allState.roundWinner}
+                             showNextRoundButton={!allState.gameWinner}/>
             )}
          </div>
       </InfoIcon>

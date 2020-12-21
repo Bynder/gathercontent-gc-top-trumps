@@ -4,8 +4,7 @@ import { Draw, RoundLost, RoundWon } from '../../UI/Result';
 import React, {useEffect} from 'react';
 import { DRAW_COMPUTER, DRAW_PLAYER, PLAYER_COMPUTER, PLAYER_USER } from '../pages/game';
 
-export function ResultFooter({roundWinner, nextRound}) {
-
+export function ResultFooter({roundWinner, nextRound, showNextRoundButton}) {
    useEffect(() => {
       document.addEventListener('keydown', handleEnter, false);
       return () => document.removeEventListener('keydown', handleEnter)
@@ -28,9 +27,15 @@ export function ResultFooter({roundWinner, nextRound}) {
          {roundWinner === PLAYER_COMPUTER && (
             <RoundLost />
          )}
-         <Button className={resultStyles.button} onClick={nextRound}>
-            Next Round
-         </Button>
+         {showNextRoundButton && (
+            <Button className={resultStyles.button} onClick={nextRound}>
+               Next Round
+            </Button>
+         )}
       </div>
    );
+}
+
+ResultFooter.defaultProps = {
+   showNextRoundButton: true
 }
