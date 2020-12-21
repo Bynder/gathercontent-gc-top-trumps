@@ -20,6 +20,7 @@ export const GAME_STATE_YOUR_TURN = "YOUR_TURN"
 export const GAME_STATE_WAITING_FOR_COMPUTER = "WAITING_FOR_COMPUTER "
 export const GAME_STATE_COMPUTER_TURN = "COMPUTER_TURN"
 export const GAME_STATE_RESULTS = "STATE_RESULTS"
+const GAME_NUMBER_OF_CARDS = 10;
 
 export default function Game({data}) {
    const [userProps, userSet] = useSpring(() => ({opacity: 1}))
@@ -49,7 +50,7 @@ export default function Game({data}) {
    )
 
    const shuffledCards = shuffle(cards)
-   const splitCards = chunk(shuffledCards, 2)
+   const splitCards = chunk(shuffledCards, GAME_NUMBER_OF_CARDS/2);
 
    const [allState, setAllState] = useState({
       gameState: GAME_STATE_YOUR_TURN,
@@ -229,7 +230,7 @@ export default function Game({data}) {
       }
 
       if (!allState.usersCards.length || !allState.computersCards.length) {
-         (allState.usersCards.length === 30) ? playGameWin() : playGameLoose();
+         (allState.usersCards.length === GAME_NUMBER_OF_CARDS) ? playGameWin() : playGameLoose();
          return
       }
 
