@@ -4,7 +4,7 @@ import { Draw, RoundLost, RoundWon } from '../../UI/Result';
 import React from 'react';
 import { DRAW_COMPUTER, DRAW_PLAYER, PLAYER_COMPUTER, PLAYER_USER } from '../pages/game';
 
-export function ResultFooter({roundWinner, nextRound}) {
+export function ResultFooter({roundWinner, nextRound, showNextRoundButton}) {
    return (
       <div className={resultStyles.resultFooter}>
          {(roundWinner === DRAW_PLAYER || roundWinner === DRAW_COMPUTER) && (
@@ -16,9 +16,15 @@ export function ResultFooter({roundWinner, nextRound}) {
          {roundWinner === PLAYER_COMPUTER && (
             <RoundLost />
          )}
-         <Button className={resultStyles.button} onClick={nextRound}>
-            Next Round
-         </Button>
+         {showNextRoundButton && (
+            <Button className={resultStyles.button} onClick={nextRound}>
+               Next Round
+            </Button>
+         )}
       </div>
    );
+}
+
+ResultFooter.defaultProps = {
+   showNextRoundButton: true
 }
