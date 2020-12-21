@@ -12,6 +12,10 @@
    flex-direction: column;
 }
 
+h1{
+   text-align: center;
+}
+
 @media (medium) {
    .card {
       width: 395px;
@@ -53,6 +57,7 @@
    line-height: 24px;
    text-align: center;
    flex-grow: 2;
+   min-height: 90px;
 }
 
 .attributeList {
@@ -61,6 +66,9 @@
    padding: 0;
    margin: 0;
    list-style: none;
+}
+.attributeList li {
+   position: relative;
 }
 
 .attribute {

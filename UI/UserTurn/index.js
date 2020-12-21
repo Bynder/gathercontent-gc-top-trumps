@@ -15,6 +15,7 @@ export function UserTurn({
    showButton,
    selectedAttribute,
    setSelectedAttribute,
+   isResults
 }) {
 
    const attributes = GetAttributesFromCard(card);
@@ -45,7 +46,7 @@ export function UserTurn({
    return (
       <animated.div style={animationStyle}>
          <h1>You</h1>
-         <ChooseYourJamStat />
+         {!isResults && <ChooseYourJamStat />}
          <Card hasPlayerWon={playerWon}>
             <Card.Image name={name} mugShotUrl={mugshot} altText={mugshotAltText} />
             <Card.Description description={cardDescription} />
@@ -54,6 +55,7 @@ export function UserTurn({
                selectedAttribute={selectedAttribute}
                onSelectAttribute={setSelectedAttribute}
                hasPlayerWon={playerWon}
+               isInteractive={!isResults}
             />
          </Card>
 

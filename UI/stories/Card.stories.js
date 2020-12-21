@@ -9,13 +9,14 @@ export default {
 
 const Template = args => (
    <div>
-      <Card>
+      <Card hasPlayerWon={true}>
          <Card.Image name={args.name} mugShotUrl={args.mugShotUrl} altText={args.altText} />
          <Card.Description description={args.description} />
          <Card.AttributeList
             attributes={args.attributes}
             onSelectAttribute={() => {}}
-            selectedAttribute={() => {}}
+            selectedAttribute={'Versatility'}
+            hasPlayerWon={true}
          />
       </Card>
       Things we need to do:

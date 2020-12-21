@@ -1,17 +1,23 @@
 import React from "react"
 import cardStyles from "./card.module.css"
-import {CardAttribute} from "./CardAttribute"
-import ReactTooltip from "react-tooltip";
-import asideStyles from "../ScoreAside/scoreAside.module.css";
+import { CardAttribute } from "./CardAttribute"
+import ReactTooltip from "react-tooltip"
+import asideStyles from "../ScoreAside/scoreAside.module.css"
 
-export function CardAttributeList({attributes, onSelectAttribute = () => "", selectedAttribute, hasPlayerWon}) {
+export function CardAttributeList({
+   attributes,
+   onSelectAttribute = () => "",
+   selectedAttribute,
+   hasPlayerWon,
+   isInteractive,
+}) {
    return (
-      <div>
+      <>
          <ReactTooltip
             className={asideStyles.tooltip}
             place="left"
             effect={"solid"}
-            offset={{'left': 0}}
+            offset={{ left: 0 }}
             clickable={true}
             arrowColor={"transparent"}
             id="cardAttributeToolTip"
@@ -19,6 +25,7 @@ export function CardAttributeList({attributes, onSelectAttribute = () => "", sel
          <ul className={cardStyles.attributeList}>
             {attributes.map((attr, index) => (
                <CardAttribute
+                  isInteractive={isInteractive}
                   stat={attr.description}
                   value={attr.score}
                   index={index}
@@ -30,6 +37,10 @@ export function CardAttributeList({attributes, onSelectAttribute = () => "", sel
                />
             ))}
          </ul>
-      </div>
+      </>
    )
+}
+
+CardAttributeList.defaultProps = {
+   isInteractive: true,
 }
