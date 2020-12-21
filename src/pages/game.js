@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react"
+import React, {useEffect, useState, useRef} from "react"
 import {graphql, navigate} from "gatsby"
 import {useSpring} from "react-spring"
 import {chunk, orderBy, shuffle} from "lodash"
@@ -61,6 +61,9 @@ export default function Game({data}) {
       selectedAttribute: 0
    })
 
+   const allStateRef = useRef(allState)
+   allStateRef.current = allState
+
    const [timeElapsed, setTimeElapsed] = useState(0)
 
    useEffect(() => {
@@ -83,7 +86,7 @@ export default function Game({data}) {
       userSet({ opacity: 0, display: "none" })
       waitingSet({ opacity: 1, display: "block" })
 
-      const attributes = GetAttributesFromCard(allState.computersCards[0])
+      const attributes = GetAttributesFromCard(cards.computersCards[0])
       const orderedAttributes = orderBy(attributes, ["score"], ["desc"])
 
       setAllState((previousState) => ({
@@ -104,7 +107,6 @@ export default function Game({data}) {
    }
 
    const drawCard = () => {
-
       const [usersCard, ...usersRemaining] = allState.usersCards;
       const [computersCard, ...computersRemaining] = allState.computersCards;
 
@@ -132,8 +134,8 @@ export default function Game({data}) {
       waitingSet({ opacity: 1, display: "block" })
       userSet({ opacity: 1, display: "block" })
 
-      const [usersCard] = allState.usersCards;
-      const [computersCard] = allState.computersCards;
+      const [usersCard] = allStateRef.current.usersCards;
+      const [computersCard] = allStateRef.current.computersCards;
 
       const hasUserWon = usersCard[attribute] > computersCard[attribute]
       const isDraw = usersCard[attribute] === computersCard[attribute]
@@ -150,7 +152,6 @@ export default function Game({data}) {
       }
 
       if (hasUserWon) {
-
          setAllState((previousState) => ({
             ...previousState,
             roundsWon: previousState.roundsWon + 1,
