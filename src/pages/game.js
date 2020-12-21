@@ -3,13 +3,10 @@ import {graphql, navigate} from "gatsby"
 import {useSpring} from "react-spring"
 import {chunk, orderBy, shuffle} from "lodash"
 import {UserTurn} from "../../UI/UserTurn"
-import {Result} from "../../UI/Result"
 import {ComputersTurn} from "../../UI/ComputersTurn";
 import {ScoreAside} from "../../UI/ScoreAside"
-import {WaitingCard} from "../../UI/WaitingCard";
 import resultStyles from "../../UI/Result/result.module.css";
 import InfoIcon from "../components/InfoIcon";
-import {GetAttributesFromCard} from "../../src/utils/helpers"
 import {GetAttributesFromCard} from "../utils/helpers"
 import { ResultFooter } from '../components/ResultFooter';
 
@@ -74,12 +71,12 @@ export default function Game({data}) {
       return () => clearInterval(intervalId)
    }, [timeElapsed])
 
-   const incrementTurnCount = () => setAllState({...allState, turnCount: allState.turnCount + 1})
+   const incrementTurnCount = () => setAllState((previousState) => ({...previousState, turnCount: previousState.turnCount + 1}))
 
    const usersTurn = (cards = {}) => {
       waitingSet({ opacity: 0, display: "none" })
       userSet({ opacity: 1, display: "block" })
-      setAllState({...allState, ...cards, gameState: GAME_STATE_YOUR_TURN, selectedAttribute: 0})
+      setAllState((previousState) => ({...previousState, ...cards, gameState: GAME_STATE_YOUR_TURN, selectedAttribute: 0}))
    }
 
    const computersTurn = (cards = {}) => {
@@ -87,13 +84,15 @@ export default function Game({data}) {
       waitingSet({ opacity: 1, display: "block" })
 
       const attributes = GetAttributesFromCard(allState.computersCards[0])
-      const orderedAttributes = orderBy(attributes, ["value"], ["desc"])
+      const orderedAttributes = orderBy(attributes, ["score"], ["desc"])
 
-      setAllState({
-         ...allState, ...cards,
+      setAllState((previousState) => ({
+         ...previousState,
+         ...cards,
+         test: 'Hello',
          gameState: GAME_STATE_COMPUTER_TURN,
          selectedAttribute: 0
-      })
+      }))
 
       setTimeout(() => slamJams(orderedAttributes[0].key), 1500)
    }
@@ -101,7 +100,7 @@ export default function Game({data}) {
    const takeTurn = attribute => {
       waitingSet({opacity: 1, display: "block"})
       userSet({opacity: 0, display: "none"})
-      setAllState({...allState, gameState: GAME_STATE_WAITING_FOR_COMPUTER})
+      setAllState((previousState) => ({...previousState, gameState: GAME_STATE_WAITING_FOR_COMPUTER}))
       setTimeout(() => slamJams(attribute), 700);
    }
 
@@ -142,36 +141,36 @@ export default function Game({data}) {
 
       if (isDraw) {
 
-         setAllState({
-            ...allState,
-            roundWinner: allState.currentPlayer === PLAYER_USER ? DRAW_PLAYER : DRAW_COMPUTER,
+         setAllState((previousState) => ({
+            ...previousState,
+            roundWinner: previousState.currentPlayer === PLAYER_USER ? DRAW_PLAYER : DRAW_COMPUTER,
             gameState: GAME_STATE_RESULTS,
             selectedAttribute: attribute
-         })
+         }))
          return
       }
 
       if (hasUserWon) {
 
-         setAllState({
-            ...allState,
-            roundsWon: allState.roundsWon + 1,
+         setAllState((previousState) => ({
+            ...previousState,
+            roundsWon: previousState.roundsWon + 1,
             currentPlayer: PLAYER_USER,
             roundWinner: PLAYER_USER,
             gameState: GAME_STATE_RESULTS,
             selectedAttribute: attribute
-         })
+         }))
 
          return
       }
 
-      setAllState({
-         ...allState,
+      setAllState((previousState) => ({
+         ...previousState,
          currentPlayer: PLAYER_COMPUTER,
          roundWinner: PLAYER_COMPUTER,
          gameState: GAME_STATE_RESULTS,
          selectedAttribute: attribute
-      })
+      }))
 
       return
    }
@@ -220,7 +219,7 @@ export default function Game({data}) {
                   showButton={allState.gameState !== GAME_STATE_RESULTS}
                   selectedAttribute={allState.selectedAttribute}
                   setSelectedAttribute={attr =>
-                     setAllState({...allState, selectedAttribute: attr})
+                     setAllState((previousState) => ({...previousState, selectedAttribute: attr}))
                   }
                />
             </div>
