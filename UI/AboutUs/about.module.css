@@ -59,3 +59,13 @@ a {
    align-self: center;
    z-index: 100;
 }
+
+
+.notFound {
+   position: relative;
+   background-image: url("/jam_not_found.jpg");
+   background-size: contain;
+   display: flex;
+   justify-content: center;
+   align-self: center;
+}
