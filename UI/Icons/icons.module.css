@@ -2,9 +2,14 @@
    filter: drop-shadow(0px 4px 0px rgba(0, 0, 0, 0.1))
 }
 
-.shadow-sm {
+.shadowSm {
    filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.25))
 }
+
+.shadowAttributes {
+   filter: drop-shadow(0px 3px 0px rgba(41, 51, 61, 0.2))
+}
+
 
 .greenGradient {
    --color-stop-1: #39C639;
