@@ -89,12 +89,11 @@ export default function Game({data}) {
       setAllState((previousState) => ({
          ...previousState,
          ...cards,
-         test: 'Hello',
          gameState: GAME_STATE_COMPUTER_TURN,
          selectedAttribute: 0
       }))
 
-      setTimeout(() => slamJams(orderedAttributes[0].key), 1500)
+      setTimeout(() => slamJams(orderedAttributes[0].description), 1500)
    }
 
    const takeTurn = attribute => {
