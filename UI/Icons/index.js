@@ -20,8 +20,8 @@ export function Star() {
    return <StarSvg className={iconStyles.shadow}/>
 }
 
-export function StarSmall() {
-   return <StarSmallSvg className={iconStyles.shadow}/>
+export function StarSmall({ style }) {
+   return <StarSmallSvg className={iconStyles.shadow} style={style}/>
 }
 
 export const BLUE_GRADIENT = 'blueGradient';

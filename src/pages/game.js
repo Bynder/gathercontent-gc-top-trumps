@@ -1,15 +1,14 @@
-import React, { useContext, useEffect, useState } from "react"
-import {graphql} from "gatsby"
-import { useSpring } from "react-spring"
-import { Button } from "../../UI/Button"
-import {chunk, map, orderBy, shuffle} from "lodash"
+import React, { useContext, useEffect, useState, useRef } from "react"
+import {graphql, navigate} from "gatsby"
+import {useSpring} from "react-spring"
+import {chunk, orderBy, shuffle} from "lodash"
 import {UserTurn} from "../../UI/UserTurn"
-import {Result} from "../../UI/Result"
 import {ComputersTurn} from "../../UI/ComputersTurn";
 import {ScoreAside} from "../../UI/ScoreAside"
-import {WaitingCard} from "../../UI/WaitingCard";
 import resultStyles from "../../UI/Result/result.module.css";
 import InfoIcon from "../components/InfoIcon";
+import {GetAttributesFromCard} from "../utils/helpers"
+import { ResultFooter } from '../components/ResultFooter';
 import { AudioContext } from '../context/AudioContext';
 
 export const PLAYER_USER = "PLAYER_USER"
@@ -64,50 +63,54 @@ export default function Game({data}) {
       selectedAttribute: 0
    })
 
-   const incrementTurnCount = () => setAllState({...allState, turnCount: allState.turnCount + 1})
+   const allStateRef = useRef(allState)
+   allStateRef.current = allState
+
+   const [timeElapsed, setTimeElapsed] = useState(0)
+
+   useEffect(() => {
+      const intervalId = setInterval(() => {
+         setTimeElapsed(timeElapsed + 1)
+      }, 1000)
+
+      return () => clearInterval(intervalId)
+   }, [timeElapsed])
+
+   const incrementTurnCount = () => setAllState((previousState) => ({...previousState, turnCount: previousState.turnCount + 1}))
 
    const usersTurn = (cards = {}) => {
       waitingSet({ opacity: 0, display: "none" })
       userSet({ opacity: 1, display: "block" })
-      setAllState({...allState, ...cards, gameState: GAME_STATE_YOUR_TURN, selectedAttribute: 0})
+      setAllState((previousState) => ({...previousState, ...cards, gameState: GAME_STATE_YOUR_TURN, selectedAttribute: 0}))
    }
 
    const computersTurn = (cards = {}) => {
       userSet({ opacity: 0, display: "none" })
       waitingSet({ opacity: 1, display: "block" })
 
-      const {
-         name,
-         cardDescription,
-         mugshot,
-         mugshotAltText,
-         id,
-         ...attributes
-      } = allState.computersCards[0]
-      const attributesArray = map(attributes, (value, key) => ({key: key, value: value}))
-      const orderedAttributes = orderBy(attributesArray, ["value"], ["desc"])
+      const attributes = GetAttributesFromCard(cards.computersCards[0])
+      const orderedAttributes = orderBy(attributes, ["score"], ["desc"])
 
-      setAllState({
-         ...allState, ...cards,
+      setAllState((previousState) => ({
+         ...previousState,
+         ...cards,
          gameState: GAME_STATE_COMPUTER_TURN,
          selectedAttribute: 0
-      })
+      }))
 
-      setTimeout(() => slamJams(orderedAttributes[0].key), 1500)
+      setTimeout(() => slamJams(orderedAttributes[0].description), 1500)
    }
 
    const takeTurn = attribute => {
-      waitingSet({ opacity: 1, display: "block" })
-      setTimeout(() => slamJams(attribute), 700);	      userSet({ opacity: 0, display: "none" })
-      setAllState({...allState, gameState: GAME_STATE_WAITING_FOR_COMPUTER})
+      waitingSet({opacity: 1, display: "block"})
+      userSet({opacity: 0, display: "none"})
+      setAllState((previousState) => ({...previousState, gameState: GAME_STATE_WAITING_FOR_COMPUTER}))
       setTimeout(() => slamJams(attribute), 700);
    }
 
    const drawCard = () => {
-
       const [usersCard, ...usersRemaining] = allState.usersCards;
       const [computersCard, ...computersRemaining] = allState.computersCards;
-
 
       if (allState.roundWinner === PLAYER_USER) {
          return {
@@ -133,8 +136,8 @@ export default function Game({data}) {
       waitingSet({ opacity: 1, display: "block" })
       userSet({ opacity: 1, display: "block" })
 
-      const [usersCard, ...usersRemaining] = allState.usersCards;
-      const [computersCard, ...computersRemaining] = allState.computersCards;
+      const [usersCard] = allStateRef.current.usersCards;
+      const [computersCard] = allStateRef.current.computersCards;
 
       const hasUserWon = usersCard[attribute] > computersCard[attribute]
       const isDraw = usersCard[attribute] === computersCard[attribute]
@@ -142,52 +145,70 @@ export default function Game({data}) {
       if (isDraw) {
          playRoundLoose();
 
-         setAllState({
-            ...allState,
-            roundWinner: allState.currentPlayer === PLAYER_USER ? DRAW_PLAYER : DRAW_COMPUTER,
+         setAllState((previousState) => ({
+            ...previousState,
+            roundWinner: previousState.currentPlayer === PLAYER_USER ? DRAW_PLAYER : DRAW_COMPUTER,
             gameState: GAME_STATE_RESULTS,
             selectedAttribute: attribute
-         })
+         }))
          return
       }
 
       if (hasUserWon) {
          playRoundWin();
 
-         setAllState({
-            ...allState,
-            roundsWon: allState.roundsWon + 1,
+         setAllState((previousState) => ({
+            ...previousState,
+            roundsWon: previousState.roundsWon + 1,
             currentPlayer: PLAYER_USER,
             roundWinner: PLAYER_USER,
             gameState: GAME_STATE_RESULTS,
             selectedAttribute: attribute
-         })
+         }))
 
          return
       }
 
       playRoundLoose();
 
-      setAllState({
-         ...allState,
+      setAllState((previousState) => ({
+         ...previousState,
          currentPlayer: PLAYER_COMPUTER,
          roundWinner: PLAYER_COMPUTER,
          gameState: GAME_STATE_RESULTS,
          selectedAttribute: attribute
-      })
+      }))
 
       return
    }
 
    useEffect(() => {
-
-      if (!allState.usersCards.length || !allState.computersCards.length) {
-         (allState.usersCards.length === 30) ? playGameWin() : playGameLoose();
-         //Show results
+      if (allState.gameState === GAME_STATE_RESULTS && (allState.usersCards.length === 1 || allState.computersCards.length === 1)) {
+         navigate("/results", {
+            state: {
+               ...allState,
+               timeElapsed: timeElapsed,
+               won: allState.usersCards.length === 1
+            }
+         });
          return
       }
 
-      [null, PLAYER_USER, DRAW_PLAYER].includes(allState.roundWinner) ? usersTurn(drawCard()) : computersTurn(drawCard())
+   }, [allState.gameState])
+
+   useEffect(() => {
+      if (allState.turnCount === 1) {
+         return
+      }
+
+      if (!allState.usersCards.length || !allState.computersCards.length) {
+         (allState.usersCards.length === 30) ? playGameWin() : playGameLoose();
+         return
+      }
+
+      const cards = drawCard();
+
+      [null, PLAYER_USER, DRAW_PLAYER].includes(allState.roundWinner) ? usersTurn(cards) : computersTurn(cards)
 
    }, [allState.turnCount])
 
@@ -197,6 +218,7 @@ export default function Game({data}) {
             cardsLeft={allState.usersCards.length}
             turnNumber={allState.turnCount}
             wins={allState.roundsWon}
+            timeElapsed={timeElapsed}
          />
          <div className={resultStyles.resultContainer}>
             <div className={resultStyles.result}>
@@ -211,7 +233,7 @@ export default function Game({data}) {
                   showButton={allState.gameState !== GAME_STATE_RESULTS}
                   selectedAttribute={allState.selectedAttribute}
                   setSelectedAttribute={attr =>
-                     setAllState({ ...allState, selectedAttribute: attr })
+                     setAllState((previousState) => ({...previousState, selectedAttribute: attr}))
                   }
                />
             </div>
@@ -231,16 +253,7 @@ export default function Game({data}) {
                />
             </div>
             {allState.gameState === GAME_STATE_RESULTS && (
-               <>
-                  <Button
-                     text="Next Round"
-                     className={resultStyles.button}
-                     onClick={() => incrementTurnCount()}
-                  >
-                     Next Round
-                  </Button>
-                  <div>{allState.roundWinner === PLAYER_USER ? "YOU WON!!" : "YOU LOST!!"}</div>
-               </>
+               <ResultFooter nextRound={incrementTurnCount} roundWinner={allState.roundWinner}/>
             )}
          </div>
       </InfoIcon>

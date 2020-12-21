@@ -13,7 +13,6 @@ export function ComputersTurn({
    selectedAttribute,
    isLoading,
 }) {
-   console.log(isLoading)
    return (
       <animated.div style={animationStyle}>
          <h1>{name}</h1>
@@ -21,7 +20,7 @@ export function ComputersTurn({
             <WaitingCard label={loadingLabel} />
          ) : (
             <Card hasPlayerWon={!playerWon}>
-               <Card.Image name={computersTurnCard.name} />
+               <Card.Image name={computersTurnCard.name} mugShotUrl={computersTurnCard.mugshot} altText={computersTurnCard.mugshotAltText}/>
                <Card.Description description={computersTurnCard.cardDescription} />
                <Card.AttributeList
                   attributes={GetAttributesFromCard(computersTurnCard)}
