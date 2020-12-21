@@ -6,7 +6,7 @@ import asideStyles from "../ScoreAside/scoreAside.module.css";
 
 export function CardAttributeList({attributes, onSelectAttribute = () => "", selectedAttribute, hasPlayerWon}) {
    return (
-      <div>
+      <>
          <ReactTooltip
             className={asideStyles.tooltip}
             place="left"
@@ -30,6 +30,6 @@ export function CardAttributeList({attributes, onSelectAttribute = () => "", sel
                />
             ))}
          </ul>
-      </div>
+      </>
    )
 }

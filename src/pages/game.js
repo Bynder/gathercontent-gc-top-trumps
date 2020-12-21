@@ -1,14 +1,17 @@
 import React, {useEffect, useState} from "react"
 import {graphql, navigate} from "gatsby"
 import {useSpring} from "react-spring"
-import {Button} from "../../UI/Button"
-import {chunk, map, orderBy, shuffle} from "lodash"
+import {chunk, orderBy, shuffle} from "lodash"
 import {UserTurn} from "../../UI/UserTurn"
+import {Result} from "../../UI/Result"
 import {ComputersTurn} from "../../UI/ComputersTurn";
 import {ScoreAside} from "../../UI/ScoreAside"
+import {WaitingCard} from "../../UI/WaitingCard";
 import resultStyles from "../../UI/Result/result.module.css";
 import InfoIcon from "../components/InfoIcon";
 import {GetAttributesFromCard} from "../../src/utils/helpers"
+import {GetAttributesFromCard} from "../utils/helpers"
+import { ResultFooter } from '../components/ResultFooter';
 
 export const PLAYER_USER = "PLAYER_USER"
 export const PLAYER_COMPUTER = "PLAYER_COMPUTER"
@@ -21,8 +24,8 @@ export const GAME_STATE_COMPUTER_TURN = "COMPUTER_TURN"
 export const GAME_STATE_RESULTS = "STATE_RESULTS"
 
 export default function Game({data}) {
-   const [userProps, userSet] = useSpring(() => ({opacity: 1}))
-   const [waitingProps, waitingSet] = useSpring(() => ({opacity: 0, display: "none"}))
+   const [userProps, userSet] = useSpring(() => ({ opacity: 1 }))
+   const [waitingProps, waitingSet] = useSpring(() => ({ opacity: 0, display: "none" }))
 
    const names = [
       'Barack O - Jar - Ma',
@@ -237,16 +240,7 @@ export default function Game({data}) {
                />
             </div>
             {allState.gameState === GAME_STATE_RESULTS && (
-               <>
-                  <Button
-                     text="Next Round"
-                     className={resultStyles.button}
-                     onClick={() => incrementTurnCount()}
-                  >
-                     Next Round
-                  </Button>
-                  <div>{allState.roundWinner === PLAYER_USER ? "YOU WON!!" : "YOU LOST!!"}</div>
-               </>
+               <ResultFooter nextRound={incrementTurnCount} roundWinner={allState.roundWinner}/>
             )}
          </div>
       </InfoIcon>

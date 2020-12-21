@@ -22,5 +22,47 @@
 
 .button {
    height: 60px;
-   align-self: flex-end;
+   position: absolute;
+   right: 12%
+}
+
+.resultFooter {
+   display: flex;
+   margin: 30px auto;
+   align-items: center;
+   justify-content: center;
+   grid-column: 1 / span 2;
+}
+
+.whiteBorder {
+   border: 4px solid white;
+   display: inline-flex;
+   border-radius: 20px;
+   position: relative;
+}
+
+.whiteBorder > span {
+   font-weight: 800;
+   font-size: 36px;
+   color: white;
+   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
+   padding: 16px;
+   text-transform: uppercase;
+   border-radius: 16px;
+   border: 4px solid;
+}
+
+.roundLost span {
+   background: #E51A2B;
+   border-color: #EB4755;
+}
+
+.roundWon span {
+   background: #F9D006;
+   border-color: #FBE36A;
+}
+
+.draw span {
+   background: #678099;
+   border-color: #8599AD;
 }
