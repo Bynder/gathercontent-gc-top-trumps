@@ -223,6 +223,7 @@ export default function Game({data}) {
          <div className={resultStyles.resultContainer}>
             <div className={resultStyles.result}>
                <UserTurn
+                  isResults={allState.gameState === GAME_STATE_RESULTS}
                   animationStyle={userProps}
                   card={allState.usersCards[0]}
                   takeTurn={takeTurn}
