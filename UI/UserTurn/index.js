@@ -44,7 +44,7 @@ export function UserTurn({
 
    return (
       <animated.div style={animationStyle}>
-         <h1 className={userTurnStyles.title}>You</h1>
+         <h1>You</h1>
          {!isResults && <ChooseYourJamStat/>}
          <Card hasPlayerWon={playerWon}>
             <Card.Image name={name} mugShotUrl={mugshot} altText={mugshotAltText}/>
