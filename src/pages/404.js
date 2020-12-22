@@ -1,11 +1,3 @@
-import aboutStyles from "../../UI/AboutUs/about.module.css";
-import React from "react";
+import { NotFound } from "../../UI/NotFound/NotFound"
 
-export default function NotFound() {
-
-   return (
-    <div>
-       <span className={aboutStyles.notFound} />
-    </div>
-   )
-}
+export default NotFound
