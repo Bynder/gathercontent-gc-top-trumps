@@ -5,6 +5,10 @@ import {ScorePoint} from "../ScorePoint";
 import {ReactComponent as LogoSvg} from '../../static/Logo.svg';
 import asideStyles from "../ScoreAside/scoreAside.module.css";
 import {FormatTime} from "../../src/utils/helpers";
+import {Cards, Clock, Round, Wins} from "../Icons";
+import {Button} from "../Button";
+import introStyles from "../IntroHero/introHero.module.css";
+import {navigate} from "gatsby";
 
 export function FinalScore({won, totalRounds, totalWins, timeElapsed}) {
 
@@ -20,19 +24,19 @@ export function FinalScore({won, totalRounds, totalWins, timeElapsed}) {
             <h1 className={finalScoreStyles.result}>{won ? 'You won!' : 'You lost!'}</h1>
             <div className={finalScoreStyles.scorePoints}>
                <div className={finalScoreStyles.scorePointRow}>
-                  <ScorePoint scorePointClassName="turnNumber"/>
+                  <ScorePoint  scorePointClassName="turnNumber"><Round /></ScorePoint>
                   <span className={finalScoreStyles.scoreTitle}>Total rounds</span>
                   <span className={finalScoreStyles.scoreValue}>{totalRounds}</span>
                </div>
 
                <div className={finalScoreStyles.scorePointRow}>
-                  <ScorePoint scorePointClassName="wins"/>
+                  <ScorePoint scorePointClassName="wins"><Wins /></ScorePoint>
                   <span className={finalScoreStyles.scoreTitle}>Rounds won</span>
                   <span className={finalScoreStyles.scoreValue}>{totalWins}</span>
                </div>
 
                <div className={finalScoreStyles.scorePointRow}>
-                  <ScorePoint scorePointClassName="time"/>
+                  <ScorePoint scorePointClassName="time"><Clock /></ScorePoint>
                   <span className={finalScoreStyles.scoreTitle}>Time taken</span>
 
                   <span className={finalScoreStyles.scoreValue}>
@@ -48,6 +52,7 @@ export function FinalScore({won, totalRounds, totalWins, timeElapsed}) {
                <h3 className={finalScoreStyles.infront}>{score}</h3>
             </div>
          </div>
+         <Button className={finalScoreStyles.button} onClick={() =>  navigate("/game")}>Play Again</Button>
       </div>
    );
 }
