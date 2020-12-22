@@ -1,17 +1,4 @@
-import aboutStyles from "../../UI/AboutUs/about.module.css";
 import React from "react";
-import {Button} from "../../UI/Button";
-import {navigate} from "gatsby";
+import {NotFound} from "../../UI/NotFound/NotFound";
 
-export default function NotFound() {
-
-   return (
-      <div className={aboutStyles.notFoundContainer}>
-         <span className={aboutStyles.notFound}/>
-         <h1>Jam not found!</h1>
-         <Button onClick={() =>  navigate("/game")}>
-            Get Jammin!
-         </Button>
-      </div>
-   )
-}
+export default NotFound
