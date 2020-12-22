@@ -16,6 +16,17 @@ export default function Intro({data}) {
    const introContent = colouredStrings.reduce((finalStr, [key, value]) => finalStr.replace(key, value),
       data.allGatherContentItemsByFolderWelcomeandintro.nodes[0].introAndExplainer);
 
+   useEffect(() => {
+      document.addEventListener('keydown', handleEnter, false);
+      return () => document.removeEventListener('keydown', handleEnter)
+   }, []);
+
+   const handleEnter = (e) => {
+      if (e.key === 'Enter') {
+         navigate("/game")
+      }
+   }
+
    return (
       <InfoIcon>
          <div className={introStyles.container}>
