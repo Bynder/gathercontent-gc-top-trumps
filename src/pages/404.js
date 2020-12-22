@@ -6,7 +6,7 @@ import {navigate} from "gatsby";
 export default function NotFound() {
 
    return (
-      <div >
+      <div className={aboutStyles.notFoundContainer}>
          <span className={aboutStyles.notFound}/>
          <h1>Jam not found!</h1>
          <Button onClick={() =>  navigate("/game")}>

@@ -60,6 +60,11 @@ a {
    z-index: 100;
 }
 
+.notFoundContainer{
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+}
 
 .notFound {
    position: relative;
