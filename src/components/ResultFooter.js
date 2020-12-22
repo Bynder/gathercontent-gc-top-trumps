@@ -8,10 +8,10 @@ export function ResultFooter({roundWinner, nextRound, showNextRoundButton}) {
    useEffect(() => {
       document.addEventListener('keydown', handleEnter, false);
       return () => document.removeEventListener('keydown', handleEnter)
-   }, []);
+   }, [showNextRoundButton]);
 
    const handleEnter = (e) => {
-      if (e.key === 'Enter') {
+      if (e.key === 'Enter' && showNextRoundButton) {
          nextRound()
       }
    }
