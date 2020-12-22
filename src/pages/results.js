@@ -22,8 +22,6 @@ export default function Results({location}) {
          <FinalScore won={location.state?.won} totalRounds={location.state?.turnCount}
                      totalWins={location.state?.roundsWon} timeElapsed={location.state?.timeElapsed}
          />
-
-         <Button onClick={() =>  navigate("/game")}>Play Again</Button>
       </div>
    )
 }
