@@ -1,7 +1,6 @@
 import React, { useEffect } from "react"
-import { navigate } from "gatsby"
+import { graphql, navigate } from "gatsby"
 import introStyles from "../../UI/IntroUI/intro.module.css"
-import { graphql } from "gatsby"
 import InfoIcon from "../components/InfoIcon"
 import { IntroUI } from "../../UI/IntroUI"
 
