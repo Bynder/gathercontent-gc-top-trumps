@@ -68,4 +68,8 @@ a {
    display: flex;
    justify-content: center;
    align-self: center;
+   width: 750px;
+   height: 300px;
 }
+
+
