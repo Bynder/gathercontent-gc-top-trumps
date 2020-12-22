@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import introStyles from "../../UI/IntroUI/intro.module.css"
 import {graphql} from 'gatsby';
 import InfoIcon from "../components/InfoIcon";
