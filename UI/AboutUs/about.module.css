@@ -59,20 +59,3 @@ a {
    align-self: center;
    z-index: 100;
 }
-
-.notFoundContainer{
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-}
-
-.notFound {
-   position: relative;
-   background-image: url("/jam_not_found.jpg");
-   background-size: contain;
-   display: flex;
-   justify-content: center;
-   align-self: center;
-   width: 750px;
-   height: 300px;
-}
