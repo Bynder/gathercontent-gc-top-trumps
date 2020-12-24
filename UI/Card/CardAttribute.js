@@ -51,7 +51,7 @@ export function CardAttribute({
                cursor: isInteractive ? "pointer" : "default",
             }}
          >
-            <AttributeIcon colour={colour} stat={stat} style={{ "margin-right": "10px" }}>
+            <AttributeIcon colour={colour} stat={stat} style={{ marginRight: "10px" }}>
                <Icon />
             </AttributeIcon>
             <AttributeBar score={value} colour={colour} />

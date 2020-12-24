@@ -25,7 +25,7 @@ const GAME_NUMBER_OF_CARDS = 10;
 export default function Game({data}) {
    const [userProps, userSet] = useSpring(() => ({opacity: 1}))
    const [waitingProps, waitingSet] = useSpring(() => ({opacity: 0, display: "none"}))
-   const {playRoundWin, playRoundLoose, playGameWin, playGameLoose} = useContext(AudioContext);
+   const {playRoundWin, playRoundLoose} = useContext(AudioContext);
 
    const names = [
       'Barack O - Jar - Ma',
@@ -226,11 +226,6 @@ export default function Game({data}) {
 
    useEffect(() => {
       if (allState.turnCount === 1) {
-         return
-      }
-
-      if (!allState.usersCards.length || !allState.computersCards.length) {
-         (allState.usersCards.length === GAME_NUMBER_OF_CARDS) ? playGameWin() : playGameLoose();
          return
       }
 
