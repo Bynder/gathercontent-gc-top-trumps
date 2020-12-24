@@ -10,7 +10,7 @@ export function AudioProvider({ children }) {
    const roundWin = useRef(new Howl({ src: '/Correct Answer.mp3' }));
    const roundLoose = useRef(new Howl({ src: '/Wrong.mp3' }));
    const gameWin = useRef(new Howl({ src: '/Win Fanfare (WAV).mp3', volume: 0.4 }));
-   const gameLoose = useRef(new Howl({ src: '/Game Over Pipe Organ.mp3' }));
+   const gameLoose = useRef(new Howl({ src: '/Game Over Pipe Organ.mp3', volume: 0.4 }));
 
    useEffect(() => {
       if (soundEnabled && !background.current.playing()) {
