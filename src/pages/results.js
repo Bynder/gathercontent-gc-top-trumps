@@ -22,6 +22,7 @@ export default function Results({ location }) {
             totalRounds={location.state?.turnCount}
             totalWins={location.state?.roundsWon}
             timeElapsed={location.state?.timeElapsed}
+            playAgainHandler={() =>  navigate("/game")}
          />
       </div>
    )
