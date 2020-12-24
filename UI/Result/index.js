@@ -9,8 +9,8 @@ export function RoundWon () {
    return (
       <span className={`${resultStyles.whiteBorder} ${resultStyles.roundWon}`}>
          <span>Round won!</span>
-         <StarSmall style={{position: 'absolute', width: '8px', top: '75px', left: '-10px', transform: 'rotate(50deg)'}} />
-         <StarSmall style={{position: 'absolute', width: '16px', top: '60px', left: '-20px', transform: 'rotate(50deg)'}} />
+         <StarSmall style={{position: 'absolute', width: '8px', top: '60px', left: '-5px', transform: 'rotate(50deg)'}} />
+         <StarSmall style={{position: 'absolute', width: '16px', top: '45px', left: '-15px', transform: 'rotate(50deg)'}} />
          <StarSmall style={{position: 'absolute', width: '8px', top: '-20px', right: '-30px'}} />
          <StarSmall style={{position: 'absolute', width: '16px', top: '-30px', right: '-15px'}} />
       </span>
