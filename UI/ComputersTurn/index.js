@@ -26,6 +26,7 @@ export function ComputersTurn({
                   attributes={GetAttributesFromCard(computersTurnCard)}
                   selectedAttribute={selectedAttribute}
                   hasPlayerWon={playerWon}
+                  isInteractive={false}
                />
             </Card>
          )}
