@@ -231,7 +231,7 @@ export default function Game({data}) {
 
       const cards = drawCard();
 
-      [null, PLAYER_USER, DRAW_COMPUTER].includes(allState.roundWinner) ? usersTurn(cards) : computersTurn(cards)
+      usersTurn(cards)
 
    }, [allState.turnCount])
 
